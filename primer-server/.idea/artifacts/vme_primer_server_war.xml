@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vme-primer-server:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="vme-primer-server-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="vme-primer-server:war exploded" />
+    </root>
+  </artifact>
+</component>
