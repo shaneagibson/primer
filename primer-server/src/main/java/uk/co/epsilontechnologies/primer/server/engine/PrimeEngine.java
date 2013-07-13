@@ -30,7 +30,12 @@ public class PrimeEngine implements IPrimeEngine {
 
     @Override
     public void prime(final PrimeRequest primeRequest) {
-        final Request request = new Request(HttpMethod.valueOf(primeRequest.getHttpMethod()), primeRequest.getPathRegEx(), primeRequest.getBodyRegEx());
+        final Request request = new Request(
+                HttpMethod.valueOf(primeRequest.getHttpMethod()),
+                primeRequest.getPathRegEx(),
+                primeRequest.getBodyRegEx(),
+                primeRequest.getHeaders(),
+                primeRequest.getRequestParameters());
         final Response response = new Response(HttpStatus.valueOf(primeRequest.getResponseCode()), primeRequest.getResponseBody());
         if (primes.containsKey(request)) {
             final List<Response> responseList = primes.get(request);
@@ -62,8 +67,10 @@ public class PrimeEngine implements IPrimeEngine {
         final HttpMethod requestMethod = requestParser.parseRequestMethod(request);
         final String requestPath = requestParser.parseRequestPath(request);
         final String requestBody = requestParser.parseRequestBody(request);
+        final Map<String,String> requestHeaders = requestParser.parseHeaders(request);
+        final Map<String,String> requestParameters = requestParser.parseRequestParameters(request);
         for (final Request primedRequest : primes.keySet()) {
-            if (requestMatcher.matches(primedRequest, requestMethod, requestPath, requestBody)) {
+            if (requestMatcher.matches(primedRequest, requestMethod, requestPath, requestBody, requestHeaders, requestParameters)) {
                 final List<Response> responses = primes.get(primedRequest);
                 final Response response = responses.size() == 1 ? primes.remove(primedRequest).get(0) : responses.remove(0);
                 return new ResponseEntity(response.getBody(), response.getStatus());

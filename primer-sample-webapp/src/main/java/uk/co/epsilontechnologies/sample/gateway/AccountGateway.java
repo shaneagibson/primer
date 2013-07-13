@@ -2,9 +2,15 @@ package uk.co.epsilontechnologies.sample.gateway;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import uk.co.epsilontechnologies.sample.model.Account;
+import uk.co.epsilontechnologies.sample.service.CorrelationIdStore;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,24 +19,30 @@ import java.util.List;
 public class AccountGateway implements IAccountGateway {
 
     private final RestTemplate restTemplate;
+    private final CorrelationIdStore correlationIdStore;
     private final String accountBaseUrl;
 
     @Autowired
     public AccountGateway(
             final RestTemplate restTemplate,
-            @Value("${account.base.url}") final String accountBaseUrl ) {
+            final CorrelationIdStore correlationIdStore,
+            @Value("${account.base.url}") final String accountBaseUrl) {
         this.restTemplate = restTemplate;
+        this.correlationIdStore = correlationIdStore;
         this.accountBaseUrl  = accountBaseUrl;
     }
 
     @Override
     public List<Account> getAccountsForUser(Long userId) {
-        try {
-        return Arrays.asList(restTemplate.getForObject(accountBaseUrl + "/user/{userid}", Account[].class, userId));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        final MultiValueMap<String,String> headers = new LinkedMultiValueMap();
+        headers.put("correlation-id", Arrays.asList(correlationIdStore.getCorrelationId()));
+        final ResponseEntity<Account[]> responseEntity = restTemplate.exchange(
+                accountBaseUrl + "/user/{userid}",
+                HttpMethod.GET,
+                new HttpEntity(headers),
+                Account[].class,
+                userId);
+        return Arrays.asList(responseEntity.getBody());
     }
 
 }

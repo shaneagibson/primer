@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class RequestParser {
@@ -15,9 +18,6 @@ public class RequestParser {
     }
 
     public String parseRequestPath(final HttpServletRequest request) {
-        if (request.getQueryString() != null) {
-            return request.getPathInfo() + "?" + request.getQueryString();
-        }
         return request.getPathInfo();
     }
 
@@ -31,6 +31,26 @@ public class RequestParser {
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Map<String, String> parseHeaders(final HttpServletRequest request) {
+        final Map<String,String> headers = new HashMap();
+        final Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            final String headerName = headerNames.nextElement();
+            headers.put(headerName, request.getHeader(headerName));
+        }
+        return headers;
+    }
+
+    public Map<String, String> parseRequestParameters(final HttpServletRequest request) {
+        final Map<String,String> requestParameters = new HashMap();
+        final Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            final String parameterName = parameterNames.nextElement();
+            requestParameters.put(parameterName, request.getParameter(parameterName));
+        }
+        return requestParameters;
     }
 
 }

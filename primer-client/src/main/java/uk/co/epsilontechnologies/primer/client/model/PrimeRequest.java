@@ -4,6 +4,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.util.Map;
+
 public class PrimeRequest {
 
     private String description;
@@ -13,6 +15,10 @@ public class PrimeRequest {
     private String pathRegEx;
 
     private String bodyRegEx;
+
+    private Map<String,String> headers;
+
+    private Map<String,String> requestParameters;
 
     private int responseCode;
 
@@ -68,6 +74,22 @@ public class PrimeRequest {
 
     public void setResponseBody(String responseBody) {
         this.responseBody = responseBody;
+    }
+
+    public void setHeaders(Map<String,String> headers) {
+        this.headers = headers;
+    }
+
+    public Map<String,String> getHeaders() {
+        return headers;
+    }
+
+    public Map<String, String> getRequestParameters() {
+        return requestParameters;
+    }
+
+    public void setRequestParameters(Map<String, String> requestParameters) {
+        this.requestParameters = requestParameters;
     }
 
     @Override

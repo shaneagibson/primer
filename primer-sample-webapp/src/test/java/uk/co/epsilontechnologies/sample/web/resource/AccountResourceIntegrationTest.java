@@ -2,11 +2,17 @@ package uk.co.epsilontechnologies.sample.web.resource;
 
 import org.junit.After;
 import org.junit.Test;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import uk.co.epsilontechnologies.primer.client.Primer;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
@@ -41,6 +47,7 @@ public class AccountResourceIntegrationTest {
                 request("Get Accounts for User ID")
                         .withMethod(HttpMethod.GET)
                         .withPath("/user/123")
+                        .withHeader("correlation-id", "001")
                         .thenReturn(
                                 response()
                                         .withStatus(HttpStatus.OK)
@@ -53,7 +60,10 @@ public class AccountResourceIntegrationTest {
         exchangeRatePrimer.prime(
                 request("Get Exchange Rate for GBP/USD")
                         .withMethod(HttpMethod.GET)
-                        .withPath("/from/GBP/to/USD")
+                        .withPath("/")
+                        .withHeader("correlation-id", "001")
+                        .withRequestParameter("from", "GBP")
+                        .withRequestParameter("to", "USD")
                         .thenReturn(
                                 response()
                                         .withStatus(HttpStatus.OK)
@@ -63,7 +73,10 @@ public class AccountResourceIntegrationTest {
         exchangeRatePrimer.prime(
                 request("Get Exchange Rate for AUD/USD")
                         .withMethod(HttpMethod.GET)
-                        .withPath("/from/AUD/to/USD")
+                        .withPath("/")
+                        .withHeader("correlation-id", "001")
+                        .withRequestParameter("from", "AUD")
+                        .withRequestParameter("to", "USD")
                         .thenReturn(
                                 response()
                                         .withStatus(HttpStatus.OK)
@@ -73,7 +86,10 @@ public class AccountResourceIntegrationTest {
         exchangeRatePrimer.prime(
                 request("Get Exchange Rate for AUD/USD")
                         .withMethod(HttpMethod.GET)
-                        .withPath("/from/AUD/to/USD")
+                        .withPath("/")
+                        .withHeader("correlation-id", "001")
+                        .withRequestParameter("from", "AUD")
+                        .withRequestParameter("to", "USD")
                         .thenReturn(
                                 response()
                                         .withStatus(HttpStatus.OK)
@@ -83,21 +99,34 @@ public class AccountResourceIntegrationTest {
         exchangeRatePrimer.prime(
                 request("Get Exchange Rate for EUR/USD")
                         .withMethod(HttpMethod.GET)
-                        .withPath("/from/EUR/to/USD")
+                        .withPath("/")
+                        .withHeader("correlation-id", "001")
+                        .withRequestParameter("from", "EUR")
+                        .withRequestParameter("to", "USD")
                         .thenReturn(
                                 response()
                                         .withStatus(HttpStatus.OK)
                                         .withBody("1.29"))
                         .build());
 
-
+        final MultiValueMap headers = new LinkedMultiValueMap();
+        headers.put("correlation-id", Arrays.asList("001"));
 
         // when
 
-        final Map<String,Double> result = restTemplate.getForObject("http://localhost:8080/sample/account/user/{userid}/currency/{currency}", Map.class, 123L, "USD");
+        final ResponseEntity<Map> responseEntity = restTemplate.exchange(
+                "http://localhost:8080/sample/account/user/{userid}/currency/{currency}",
+                HttpMethod.GET,
+                new HttpEntity(headers),
+                Map.class,
+                123L,
+                "USD");
+
 
         // then
 
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        final Map<String,Double> result = responseEntity.getBody();
         accountPrimer.verify();
         exchangeRatePrimer.verify();
         assertEquals(4, result.size());
