@@ -23,19 +23,19 @@ import static uk.co.epsilontechnologies.primer.client.builder.ResponseBuilder.re
 public class AccountResourceIntegrationTest {
 
     private RestTemplate restTemplate;
-    private Primer accountPrimer;
-    private Primer exchangeRatePrimer;
+    private Primer accountService;
+    private Primer exchangeRateService;
 
     public AccountResourceIntegrationTest() {
         this.restTemplate = new RestTemplate();
-        this.accountPrimer = new Primer("localhost", 8080, "/account");
-        this.exchangeRatePrimer = new Primer("localhost", 8080, "/exchangerate");
+        this.accountService = new Primer("localhost", 8080, "/account");
+        this.exchangeRateService = new Primer("localhost", 8080, "/exchangerate");
     }
 
     @After
     public void tearDown() {
-        this.accountPrimer.reset();
-        this.exchangeRatePrimer.reset();
+        this.accountService.reset();
+        this.exchangeRateService.reset();
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AccountResourceIntegrationTest {
 
         // ARRANGE
 
-        accountPrimer.prime(
+        accountService.prime(
                 request("Get Accounts for User ID")
                         .withMethod(HttpMethod.GET)
                         .withPath("/user/123")
@@ -58,8 +58,8 @@ public class AccountResourceIntegrationTest {
                         .withHeader("user-id", "123")
                         .build());
 
-        exchangeRatePrimer.prime(
-                request("Get Exchange Rate for GBP/USD")
+        exchangeRateService.prime(
+                request("Get Exchange Rate for GBP / USD")
                         .withMethod(HttpMethod.GET)
                         .withPath("/")
                         .withHeader("correlation-id", "001")
@@ -71,8 +71,8 @@ public class AccountResourceIntegrationTest {
                         .withBody("1.52")
                         .build());
 
-        exchangeRatePrimer.prime(
-                request("Get Exchange Rate for AUD/USD")
+        exchangeRateService.prime(
+                request("Get Exchange Rate for AUD / USD")
                         .withMethod(HttpMethod.GET)
                         .withPath("/")
                         .withHeader("correlation-id", "001")
@@ -85,8 +85,8 @@ public class AccountResourceIntegrationTest {
                         .build());
 
         // for illustrative purposes only - ordinarily there would be no need to invoke this service twice
-        exchangeRatePrimer.prime(
-                request("Get Exchange Rate for AUD/USD")
+        exchangeRateService.prime(
+                request("Get Exchange Rate for AUD / USD")
                         .withMethod(HttpMethod.GET)
                         .withPath("/")
                         .withHeader("correlation-id", "001")
@@ -98,8 +98,8 @@ public class AccountResourceIntegrationTest {
                         .withBody("1.05")
                         .build());
 
-        exchangeRatePrimer.prime(
-                request("Get Exchange Rate for EUR/USD")
+        exchangeRateService.prime(
+                request("Get Exchange Rate for EUR / USD")
                         .withMethod(HttpMethod.GET)
                         .withPath("/")
                         .withHeader("correlation-id", "001")
@@ -130,8 +130,8 @@ public class AccountResourceIntegrationTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         final Map<String,Double> result = responseEntity.getBody();
-        accountPrimer.verify();
-        exchangeRatePrimer.verify();
+        accountService.verify();
+        exchangeRateService.verify();
         assertEquals(4, result.size());
         assertTrue(result.containsKey("1000001"));
         assertEquals(15200.0, result.get("1000001"), 0);
