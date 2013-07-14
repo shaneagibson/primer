@@ -1,6 +1,7 @@
 package uk.co.epsilontechnologies.primer.client.builder;
 
 import org.springframework.http.HttpStatus;
+import uk.co.epsilontechnologies.primer.client.model.Response;
 
 public class ResponseBuilder {
 
@@ -32,6 +33,10 @@ public class ResponseBuilder {
 
     public String getBody() {
         return body;
+    }
+    
+    public Response build() {
+        return new Response(status, body);
     }
 
 }

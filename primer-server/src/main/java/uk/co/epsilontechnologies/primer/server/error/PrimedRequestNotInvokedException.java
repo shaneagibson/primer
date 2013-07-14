@@ -1,8 +1,7 @@
 package uk.co.epsilontechnologies.primer.server.error;
 
-import uk.co.epsilontechnologies.primer.client.model.PrimeRequest;
-import uk.co.epsilontechnologies.primer.server.model.Request;
-import uk.co.epsilontechnologies.primer.server.model.Response;
+import uk.co.epsilontechnologies.primer.client.model.Request;
+import uk.co.epsilontechnologies.primer.client.model.Response;
 
 import java.util.List;
 import java.util.Map;

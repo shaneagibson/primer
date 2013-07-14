@@ -4,6 +4,8 @@ import uk.co.epsilontechnologies.primer.client.model.PrimeRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import uk.co.epsilontechnologies.primer.client.model.Request;
+import uk.co.epsilontechnologies.primer.client.model.Response;
 
 public class Primer {
 
@@ -26,9 +28,9 @@ public class Primer {
      * Adds a primed request to the primer instance.
      * @param primeRequest
      */
-    public void prime(final PrimeRequest primeRequest) {
+    public void prime(final Request request, final Response response) {
         final String url = baseUrl + "/primer/prime";
-        restTemplate.postForObject(url, primeRequest, String.class);
+        restTemplate.postForObject(url, new PrimeRequest(request, response), String.class);
     }
 
     /**

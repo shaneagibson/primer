@@ -48,13 +48,13 @@ public class AccountResourceIntegrationTest {
                         .withMethod(HttpMethod.GET)
                         .withPath("/user/123")
                         .withHeader("correlation-id", "001")
-                        .thenReturn(
-                                response()
-                                        .withStatus(HttpStatus.OK)
-                                        .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
-                                                "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                                                "{\"accountNumber\":\"1000003\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                                                "{\"accountNumber\":\"1000004\",\"balance\":2500.00,\"currency\":\"EUR\"}]"))
+                        .build(),
+                response()
+                        .withStatus(HttpStatus.OK)
+                        .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
+                                "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
+                                "{\"accountNumber\":\"1000003\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
+                                "{\"accountNumber\":\"1000004\",\"balance\":2500.00,\"currency\":\"EUR\"}]")
                         .build());
 
         exchangeRatePrimer.prime(
@@ -64,10 +64,10 @@ public class AccountResourceIntegrationTest {
                         .withHeader("correlation-id", "001")
                         .withRequestParameter("from", "GBP")
                         .withRequestParameter("to", "USD")
-                        .thenReturn(
-                                response()
-                                        .withStatus(HttpStatus.OK)
-                                        .withBody("1.52"))
+                        .build(),
+                response()
+                        .withStatus(HttpStatus.OK)
+                        .withBody("1.52")
                         .build());
 
         exchangeRatePrimer.prime(
@@ -77,10 +77,10 @@ public class AccountResourceIntegrationTest {
                         .withHeader("correlation-id", "001")
                         .withRequestParameter("from", "AUD")
                         .withRequestParameter("to", "USD")
-                        .thenReturn(
-                                response()
-                                        .withStatus(HttpStatus.OK)
-                                        .withBody("1.05"))
+                        .build(),
+                response()
+                        .withStatus(HttpStatus.OK)
+                        .withBody("1.05")
                         .build());
 
         exchangeRatePrimer.prime(
@@ -90,10 +90,10 @@ public class AccountResourceIntegrationTest {
                         .withHeader("correlation-id", "001")
                         .withRequestParameter("from", "AUD")
                         .withRequestParameter("to", "USD")
-                        .thenReturn(
-                                response()
-                                        .withStatus(HttpStatus.OK)
-                                        .withBody("1.02"))
+                        .build(),
+                response()
+                        .withStatus(HttpStatus.OK)
+                        .withBody("1.02")
                         .build());
 
         exchangeRatePrimer.prime(
@@ -103,10 +103,10 @@ public class AccountResourceIntegrationTest {
                         .withHeader("correlation-id", "001")
                         .withRequestParameter("from", "EUR")
                         .withRequestParameter("to", "USD")
-                        .thenReturn(
-                                response()
-                                        .withStatus(HttpStatus.OK)
-                                        .withBody("1.29"))
+                        .build(),
+                response()
+                        .withStatus(HttpStatus.OK)
+                        .withBody("1.29")
                         .build());
 
         final MultiValueMap headers = new LinkedMultiValueMap();

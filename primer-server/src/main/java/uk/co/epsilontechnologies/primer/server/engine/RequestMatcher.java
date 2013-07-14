@@ -2,7 +2,7 @@ package uk.co.epsilontechnologies.primer.server.engine;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import uk.co.epsilontechnologies.primer.server.model.Request;
+import uk.co.epsilontechnologies.primer.client.model.Request;
 
 import java.util.Map;
 import java.util.regex.Pattern;

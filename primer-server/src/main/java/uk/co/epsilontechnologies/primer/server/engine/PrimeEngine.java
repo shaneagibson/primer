@@ -8,8 +8,8 @@ import uk.co.epsilontechnologies.primer.client.model.PrimeRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.co.epsilontechnologies.primer.server.model.Request;
-import uk.co.epsilontechnologies.primer.server.model.Response;
+import uk.co.epsilontechnologies.primer.client.model.Request;
+import uk.co.epsilontechnologies.primer.client.model.Response;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -30,13 +30,8 @@ public class PrimeEngine implements IPrimeEngine {
 
     @Override
     public void prime(final PrimeRequest primeRequest) {
-        final Request request = new Request(
-                HttpMethod.valueOf(primeRequest.getHttpMethod()),
-                primeRequest.getPathRegEx(),
-                primeRequest.getBodyRegEx(),
-                primeRequest.getHeaders(),
-                primeRequest.getRequestParameters());
-        final Response response = new Response(HttpStatus.valueOf(primeRequest.getResponseCode()), primeRequest.getResponseBody());
+        final Request request = primeRequest.getRequest();
+        final Response response = primeRequest.getResponse();
         if (primes.containsKey(request)) {
             final List<Response> responseList = primes.get(request);
             responseList.add(response);

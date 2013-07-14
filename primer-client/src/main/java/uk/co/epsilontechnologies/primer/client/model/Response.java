@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer.server.model;
+package uk.co.epsilontechnologies.primer.client.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -7,8 +7,12 @@ import org.springframework.http.HttpStatus;
 
 public class Response {
 
-    private final HttpStatus status;
-    private final String body;
+    private HttpStatus status;
+    private String body;
+
+    public Response() {
+        super();
+    }
 
     public Response(final HttpStatus status, final String body) {
         this.status = status;

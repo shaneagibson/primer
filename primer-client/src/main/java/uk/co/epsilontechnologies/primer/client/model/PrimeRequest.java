@@ -8,88 +8,32 @@ import java.util.Map;
 
 public class PrimeRequest {
 
-    private String description;
-
-    private String httpMethod;
-
-    private String pathRegEx;
-
-    private String bodyRegEx;
-
-    private Map<String,String> headers;
-
-    private Map<String,String> requestParameters;
-
-    private int responseCode;
-
-    private String responseBody;
+    private Request request;
+    private Response response;
 
     public PrimeRequest() {
         super();
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public PrimeRequest(final Request request, final Response response) {
+        this.request = request;
+        this.response = response;
     }
 
-    public String getDescription() {
-        return description;
+    public Request getRequest() {
+        return request;
     }
 
-    public String getHttpMethod() {
-        return httpMethod;
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
-    public void setHttpMethod(String httpMethod) {
-        this.httpMethod = httpMethod;
+    public Response getResponse() {
+        return response;
     }
 
-    public String getPathRegEx() {
-        return pathRegEx;
-    }
-
-    public void setPathRegEx(String pathRegEx) {
-        this.pathRegEx = pathRegEx;
-    }
-
-    public String getBodyRegEx() {
-        return bodyRegEx;
-    }
-
-    public void setBodyRegEx(String bodyRegEx) {
-        this.bodyRegEx = bodyRegEx;
-    }
-
-    public int getResponseCode() {
-        return responseCode;
-    }
-
-    public void setResponseCode(int responseCode) {
-        this.responseCode = responseCode;
-    }
-
-    public String getResponseBody() {
-        return responseBody;
-    }
-
-    public void setResponseBody(String responseBody) {
-        this.responseBody = responseBody;
-    }
-
-    public void setHeaders(Map<String,String> headers) {
-        this.headers = headers;
-    }
-
-    public Map<String,String> getHeaders() {
-        return headers;
-    }
-
-    public Map<String, String> getRequestParameters() {
-        return requestParameters;
-    }
-
-    public void setRequestParameters(Map<String, String> requestParameters) {
-        this.requestParameters = requestParameters;
+    public void setResponse(Response response) {
+        this.response = response;
     }
 
     @Override

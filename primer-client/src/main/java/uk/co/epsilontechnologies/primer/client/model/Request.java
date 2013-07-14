@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer.server.model;
+package uk.co.epsilontechnologies.primer.client.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -9,23 +9,34 @@ import java.util.Map;
 
 public class Request {
 
-    private final HttpMethod method;
-    private final String pathRegEx;
-    private final String bodyRegEx;
-    private final Map<String,String> headers;
-    private final Map<String,String> requestParameters;
+    private String description;
+    private HttpMethod method;
+    private String pathRegEx;
+    private String bodyRegEx;
+    private Map<String,String> headers;
+    private Map<String,String> requestParameters;
+
+    public Request() {
+        super();
+    }
 
     public Request(
+            final String description,
             final HttpMethod method,
             final String pathRegEx,
             final String bodyRegEx,
             final Map<String, String> headers,
             final Map<String, String> requestParameters) {
+        this.description = description;
         this.method = method;
         this.pathRegEx = pathRegEx;
         this.bodyRegEx = bodyRegEx;
         this.headers = headers;
         this.requestParameters = requestParameters;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public HttpMethod getMethod() {

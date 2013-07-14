@@ -1,7 +1,9 @@
 package uk.co.epsilontechnologies.primer.client.builder;
 
-import uk.co.epsilontechnologies.primer.client.model.PrimeRequest;
 import org.springframework.http.HttpMethod;
+import uk.co.epsilontechnologies.primer.client.model.PrimeRequest;
+import uk.co.epsilontechnologies.primer.client.model.Request;
+import uk.co.epsilontechnologies.primer.client.model.Response;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +21,6 @@ public class RequestBuilder {
     private Map<String,String> headers = new HashMap();
 
     private Map<String,String> requestParameters = new HashMap();
-
-    private ResponseBuilder primeResponse;
 
     public RequestBuilder(final String description) {
         this.description = description;
@@ -51,22 +51,8 @@ public class RequestBuilder {
         return this;
     }
 
-    public RequestBuilder thenReturn(final ResponseBuilder primeResponse) {
-        this.primeResponse = primeResponse;
-        return this;
-    }
-
-    public PrimeRequest build() {
-        final PrimeRequest primeRequest = new PrimeRequest();
-        primeRequest.setDescription(description);
-        primeRequest.setBodyRegEx(bodyRegEx);
-        primeRequest.setHttpMethod(httpMethod.name());
-        primeRequest.setPathRegEx(pathRegEx);
-        primeRequest.setResponseBody(primeResponse.getBody());
-        primeRequest.setResponseCode(primeResponse.getStatus().value());
-        primeRequest.setHeaders(headers);
-        primeRequest.setRequestParameters(requestParameters);
-        return primeRequest;
+    public Request build() {
+        return new Request(description, httpMethod, pathRegEx, bodyRegEx, headers, requestParameters);
     }
 
     public static RequestBuilder request(final String description) {
