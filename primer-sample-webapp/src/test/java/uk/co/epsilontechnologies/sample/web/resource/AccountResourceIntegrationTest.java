@@ -41,7 +41,7 @@ public class AccountResourceIntegrationTest {
     @Test
     public void shouldGetAccountBalances() {
 
-        // given
+        // ARRANGE
 
         accountPrimer.prime(
                 request("Get Accounts for User ID")
@@ -52,9 +52,9 @@ public class AccountResourceIntegrationTest {
                 response()
                         .withStatus(HttpStatus.OK)
                         .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
-                                "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                                "{\"accountNumber\":\"1000003\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                                "{\"accountNumber\":\"1000004\",\"balance\":2500.00,\"currency\":\"EUR\"}]")
+                                   "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
+                                   "{\"accountNumber\":\"1000003\",\"balance\":10000.00,\"currency\":\"AUD\"}," +
+                                   "{\"accountNumber\":\"1000004\",\"balance\":25000.00,\"currency\":\"EUR\"}]")
                         .withHeader("user-id", "123")
                         .build());
 
@@ -84,6 +84,7 @@ public class AccountResourceIntegrationTest {
                         .withBody("1.05")
                         .build());
 
+        // for illustrative purposes only - ordinarily there would be no need to invoke this service twice
         exchangeRatePrimer.prime(
                 request("Get Exchange Rate for AUD/USD")
                         .withMethod(HttpMethod.GET)
@@ -94,7 +95,7 @@ public class AccountResourceIntegrationTest {
                         .build(),
                 response()
                         .withStatus(HttpStatus.OK)
-                        .withBody("1.02")
+                        .withBody("1.05")
                         .build());
 
         exchangeRatePrimer.prime(
@@ -113,7 +114,8 @@ public class AccountResourceIntegrationTest {
         final MultiValueMap headers = new LinkedMultiValueMap();
         headers.put("correlation-id", Arrays.asList("001"));
 
-        // when
+
+        // ACT
 
         final ResponseEntity<Map> responseEntity = restTemplate.exchange(
                 "http://localhost:8080/sample/account/user/{userid}/currency/{currency}",
@@ -124,7 +126,7 @@ public class AccountResourceIntegrationTest {
                 "USD");
 
 
-        // then
+        // ASSERT
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         final Map<String,Double> result = responseEntity.getBody();
@@ -136,9 +138,9 @@ public class AccountResourceIntegrationTest {
         assertTrue(result.containsKey("1000002"));
         assertEquals(21000.0, result.get("1000002"), 0);
         assertTrue(result.containsKey("1000003"));
-        assertEquals(20400.0, result.get("1000003"), 0);
+        assertEquals(10500.0, result.get("1000003"), 0);
         assertTrue(result.containsKey("1000004"));
-        assertEquals(3225.0, result.get("1000004"), 0);
+        assertEquals(32250.0, result.get("1000004"), 0);
     }
 
 }
