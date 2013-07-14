@@ -18,6 +18,8 @@ import java.util.List;
 @Component
 public class AccountGateway implements IAccountGateway {
 
+    private static final String USER_ID_HEADER = "user-id";
+
     private final RestTemplate restTemplate;
     private final CorrelationIdStore correlationIdStore;
     private final String accountBaseUrl;
@@ -33,7 +35,7 @@ public class AccountGateway implements IAccountGateway {
     }
 
     @Override
-    public List<Account> getAccountsForUser(Long userId) {
+    public List<Account> getAccountsForUser(final Long userId) {
         final MultiValueMap<String,String> headers = new LinkedMultiValueMap();
         headers.put("correlation-id", Arrays.asList(correlationIdStore.getCorrelationId()));
         final ResponseEntity<Account[]> responseEntity = restTemplate.exchange(
@@ -42,6 +44,11 @@ public class AccountGateway implements IAccountGateway {
                 new HttpEntity(headers),
                 Account[].class,
                 userId);
+
+        if (!responseEntity.getHeaders().containsKey(USER_ID_HEADER) && responseEntity.getHeaders().get(USER_ID_HEADER).equals(String.valueOf(userId))) {
+            throw new RuntimeException("user-id Header Attribute not set");
+        }
+
         return Arrays.asList(responseEntity.getBody());
     }
 

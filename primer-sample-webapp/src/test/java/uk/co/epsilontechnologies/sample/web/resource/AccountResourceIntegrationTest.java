@@ -55,6 +55,7 @@ public class AccountResourceIntegrationTest {
                                 "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
                                 "{\"accountNumber\":\"1000003\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
                                 "{\"accountNumber\":\"1000004\",\"balance\":2500.00,\"currency\":\"EUR\"}]")
+                        .withHeader("user-id", "123")
                         .build());
 
         exchangeRatePrimer.prime(
