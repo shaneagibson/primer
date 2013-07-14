@@ -2,6 +2,8 @@ package uk.co.epsilontechnologies.primer.server.engine;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import uk.co.epsilontechnologies.primer.server.error.PrimedRequestNotInvokedException;
 import uk.co.epsilontechnologies.primer.server.error.RequestNotPrimedException;
 import uk.co.epsilontechnologies.primer.client.model.PrimeRequest;
@@ -68,7 +70,9 @@ public class PrimeEngine implements IPrimeEngine {
             if (requestMatcher.matches(primedRequest, requestMethod, requestPath, requestBody, requestHeaders, requestParameters)) {
                 final List<Response> responses = primes.get(primedRequest);
                 final Response response = responses.size() == 1 ? primes.remove(primedRequest).get(0) : responses.remove(0);
-                return new ResponseEntity(response.getBody(), response.getStatus());
+                final MultiValueMap<String,String> responseHeaders = new LinkedMultiValueMap();
+                responseHeaders.setAll(response.getHeaders());
+                return new ResponseEntity(response.getBody(), responseHeaders, response.getStatus());
             }
         }
         throw new RequestNotPrimedException(requestMethod, requestPath, requestBody);

@@ -5,18 +5,22 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.http.HttpStatus;
 
+import java.util.Map;
+
 public class Response {
 
     private HttpStatus status;
     private String body;
+    private Map<String,String> headers;
 
     public Response() {
         super();
     }
 
-    public Response(final HttpStatus status, final String body) {
+    public Response(final HttpStatus status, final String body, final Map<String,String> headers) {
         this.status = status;
         this.body = body;
+        this.headers = headers;
     }
 
     public HttpStatus getStatus() {
@@ -25,6 +29,10 @@ public class Response {
 
     public String getBody() {
         return body;
+    }
+
+    public Map<String,String> getHeaders() {
+        return headers;
     }
 
     @Override
