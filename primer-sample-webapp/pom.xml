@@ -21,7 +21,6 @@
 
     <properties>
         <cargo.port>8080</cargo.port>
-        <catalina.home>/home/shane/Development/Tools/apache-tomcat-7.0.37</catalina.home>
     </properties>
 
     <dependencies>
@@ -75,10 +74,15 @@
                 <configuration>
                     <container>
                         <containerId>tomcat7x</containerId>
-                        <type>installed</type>
-                        <home>${catalina.home}</home>
+                        <artifactInstaller>
+                            <groupId>org.apache.tomcat</groupId>
+                            <artifactId>tomcat</artifactId>
+                            <version>7.0.42</version>
+                            <type>zip</type>
+                        </artifactInstaller>
                     </container>
                     <configuration>
+                        <home>${project.build.directory}/tomcat7x/container</home>
                         <properties>
                             <cargo.servlet.port>${cargo.port}</cargo.servlet.port>
                             <cargo.jvmargs><!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 --></cargo.jvmargs>
