@@ -14,13 +14,14 @@ By pointing your application to the primer-server webapp instead of the remote s
                     .withMethod(HttpMethod.GET)
                     .withPath("/user/123")
                     .withHeader("correlation-id", "001")
-                    .thenReturn(
-                            response()
-                                    .withStatus(HttpStatus.OK)
-                                    .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
-                                            "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                                            "{\"accountNumber\":\"1000003\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                                            "{\"accountNumber\":\"1000004\",\"balance\":2500.00,\"currency\":\"EUR\"}]"))
+                    .build(),
+            response()
+                    .withStatus(HttpStatus.OK)
+                    .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
+                            "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
+                            "{\"accountNumber\":\"1000003\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
+                            "{\"accountNumber\":\"1000004\",\"balance\":2500.00,\"currency\":\"EUR\"}]")
+                    .withHeader("user-id", "123")
                     .build());
 
     exchangeRatePrimer.prime(
@@ -30,11 +31,12 @@ By pointing your application to the primer-server webapp instead of the remote s
                     .withHeader("correlation-id", "001")
                     .withRequestParameter("from", "GBP")
                     .withRequestParameter("to", "USD")
-                    .thenReturn(
-                            response()
-                                    .withStatus(HttpStatus.OK)
-                                    .withBody("1.52"))
+                    .build(),
+            response()
+                    .withStatus(HttpStatus.OK)
+                    .withBody("1.52")
                     .build());
+
 
 After invoking your service, you can then verify that all primed requests were invoked, as follows:
 
