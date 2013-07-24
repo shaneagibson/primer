@@ -27,7 +27,8 @@ public class RestPrimer {
     /**
      * Adds a primed request to the primer instance.
      *
-     * @param primeRequest
+     * @param request
+     * @param response
      */
     public void prime(final Request request, final Response response) {
         final String url = baseUrl + "/primer/prime";
@@ -36,8 +37,6 @@ public class RestPrimer {
 
     /**
      * Verifies that all primed requests have been invoked.
-     *
-     * @throws IllegalStateException - at least one primed request was not invoked.
      */
     public void verify() {
         final String url = baseUrl + "/primer/verify";

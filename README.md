@@ -6,8 +6,16 @@ ATDD utility for SOA projects, which allows the priming of RESTful resources tho
 
 By pointing your application to the primer-server webapp instead of the remote service you intend to mock, you can 'prime' individual requests, as follows:
 
-    final Primer accountPrimer = new Primer("localhost", 8080, "/account");
-    final Primer exchangeRatePrimer = new Primer("localhost", 8080, "/exchangerate");
+    final RestPrimer accountPrimer = new RestPrimer("localhost", 8080, "/account");
+    final RestPrimer exchangeRatePrimer = new RestPrimer("localhost", 8080, "/exchangerate");
+    final JmsPrimer logPrimer = new JmsPrimer("localhost", 61616, "log");
+
+    logPrimer.prime(
+            mapMessage("Start Request Log Message")
+                    .with("correlationId", "001")
+                    .with("message", "getting balances for user: 123 in currency: USD")
+                    .with("timestamp", anyLong())
+                    .build());
 
     accountPrimer.prime(
             request("Get Accounts for User ID")
@@ -40,5 +48,6 @@ By pointing your application to the primer-server webapp instead of the remote s
 
 After invoking your service, you can then verify that all primed requests were invoked, as follows:
 
+    logPrimer.prime();
     accountPrimer.verify();
     exchangeRatePrimer.verify();
