@@ -17,7 +17,6 @@
     </properties>
 
     <modules>
-        <module>primer-common-client</module>
         <module>primer-jms-client</module>
         <module>primer-rest-client</module>
         <module>primer-sample-webapp</module>
