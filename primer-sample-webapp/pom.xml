@@ -50,6 +50,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkMode>never</forkMode>
+                    <argLine>-Xms1024m -Xmx1024m -XX:MaxPermSize=2048m</argLine>
                     <excludes>
                         <exclude>**/*IntegrationTest.java</exclude>
                     </excludes>
