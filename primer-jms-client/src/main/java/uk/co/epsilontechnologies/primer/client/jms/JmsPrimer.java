@@ -1,6 +1,6 @@
 package uk.co.epsilontechnologies.primer.client.jms;
 
-import uk.co.epsilontechnologies.primer.client.AbstractPrimer;
+import uk.co.epsilontechnologies.primer.client.Primer;
 import uk.co.epsilontechnologies.primer.client.jms.error.MessageNotPrimedException;
 import uk.co.epsilontechnologies.primer.client.jms.error.PrimedMessageNotIssuedException;
 import uk.co.epsilontechnologies.primer.client.jms.matcher.MessageMatcher;
@@ -11,7 +11,7 @@ import javax.jms.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JmsAbstractPrimer implements AbstractPrimer<Message> {
+public class JmsPrimer implements Primer<Message> {
 
     private final MessageMatcher messageMatcher;
     private final MessageBrowser messageBrowser;
@@ -19,13 +19,13 @@ public class JmsAbstractPrimer implements AbstractPrimer<Message> {
     private final List<Message> primedMessages;
 
     /**
-     * Constructs the primer client for the jms queue.
+     * Constructs the primer client for the JMS queue.
      *
      * @param host
      * @param port
      * @param queueName
      */
-    public JmsAbstractPrimer(final String host, final int port, final String queueName) {
+    public JmsPrimer(final String host, final int port, final String queueName) {
         this.messageMatcher = new MessageMatcher();
         this.queuePurger = new QueuePurger(queueName);
         this.messageBrowser = new MessageBrowser(host, port, queueName);
@@ -56,7 +56,7 @@ public class JmsAbstractPrimer implements AbstractPrimer<Message> {
     }
 
     /**
-     * Resets the JmsAbstractPrimer instance, removing any primed requests.
+     * Resets the JMS Primer instance, removing any primed requests.
      */
     @Override
     public void reset() {

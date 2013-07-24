@@ -1,6 +1,6 @@
 package uk.co.epsilontechnologies.primer.client;
 
-public interface AbstractPrimer<T> {
+public interface Primer<T> {
 
     void reset();
 

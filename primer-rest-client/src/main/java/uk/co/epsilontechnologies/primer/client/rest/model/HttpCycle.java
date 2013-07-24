@@ -1,11 +1,21 @@
 package uk.co.epsilontechnologies.primer.client.rest.model;
 
-/**
- * Created with IntelliJ IDEA.
- * User: shane
- * Date: 24/07/13
- * Time: 16:30
- * To change this template use File | Settings | File Templates.
- */
 public class HttpCycle {
+
+    private final Request request;
+    private final Response response;
+
+    public HttpCycle(final Request request, final Response response) {
+        this.request = request;
+        this.response = response;
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public Response getResponse() {
+        return response;
+    }
+
 }

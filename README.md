@@ -2,7 +2,7 @@
 primer
 ======
 
-ATDD utility for SOA projects, which allows the priming of RESTful resources though a simple java API.
+ATDD utility for SOA projects, which allows the priming of RESTful resources and JMS message queues though a simple java API.
 
 By pointing your application to the primer-server webapp instead of the remote service you intend to mock, you can 'prime' individual requests, as follows:
 

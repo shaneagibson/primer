@@ -19,4 +19,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>uk.co.epsilontechnologies</groupId>
+            <artifactId>primer-common-client</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+
 </project>

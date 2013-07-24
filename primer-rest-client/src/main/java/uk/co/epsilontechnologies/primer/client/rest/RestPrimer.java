@@ -1,6 +1,6 @@
 package uk.co.epsilontechnologies.primer.client.rest;
 
-import uk.co.epsilontechnologies.primer.client.AbstractPrimer;
+import uk.co.epsilontechnologies.primer.client.Primer;
 import uk.co.epsilontechnologies.primer.client.rest.model.HttpCycle;
 import uk.co.epsilontechnologies.primer.client.rest.model.PrimeRequest;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import uk.co.epsilontechnologies.primer.client.rest.model.Request;
 import uk.co.epsilontechnologies.primer.client.rest.model.Response;
 
-public class RestAbstractPrimer implements AbstractPrimer<HttpCycle> {
+public class RestPrimer implements Primer<HttpCycle> {
 
     private final String baseUrl;
     private final RestTemplate restTemplate;
@@ -21,7 +21,7 @@ public class RestAbstractPrimer implements AbstractPrimer<HttpCycle> {
      * @param port
      * @param contextPath
      */
-    public RestAbstractPrimer(final String host, final int port, final String contextPath) {
+    public RestPrimer(final String host, final int port, final String contextPath) {
         this.baseUrl = "http://" + host + ":" + port + (contextPath == null ? "" : contextPath);
         this.restTemplate = new RestTemplate();
     }
@@ -60,7 +60,7 @@ public class RestAbstractPrimer implements AbstractPrimer<HttpCycle> {
     }
 
     /**
-     * Resets the RestAbstractPrimer instance, removing any primed requests.
+     * Resets the RestPrimer instance, removing any primed requests.
      */
     @Override
     public void reset() {
