@@ -20,7 +20,7 @@
     </parent>
 
     <properties>
-        <cargo.port>8080</cargo.port>
+        <cargo.port>9090</cargo.port>
     </properties>
 
     <dependencies>

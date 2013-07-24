@@ -31,8 +31,8 @@ public class AccountResourceIntegrationTest {
 
     public AccountResourceIntegrationTest() {
         this.restTemplate = new RestTemplate();
-        this.accountService = new RestPrimer("localhost", 8080, "/account");
-        this.exchangeRateService = new RestPrimer("localhost", 8080, "/exchangerate");
+        this.accountService = new RestPrimer("localhost", 9090, "/account");
+        this.exchangeRateService = new RestPrimer("localhost", 9090, "/exchangerate");
         this.logMessageVerifier = new JmsMessageVerifier("localhost", 61616, "log");
     }
 
@@ -123,7 +123,7 @@ public class AccountResourceIntegrationTest {
         // ACT
 
         final ResponseEntity<Map> responseEntity = restTemplate.exchange(
-                "http://localhost:8080/sample/account/user/{userid}/currency/{currency}",
+                "http://localhost:9090/sample/account/user/{userid}/currency/{currency}",
                 HttpMethod.GET,
                 new HttpEntity(headers),
                 Map.class,
