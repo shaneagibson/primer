@@ -4,29 +4,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.epsilontechnologies.sample.gateway.IAccountGateway;
 import uk.co.epsilontechnologies.sample.gateway.IExchangeRateGateway;
+import uk.co.epsilontechnologies.sample.jms.ILogNotifier;
 import uk.co.epsilontechnologies.sample.model.Account;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AccountService implements IAccountService {
 
     private final IAccountGateway accountGateway;
     private final IExchangeRateGateway exchangeRateGateway;
+    private final ILogNotifier logNotifier;
 
     @Autowired
     public AccountService(
             final IAccountGateway accountGateway,
-            final IExchangeRateGateway exchangeRateGateway) {
+            final IExchangeRateGateway exchangeRateGateway,
+            final ILogNotifier logNotifier) {
         this.accountGateway = accountGateway;
         this.exchangeRateGateway = exchangeRateGateway;
+        this.logNotifier = logNotifier;
     }
 
     @Override
     public Map<String,BigDecimal> getBalancesForUser(final Long userId, final String currency) {
+
+        logNotifier.log(String.format("getting balances for user: %s in currency: %s", userId, currency));
 
         final Map<String,BigDecimal> balances = new HashMap();
 
@@ -41,7 +45,16 @@ public class AccountService implements IAccountService {
             balances.put(account.getAccountNumber(), balance);
         }
 
+        logNotifier.log(String.format("total balance: %s for user: %s in currency: %s", sum(BigDecimal.ZERO, balances.values().iterator()).setScale(2), userId, currency));
+
         return balances;
+    }
+
+    private static BigDecimal sum(final BigDecimal accumulated, final Iterator<BigDecimal> balances) {
+        while (balances.hasNext()) {
+            return sum(accumulated.add(balances.next()), balances);
+        }
+        return accumulated;
     }
 
 }

@@ -16,7 +16,10 @@ public class Account {
         super();
     }
 
-    public Account(final String accountNumber, final BigDecimal balance, final String currency) {
+    public Account(
+            final String accountNumber,
+            final BigDecimal balance,
+            final String currency) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.currency = currency;

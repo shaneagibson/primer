@@ -1,9 +1,7 @@
 package uk.co.epsilontechnologies.sample.configuration;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,7 +9,9 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = {
         "uk.co.epsilontechnologies.sample.model",
         "uk.co.epsilontechnologies.sample.service",
+        "uk.co.epsilontechnologies.sample.jms",
         "uk.co.epsilontechnologies.sample.gateway" })
+@Import(value = { JmsConfiguration.class })
 public class ApplicationConfiguration {
 
     @Bean
