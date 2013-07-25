@@ -53,7 +53,7 @@ public class QueuePurger {
             final JMXServiceURL jmxServiceUrl = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
             try (final JMXConnector jmxConnector = JMXConnectorFactory.connect(jmxServiceUrl)) {
                 final MBeanServerConnection mBeanServerConnection = jmxConnector.getMBeanServerConnection();
-                final ObjectName activeMQ = new ObjectName("org.apache.activemq:type=Broker,brokerName=localhost");
+                final ObjectName activeMQ = new ObjectName("org.apache.activemq:BrokerName=localhost,Type=Broker");
                 final BrokerViewMBean brokerViewMBean = MBeanServerInvocationHandler.newProxyInstance(mBeanServerConnection, activeMQ, BrokerViewMBean.class, true);
                 for (final ObjectName queueObjectName : brokerViewMBean.getQueues()) {
                     final QueueViewMBean candidateQueueViewMBean = MBeanServerInvocationHandler.newProxyInstance(mBeanServerConnection, queueObjectName, QueueViewMBean.class, true);
