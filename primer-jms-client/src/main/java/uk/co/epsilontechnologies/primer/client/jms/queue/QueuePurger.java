@@ -3,20 +3,13 @@ package uk.co.epsilontechnologies.primer.client.jms.queue;
 import org.apache.activemq.broker.jmx.BrokerViewMBean;
 import org.apache.activemq.broker.jmx.QueueViewMBean;
 
-import javax.jms.InvalidSelectorException;
-import javax.jms.Message;
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
-import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.TabularData;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.List;
 
 public class QueuePurger {
 

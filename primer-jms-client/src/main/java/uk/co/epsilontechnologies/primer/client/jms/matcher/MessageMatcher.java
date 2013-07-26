@@ -14,7 +14,7 @@ public class MessageMatcher {
 
     public void match(
             final List<Message> expectedMessages,
-            final List<Message> actualMessages) throws MessageNotPrimedException, PrimedMessageNotIssuedException {
+            final List<Message> actualMessages) {
         for (final Message actualMessage : actualMessages) {
             boolean found = false;
             for (final Message expectedMessage : expectedMessages) {

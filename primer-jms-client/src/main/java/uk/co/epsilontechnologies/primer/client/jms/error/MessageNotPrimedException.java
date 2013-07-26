@@ -2,7 +2,7 @@ package uk.co.epsilontechnologies.primer.client.jms.error;
 
 import javax.jms.Message;
 
-public class MessageNotPrimedException extends Exception {
+public class MessageNotPrimedException extends RuntimeException {
 
     private final Message messageNotPrimed;
 

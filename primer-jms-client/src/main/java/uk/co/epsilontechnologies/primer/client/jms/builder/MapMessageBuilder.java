@@ -4,8 +4,6 @@ import org.apache.activemq.command.ActiveMQMapMessage;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MapMessageBuilder {
 
