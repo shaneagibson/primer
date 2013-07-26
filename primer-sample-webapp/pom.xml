@@ -91,7 +91,7 @@
                     <configuration>
                         <home>${project.build.directory}/tomcat7x/container</home>
                         <properties>
-                            <cargo.servlet.port>${cargo.port}</cargo.servlet.port>
+                            <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
                             <cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
                             <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
                             <cargo.jvmargs><!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 --></cargo.jvmargs>
