@@ -59,11 +59,11 @@ After invoking your service, you can then verify that the expected messages were
     logMessageVerifier.verify(
             mapMessage("Start Request Log Message")
                     .with("correlationId", "001")
-                    .with("message", "Getting balances for user: 123 in currency: USD")
+                    .with("message", "getting balances for user: 123 in currency: USD")
                     .with("timestamp", anyLong())
                     .build(),
             mapMessage("End Request Log Message")
                     .with("correlationId", "001")
-                    .with("message", "Total balance: 78950.00 for user: 123 in currency: USD")
+                    .with("message", "total balance: 78950.00 for user: 123 in currency: USD")
                     .with("timestamp", anyLong())
                     .build());
