@@ -20,9 +20,9 @@
     </parent>
 
     <properties>
-        <cargo.servlet.port>9090</cargo.servlet.port>
-        <cargo.rmi.port>9091</cargo.rmi.port>
-        <cargo.tomcat.ajp.port>9092</cargo.tomcat.ajp.port>
+        <cargo.servlet.port>9010</cargo.servlet.port>
+        <cargo.rmi.port>9011</cargo.rmi.port>
+        <cargo.tomcat.ajp.port>9012</cargo.tomcat.ajp.port>
     </properties>
 
     <dependencies>
