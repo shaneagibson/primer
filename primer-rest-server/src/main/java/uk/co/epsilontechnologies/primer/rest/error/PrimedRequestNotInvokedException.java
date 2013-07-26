@@ -19,20 +19,24 @@ public class PrimedRequestNotInvokedException extends Exception {
         this((Map<Request,List<Response>>) null);
     }
 
-    private PrimedRequestNotInvokedException(String message) {
-        this((Map<Request,List<Response>>) null);
+    private PrimedRequestNotInvokedException(final String message) {
+        super(message);
+        this.primeRequestList = null;
     }
 
-    private PrimedRequestNotInvokedException(String message, Throwable cause) {
-        this((Map<Request,List<Response>>) null);
+    private PrimedRequestNotInvokedException(final String message, final Throwable cause) {
+        super(message, cause);
+        this.primeRequestList = null;
     }
 
-    private PrimedRequestNotInvokedException(Throwable cause) {
-        this((Map<Request,List<Response>>) null);
+    private PrimedRequestNotInvokedException(final Throwable cause) {
+        super(cause);
+        this.primeRequestList = null;
     }
 
-    private PrimedRequestNotInvokedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        this((Map<Request,List<Response>>) null);
+    private PrimedRequestNotInvokedException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+        this.primeRequestList = null;
     }
 
     public Map<Request,List<Response>> getPrimeRequestList() {

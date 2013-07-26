@@ -15,23 +15,38 @@ public class RequestNotPrimedException extends Exception {
     }
 
     private RequestNotPrimedException() {
-        this((HttpMethod) null, (String) null, (String) null);
+        super();
+        this.httpMethod = null;
+        this.requestPath = null;
+        this.requestBody = null;
     }
 
     private RequestNotPrimedException(final String message) {
-        this((HttpMethod) null, (String) null, (String) null);
+        super(message);
+        this.httpMethod = null;
+        this.requestPath = null;
+        this.requestBody = null;
     }
 
     private RequestNotPrimedException(final String message, final Throwable cause) {
-        this((HttpMethod) null, (String) null, (String) null);
+        super(message, cause);
+        this.httpMethod = null;
+        this.requestPath = null;
+        this.requestBody = null;
     }
 
     private RequestNotPrimedException(final Throwable cause) {
-        this((HttpMethod) null, (String) null, (String) null);
+        super(cause);
+        this.httpMethod = null;
+        this.requestPath = null;
+        this.requestBody = null;
     }
 
     private RequestNotPrimedException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
-        this((HttpMethod) null, (String) null, (String) null);
+        super(message, cause, enableSuppression, writableStackTrace);
+        this.httpMethod = null;
+        this.requestPath = null;
+        this.requestBody = null;
     }
 
     public HttpMethod getHttpMethod() {

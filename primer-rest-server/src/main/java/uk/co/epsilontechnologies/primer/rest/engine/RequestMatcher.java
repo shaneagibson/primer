@@ -38,7 +38,7 @@ public class RequestMatcher {
     }
 
     private boolean matchHttpMethod(final HttpMethod requestMethod, final HttpMethod primedMethod) {
-        return requestMethod == primedMethod;
+        return requestMethod.equals(primedMethod);
     }
 
 }

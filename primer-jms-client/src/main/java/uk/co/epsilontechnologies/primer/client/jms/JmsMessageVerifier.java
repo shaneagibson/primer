@@ -1,7 +1,5 @@
 package uk.co.epsilontechnologies.primer.client.jms;
 
-import uk.co.epsilontechnologies.primer.client.jms.error.MessageNotPrimedException;
-import uk.co.epsilontechnologies.primer.client.jms.error.PrimedMessageNotIssuedException;
 import uk.co.epsilontechnologies.primer.client.jms.matcher.MessageMatcher;
 import uk.co.epsilontechnologies.primer.client.jms.queue.MessageBrowser;
 import uk.co.epsilontechnologies.primer.client.jms.queue.QueuePurger;
