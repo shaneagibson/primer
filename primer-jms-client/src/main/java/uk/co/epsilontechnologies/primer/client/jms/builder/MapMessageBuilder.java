@@ -1,7 +1,6 @@
 package uk.co.epsilontechnologies.primer.client.jms.builder;
 
 import org.apache.activemq.command.ActiveMQMapMessage;
-import uk.co.epsilontechnologies.primer.client.jms.error.MessageVerificationException;
 import uk.co.epsilontechnologies.primer.client.jms.error.PrimerJmsException;
 
 import javax.jms.JMSException;

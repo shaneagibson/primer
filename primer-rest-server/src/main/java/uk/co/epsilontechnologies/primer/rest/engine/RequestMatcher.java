@@ -17,11 +17,12 @@ public class RequestMatcher {
             final String requestBody,
             final Map<String,String> headers,
             final Map<String,String> requestParameters) {
-        return matchHttpMethod(requestMethod, primeRequest.getMethod()) &&
-               matchString(requestPath, primeRequest.getPathRegEx()) &&
-               matchString(requestBody, primeRequest.getBodyRegEx()) &&
-               matchMap(headers, primeRequest.getHeaders()) &&
-               matchMap(requestParameters, primeRequest.getRequestParameters());
+        final boolean httpMethodMatches = matchHttpMethod(requestMethod, primeRequest.getMethod());
+        final boolean pathMatches = matchString(requestPath, primeRequest.getPathRegEx());
+        final boolean bodyMatches = matchString(requestBody, primeRequest.getBodyRegEx());
+        final boolean headersMatch = matchMap(headers, primeRequest.getHeaders());
+        final boolean requestParametersMatch = matchMap(requestParameters, primeRequest.getRequestParameters());
+        return httpMethodMatches && pathMatches && bodyMatches && headersMatch && requestParametersMatch;
     }
 
     private boolean matchMap(final Map<String, String> requestMap, final Map<String, String> primedMap) {
