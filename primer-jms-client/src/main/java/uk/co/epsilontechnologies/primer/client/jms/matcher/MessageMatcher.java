@@ -1,7 +1,6 @@
 package uk.co.epsilontechnologies.primer.client.jms.matcher;
 
 import uk.co.epsilontechnologies.primer.client.jms.error.MessageVerificationException;
-import uk.co.epsilontechnologies.primer.client.jms.error.PrimerJmsException;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -16,8 +15,8 @@ public class MessageMatcher {
     public void match(
             final List<Message> expectedMessages,
             final List<Message> actualMessages) {
-        final List<Message> messagesNotPrimed = findMismatchedMessages(expectedMessages, actualMessages);
-        final List<Message> primedMessagesNotIssued = findMismatchedMessages(actualMessages, expectedMessages);
+        final List<Message> messagesNotPrimed = findMismatchedMessages(expectedMessages, actualMessages, true);
+        final List<Message> primedMessagesNotIssued = findMismatchedMessages(actualMessages, expectedMessages, false);
         if (!messagesNotPrimed.isEmpty() || !primedMessagesNotIssued.isEmpty()) {
             throw new MessageVerificationException(messagesNotPrimed, primedMessagesNotIssued);
         }
@@ -25,12 +24,14 @@ public class MessageMatcher {
 
     private List<Message> findMismatchedMessages(
             final List<Message> sourceMessages,
-            final List<Message> candidateMessages) {
+            final List<Message> candidateMessages,
+            final boolean sourceIsExpectedMessage) {
         final List<Message> mismatchedMessages = new ArrayList();
         for (final Message candidateMessage : candidateMessages) {
             boolean found = false;
             for (final Message sourceMessage : sourceMessages) {
-                if (matches((MapMessage) sourceMessage, (MapMessage) candidateMessage)) {
+                if ((sourceIsExpectedMessage && matches((MapMessage) sourceMessage, (MapMessage) candidateMessage)) ||
+                    (!sourceIsExpectedMessage && matches((MapMessage) candidateMessage, (MapMessage) sourceMessage))) {
                     found = true;
                 }
             }
@@ -58,7 +59,7 @@ public class MessageMatcher {
             }
             return true;
         } catch (final JMSException e) {
-            throw new PrimerJmsException(e);
+            throw new RuntimeException(e);
         }
     }
 
