@@ -1,11 +1,11 @@
 package uk.co.epsilontechnologies.primer.client.jms.matcher;
 
-import uk.co.epsilontechnologies.primer.client.jms.error.MessageNotPrimedException;
-import uk.co.epsilontechnologies.primer.client.jms.error.PrimedMessageNotIssuedException;
+import uk.co.epsilontechnologies.primer.client.jms.error.MessageVerificationException;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -15,28 +15,29 @@ public class MessageMatcher {
     public void match(
             final List<Message> expectedMessages,
             final List<Message> actualMessages) {
-        for (final Message actualMessage : actualMessages) {
+        final List<Message> messagesNotPrimed = findMismatchedMessages(expectedMessages, actualMessages);
+        final List<Message> primedMessagesNotIssued = findMismatchedMessages(actualMessages, expectedMessages);
+        if (!messagesNotPrimed.isEmpty() || !primedMessagesNotIssued.isEmpty()) {
+            throw new MessageVerificationException(messagesNotPrimed, primedMessagesNotIssued);
+        }
+    }
+
+    private List<Message> findMismatchedMessages(
+            final List<Message> sourceMessages,
+            final List<Message> candidateMessages) {
+        final List<Message> mismatchedMessages = new ArrayList();
+        for (final Message candidateMessage : candidateMessages) {
             boolean found = false;
-            for (final Message expectedMessage : expectedMessages) {
-                if (matches((MapMessage) expectedMessage, (MapMessage) actualMessage)) {
+            for (final Message sourceMessage : sourceMessages) {
+                if (matches((MapMessage) sourceMessage, (MapMessage) candidateMessage)) {
                     found = true;
                 }
             }
             if (!found) {
-                throw new MessageNotPrimedException(actualMessage);
+                mismatchedMessages.add(candidateMessage);
             }
         }
-        for (final Message expectedMessage : expectedMessages) {
-            boolean found = false;
-            for (final Message actualMessage : actualMessages) {
-                if (matches((MapMessage) expectedMessage, (MapMessage) actualMessage)) {
-                    found = true;
-                }
-            }
-            if (!found) {
-                throw new PrimedMessageNotIssuedException(expectedMessage);
-            }
-        }
+        return mismatchedMessages;
     }
 
     private boolean matches(
