@@ -15,30 +15,6 @@ public class PrimedRequestNotInvokedException extends Exception {
         this.primeRequestList = primeRequestList;
     }
 
-    private PrimedRequestNotInvokedException() {
-        this((Map<Request,List<Response>>) null);
-    }
-
-    private PrimedRequestNotInvokedException(final String message) {
-        super(message);
-        this.primeRequestList = null;
-    }
-
-    private PrimedRequestNotInvokedException(final String message, final Throwable cause) {
-        super(message, cause);
-        this.primeRequestList = null;
-    }
-
-    private PrimedRequestNotInvokedException(final Throwable cause) {
-        super(cause);
-        this.primeRequestList = null;
-    }
-
-    private PrimedRequestNotInvokedException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.primeRequestList = null;
-    }
-
     public Map<Request,List<Response>> getPrimeRequestList() {
         return primeRequestList;
     }

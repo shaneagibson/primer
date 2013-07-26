@@ -3,6 +3,7 @@ package uk.co.epsilontechnologies.primer.rest.engine;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import uk.co.epsilontechnologies.primer.client.rest.error.PrimerRestException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class RequestParser {
             }
             return requestBody;
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new PrimerRestException(e);
         }
     }
 

@@ -2,6 +2,7 @@ package uk.co.epsilontechnologies.primer.client.jms.queue;
 
 import org.apache.activemq.broker.jmx.BrokerViewMBean;
 import org.apache.activemq.broker.jmx.QueueViewMBean;
+import uk.co.epsilontechnologies.primer.client.jms.error.PrimerJmsException;
 
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
@@ -56,12 +57,12 @@ public class QueuePurger {
                     }
                 }
             } catch (final Exception e) {
-                throw new RuntimeException(e);
+                throw new PrimerJmsException(e);
             }
         } catch (final MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw new PrimerJmsException(e);
         }
-        throw new RuntimeException("No QueueViewMBean found for queue: " + queueName);
+        throw new PrimerJmsException("No QueueViewMBean found for queue: " + queueName);
     }
 
 }

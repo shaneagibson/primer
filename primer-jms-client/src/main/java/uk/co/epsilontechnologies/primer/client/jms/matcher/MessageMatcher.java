@@ -1,6 +1,7 @@
 package uk.co.epsilontechnologies.primer.client.jms.matcher;
 
 import uk.co.epsilontechnologies.primer.client.jms.error.MessageVerificationException;
+import uk.co.epsilontechnologies.primer.client.jms.error.PrimerJmsException;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -57,7 +58,7 @@ public class MessageMatcher {
             }
             return true;
         } catch (final JMSException e) {
-            throw new RuntimeException(e);
+            throw new PrimerJmsException(e);
         }
     }
 

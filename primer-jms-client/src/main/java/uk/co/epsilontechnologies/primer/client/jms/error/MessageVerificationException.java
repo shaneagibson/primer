@@ -14,24 +14,6 @@ public class MessageVerificationException extends RuntimeException {
         this.primedMessagesNotIssued = null;
     }
 
-    private MessageVerificationException(final String message, final Throwable cause) {
-        super(message, cause);
-        this.messagesNotPrimed = null;
-        this.primedMessagesNotIssued = null;
-    }
-
-    private MessageVerificationException(final Throwable cause) {
-        super(cause);
-        this.messagesNotPrimed = null;
-        this.primedMessagesNotIssued = null;
-    }
-
-    private MessageVerificationException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.messagesNotPrimed = null;
-        this.primedMessagesNotIssued = null;
-    }
-
     public MessageVerificationException(
             final List<Message> messagesNotPrimed,
             final List<Message> primedMessagesNotIssued) {
