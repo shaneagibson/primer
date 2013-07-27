@@ -16,31 +16,49 @@ public class MessageMatcher {
     public void match(
             final List<Message> expectedMessages,
             final List<Message> actualMessages) {
-        final List<Message> messagesNotPrimed = findMismatchedMessages(expectedMessages, actualMessages, true);
-        final List<Message> primedMessagesNotIssued = findMismatchedMessages(actualMessages, expectedMessages, false);
-        if (!messagesNotPrimed.isEmpty() || !primedMessagesNotIssued.isEmpty()) {
-            throw new MessageVerificationException(messagesNotPrimed, primedMessagesNotIssued);
+
+        final List<Message> actualButNotExpectedMessages = actualButNotExpectedMessages(expectedMessages, actualMessages);
+        final List<Message> expectedButNotIssuedMessages = expectedButNotIssuedMessages(expectedMessages, actualMessages);
+
+        if (!actualButNotExpectedMessages.isEmpty() || !expectedButNotIssuedMessages.isEmpty()) {
+            throw new MessageVerificationException(actualButNotExpectedMessages, expectedButNotIssuedMessages);
         }
     }
 
-    private List<Message> findMismatchedMessages(
-            final List<Message> sourceMessages,
-            final List<Message> candidateMessages,
-            final boolean sourceIsExpectedMessage) {
-        final List<Message> mismatchedMessages = new ArrayList();
-        for (final Message candidateMessage : candidateMessages) {
+    private List<Message> actualButNotExpectedMessages(
+            final List<Message> expectedMessages,
+            final List<Message> actualMessages) {
+        final List<Message> result = new ArrayList();
+        for (final Message actualMessage : actualMessages) {
             boolean found = false;
-            for (final Message sourceMessage : sourceMessages) {
-                if ((sourceIsExpectedMessage && matches((MapMessage) sourceMessage, (MapMessage) candidateMessage)) ||
-                    (!sourceIsExpectedMessage && matches((MapMessage) candidateMessage, (MapMessage) sourceMessage))) {
+            for (final Message expectedMessage : expectedMessages) {
+                if (matches((MapMessage) expectedMessage, (MapMessage) actualMessage)) {
                     found = true;
                 }
             }
             if (!found) {
-                mismatchedMessages.add(candidateMessage);
+                result.add(actualMessage);
             }
         }
-        return mismatchedMessages;
+        return result;
+    }
+
+    private List<Message> expectedButNotIssuedMessages(
+            final List<Message> expectedMessages,
+            final List<Message> actualMessages) {
+        final List<Message> result = new ArrayList();
+        for (final Message expectedMessage : expectedMessages) {
+            boolean found = false;
+            for (final Message actualMessage : actualMessages) {
+                if (matches((MapMessage) expectedMessage, (MapMessage) actualMessage)) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                result.add(expectedMessage);
+            }
+        }
+        return result;
     }
 
     private boolean matches(
