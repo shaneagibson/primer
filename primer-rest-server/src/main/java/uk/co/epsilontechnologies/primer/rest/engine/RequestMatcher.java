@@ -22,19 +22,13 @@ public class RequestMatcher {
         final boolean bodyMatches = matchString(requestBody, primeRequest.getBodyRegEx());
         final boolean headersMatch = matchMap(headers, primeRequest.getHeaders());
         final boolean requestParametersMatch = matchMap(requestParameters, primeRequest.getRequestParameters());
-
-        System.out.println(httpMethodMatches);
-        System.out.println(pathMatches);
-        System.out.println(bodyMatches);
-        System.out.println(headersMatch);
-        System.out.println(requestParametersMatch);
-
         return httpMethodMatches && pathMatches && bodyMatches && headersMatch && requestParametersMatch;
     }
 
     private boolean matchMap(final Map<String, String> requestMap, final Map<String, String> primedMap) {
         for (final String primedKey : primedMap.keySet()) {
             if (!(requestMap.containsKey(primedKey) && matchString(primedMap.get(primedKey), requestMap.get(primedKey)))) {
+                System.out.println(primedKey + " : " + primedMap.get(primedKey) + " " + requestMap.get(primedKey));
                 return false;
             }
         }
