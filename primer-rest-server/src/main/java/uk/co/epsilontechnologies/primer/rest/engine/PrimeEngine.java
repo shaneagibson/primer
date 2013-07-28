@@ -75,6 +75,7 @@ public class PrimeEngine implements IPrimeEngine {
                 return new ResponseEntity(response.getBody(), responseHeaders, response.getStatus());
             }
         }
+        System.out.println(primes);
         throw new RequestNotPrimedException(requestMethod, requestPath, requestBody);
     }
 
