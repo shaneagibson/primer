@@ -22,14 +22,14 @@ import static uk.co.epsilontechnologies.primer.client.jms.matcher.RegExMatchers.
 import static uk.co.epsilontechnologies.primer.client.rest.builder.RequestBuilder.request;
 import static uk.co.epsilontechnologies.primer.client.rest.builder.ResponseBuilder.response;
 
-public class AccountResourceITest {
+public class AccountResourceIT {
 
     private final RestTemplate restTemplate;
     private final RestPrimer accountService;
     private final RestPrimer exchangeRateService;
     private final JmsMessageVerifier logMessageVerifier;
 
-    public AccountResourceITest() {
+    public AccountResourceIT() {
         this.restTemplate = new RestTemplate();
         this.accountService = new RestPrimer("localhost", 9010, "/account");
         this.exchangeRateService = new RestPrimer("localhost", 9010, "/exchangerate");
