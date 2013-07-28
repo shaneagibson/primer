@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,7 +33,8 @@ import static uk.co.epsilontechnologies.primer.client.rest.builder.ResponseBuild
 @WebAppConfiguration
 @ContextConfiguration(
         loader = AnnotationConfigContextLoader.class,
-        classes = { WebConfiguration.class, ApplicationConfiguration.class })
+        classes = { ApplicationConfiguration.class })
+@ComponentScan(basePackages = {"uk.co.epsilontechnologies.sample.web"})
 public class AccountResourceIT {
 
     private final RestPrimer accountService;
