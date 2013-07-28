@@ -73,14 +73,6 @@
                     <deployables>
                         <deployable>
                             <groupId>uk.co.epsilontechnologies</groupId>
-                            <artifactId>primer-sample-webapp</artifactId>
-                            <type>war</type>
-                            <properties>
-                                <context>sample</context>
-                            </properties>
-                        </deployable>
-                        <deployable>
-                            <groupId>uk.co.epsilontechnologies</groupId>
                             <artifactId>primer-rest-server</artifactId>
                             <type>war</type>
                             <properties>
