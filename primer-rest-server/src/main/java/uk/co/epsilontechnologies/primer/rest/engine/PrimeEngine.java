@@ -67,7 +67,13 @@ public class PrimeEngine implements IPrimeEngine {
         final Map<String,String> requestHeaders = requestParser.parseHeaders(request);
         final Map<String,String> requestParameters = requestParser.parseRequestParameters(request);
         for (final Request primedRequest : primes.keySet()) {
-            if (requestMatcher.matches(primedRequest, requestMethod, requestPath, requestBody, requestHeaders, requestParameters)) {
+            if (requestMatcher.matches(
+                    primedRequest,
+                    requestMethod,
+                    requestPath,
+                    requestBody,
+                    requestHeaders,
+                    requestParameters)) {
                 final List<Response> responses = primes.get(primedRequest);
                 final Response response = responses.size() == 1 ? primes.remove(primedRequest).get(0) : responses.remove(0);
                 final MultiValueMap<String,String> responseHeaders = new LinkedMultiValueMap();
@@ -75,7 +81,6 @@ public class PrimeEngine implements IPrimeEngine {
                 return new ResponseEntity(response.getBody(), responseHeaders, response.getStatus());
             }
         }
-        System.out.println(primes);
         throw new RequestNotPrimedException(requestMethod, requestPath, requestBody);
     }
 

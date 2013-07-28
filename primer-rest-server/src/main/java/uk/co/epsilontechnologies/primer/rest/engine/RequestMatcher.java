@@ -22,6 +22,13 @@ public class RequestMatcher {
         final boolean bodyMatches = matchString(requestBody, primeRequest.getBodyRegEx());
         final boolean headersMatch = matchMap(headers, primeRequest.getHeaders());
         final boolean requestParametersMatch = matchMap(requestParameters, primeRequest.getRequestParameters());
+
+        System.out.println(httpMethodMatches);
+        System.out.println(pathMatches);
+        System.out.println(bodyMatches);
+        System.out.println(headersMatch);
+        System.out.println(requestParametersMatch);
+
         return httpMethodMatches && pathMatches && bodyMatches && headersMatch && requestParametersMatch;
     }
 
