@@ -42,12 +42,16 @@ public class AccountService implements IAccountService {
 
             final BigDecimal balance = exchangeRate.multiply(account.getBalance());
 
-            balances.put(account.getAccountNumber(), balance);
+            balances.put(account.getAccountNumber(), asMoney(balance));
         }
 
-        logNotifier.log(String.format("total balance: %s for user: %s in currency: %s", sum(BigDecimal.ZERO, balances.values().iterator()).setScale(2), userId, currency));
+        logNotifier.log(String.format("total balance: %s for user: %s in currency: %s", asMoney(sum(BigDecimal.ZERO, balances.values().iterator())), userId, currency));
 
         return balances;
+    }
+
+    private static BigDecimal asMoney(final BigDecimal amount) {
+        return amount.setScale(2);
     }
 
     private static BigDecimal sum(final BigDecimal accumulated, final Iterator<BigDecimal> balances) {
