@@ -8,12 +8,6 @@ public class MessageVerificationException extends RuntimeException {
     private final List<Message> messagesNotPrimed;
     private final List<Message> primedMessagesNotIssued;
 
-    private MessageVerificationException(final String message) {
-        super(message);
-        this.messagesNotPrimed = null;
-        this.primedMessagesNotIssued = null;
-    }
-
     public MessageVerificationException(
             final List<Message> messagesNotPrimed,
             final List<Message> primedMessagesNotIssued) {
