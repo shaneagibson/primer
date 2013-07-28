@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import uk.co.epsilontechnologies.primer.client.jms.JmsMessageVerifier;
@@ -28,6 +29,7 @@ import static uk.co.epsilontechnologies.primer.client.rest.builder.RequestBuilde
 import static uk.co.epsilontechnologies.primer.client.rest.builder.ResponseBuilder.response;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 @ContextConfiguration(
         loader = AnnotationConfigContextLoader.class,
         classes = { ApplicationConfiguration.class, WebConfiguration.class })
