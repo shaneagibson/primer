@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
-import uk.co.epsilontechnologies.sample.service.CorrelationIdStore;
+import uk.co.epsilontechnologies.sample.threadlocal.CorrelationIdStore;
 import uk.co.epsilontechnologies.sample.web.interceptor.CorrelationIdInterceptor;
 
 @EnableWebMvc

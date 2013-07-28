@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import uk.co.epsilontechnologies.sample.service.CorrelationIdStore;
+import uk.co.epsilontechnologies.sample.threadlocal.CorrelationIdStore;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

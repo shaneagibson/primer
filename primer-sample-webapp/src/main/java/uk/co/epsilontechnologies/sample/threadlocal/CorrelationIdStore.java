@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.sample.service;
+package uk.co.epsilontechnologies.sample.threadlocal;
 
 import org.springframework.stereotype.Component;
 

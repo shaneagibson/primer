@@ -3,7 +3,7 @@ package uk.co.epsilontechnologies.sample.jms;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.co.epsilontechnologies.sample.service.CorrelationIdStore;
+import uk.co.epsilontechnologies.sample.threadlocal.CorrelationIdStore;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;

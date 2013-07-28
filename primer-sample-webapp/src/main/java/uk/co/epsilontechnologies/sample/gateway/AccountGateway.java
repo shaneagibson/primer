@@ -10,7 +10,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import uk.co.epsilontechnologies.sample.model.Account;
-import uk.co.epsilontechnologies.sample.service.CorrelationIdStore;
+import uk.co.epsilontechnologies.sample.threadlocal.CorrelationIdStore;
 
 import java.util.Arrays;
 import java.util.List;
