@@ -4,10 +4,8 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -15,6 +13,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import uk.co.epsilontechnologies.primer.client.jms.JmsMessageVerifier;
 import uk.co.epsilontechnologies.primer.client.rest.RestPrimer;
+import uk.co.epsilontechnologies.sample.configuration.ApplicationConfiguration;
+import uk.co.epsilontechnologies.sample.configuration.WebConfiguration;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -30,10 +30,7 @@ import static uk.co.epsilontechnologies.primer.client.rest.builder.ResponseBuild
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
         loader = AnnotationConfigContextLoader.class,
-        classes = {
-                "uk.co.epsilontechnologies.sample.configuration.ApplicationConfiguration",
-                "uk.co.epsilontechnologies.sample.configuration.WebConfiguration"
-        })
+        classes = { ApplicationConfiguration.class, WebConfiguration.class })
 public class AccountResourceIT {
 
     private final RestPrimer accountService;
