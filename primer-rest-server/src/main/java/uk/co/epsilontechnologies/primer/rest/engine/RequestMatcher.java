@@ -28,7 +28,6 @@ public class RequestMatcher {
     private boolean matchMap(final Map<String, String> requestMap, final Map<String, String> primedMap) {
         for (final String primedKey : primedMap.keySet()) {
             if (!(requestMap.containsKey(primedKey) && matchString(primedMap.get(primedKey), requestMap.get(primedKey)))) {
-                System.out.println(primedKey + " : " + primedMap.get(primedKey) + " " + requestMap.get(primedKey));
                 return false;
             }
         }

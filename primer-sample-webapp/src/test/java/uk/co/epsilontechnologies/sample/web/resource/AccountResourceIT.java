@@ -2,21 +2,16 @@ package uk.co.epsilontechnologies.sample.web.resource;
 
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import uk.co.epsilontechnologies.primer.client.jms.JmsMessageVerifier;
 import uk.co.epsilontechnologies.primer.client.rest.RestPrimer;
-import uk.co.epsilontechnologies.sample.configuration.ApplicationConfiguration;
-import uk.co.epsilontechnologies.sample.web.configuration.TestConfiguration;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -27,20 +22,15 @@ import static uk.co.epsilontechnologies.primer.client.jms.matcher.RegExMatchers.
 import static uk.co.epsilontechnologies.primer.client.rest.builder.RequestBuilder.request;
 import static uk.co.epsilontechnologies.primer.client.rest.builder.ResponseBuilder.response;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        loader = AnnotationConfigContextLoader.class,
-        classes = { ApplicationConfiguration.class, TestConfiguration.class })
 public class AccountResourceIT {
 
+    private final RestTemplate restTemplate;
     private final RestPrimer accountService;
     private final RestPrimer exchangeRateService;
     private final JmsMessageVerifier logMessageVerifier;
 
-    @Autowired
-    private AccountResource accountResource;
-
     public AccountResourceIT() {
+        this.restTemplate = new RestTemplate();
         this.accountService = new RestPrimer("localhost", 9010, "/account");
         this.exchangeRateService = new RestPrimer("localhost", 9010, "/exchangerate");
         this.logMessageVerifier = new JmsMessageVerifier("localhost", 61616, "log");
@@ -67,9 +57,9 @@ public class AccountResourceIT {
                 response()
                         .withStatus(HttpStatus.OK)
                         .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
-                                   "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                                   "{\"accountNumber\":\"1000003\",\"balance\":10000.00,\"currency\":\"AUD\"}," +
-                                   "{\"accountNumber\":\"1000004\",\"balance\":25000.00,\"currency\":\"EUR\"}]")
+                                "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
+                                "{\"accountNumber\":\"1000003\",\"balance\":10000.00,\"currency\":\"AUD\"}," +
+                                "{\"accountNumber\":\"1000004\",\"balance\":25000.00,\"currency\":\"EUR\"}]")
                         .withHeader("user-id", "123")
                         .build());
 
@@ -132,11 +122,19 @@ public class AccountResourceIT {
 
         // ACT
 
-        final Map<String,BigDecimal> result = accountResource.getBalancesForUser(123L, "USD");
+        final ResponseEntity<Map> responseEntity = restTemplate.exchange(
+                "http://localhost:9010/sample/account/user/{userid}/currency/{currency}",
+                HttpMethod.GET,
+                new HttpEntity(headers),
+                Map.class,
+                123L,
+                "USD");
 
 
         // ASSERT
 
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        final Map<String,Double> result = responseEntity.getBody();
         accountService.verify();
         exchangeRateService.verify();
         logMessageVerifier.verify(
@@ -152,13 +150,13 @@ public class AccountResourceIT {
                         .build());
         assertEquals(4, result.size());
         assertTrue(result.containsKey("1000001"));
-        assertEquals(15200.0, result.get("1000001").doubleValue(), 0);
+        assertEquals(15200.0, result.get("1000001"), 0);
         assertTrue(result.containsKey("1000002"));
-        assertEquals(21000.0, result.get("1000002").doubleValue(), 0);
+        assertEquals(21000.0, result.get("1000002"), 0);
         assertTrue(result.containsKey("1000003"));
-        assertEquals(10500.0, result.get("1000003").doubleValue(), 0);
+        assertEquals(10500.0, result.get("1000003"), 0);
         assertTrue(result.containsKey("1000004"));
-        assertEquals(32250.0, result.get("1000004").doubleValue(), 0);
+        assertEquals(32250.0, result.get("1000004"), 0);
     }
 
 }
