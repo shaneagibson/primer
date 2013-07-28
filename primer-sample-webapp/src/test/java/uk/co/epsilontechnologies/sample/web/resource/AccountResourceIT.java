@@ -32,7 +32,7 @@ import static uk.co.epsilontechnologies.primer.client.rest.builder.ResponseBuild
 @WebAppConfiguration
 @ContextConfiguration(
         loader = AnnotationConfigContextLoader.class,
-        classes = { ApplicationConfiguration.class, WebConfiguration.class })
+        classes = { WebConfiguration.class, ApplicationConfiguration.class })
 public class AccountResourceIT {
 
     private final RestPrimer accountService;
