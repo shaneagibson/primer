@@ -20,6 +20,9 @@ public class QueuePurger {
     private static final String DEFAULT_JMX_HOST = "localhost";
     private static final int DEFAULT_JMX_PORT = 1099;
 
+    private static final String BROKER_OBJECT_NAME = "org.apache.activemq:type=Broker,brokerName=localhost";
+    private static final String JMX_SERVICE_URL = String.format("service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", resolveJmxHost(), resolveJmxPort());
+
     static {
         System.setProperty("java.rmi.server.hostname", resolveJmxHost());
         System.setProperty("com.sun.management.jmxremote.port", String.valueOf(resolveJmxPort()));
@@ -27,8 +30,6 @@ public class QueuePurger {
         System.setProperty("com.sun.management.jmxremote.ssl", "false");
         System.setProperty("com.sun.management.jmxremote.authenticate", "false");
     }
-
-    private final String queueName;
 
     public static int resolveJmxPort() {
         return System.getProperty(JMX_PORT_PROPERTY) != null ? Integer.parseInt(System.getProperty(JMX_PORT_PROPERTY)) : DEFAULT_JMX_PORT;
@@ -38,16 +39,18 @@ public class QueuePurger {
         return System.getProperty(JMX_HOST_PROPERTY) != null ? System.getProperty(JMX_HOST_PROPERTY) : DEFAULT_JMX_HOST;
     }
 
+    private final String queueName;
+
     public QueuePurger(final String queueName) {
         this.queueName = queueName;
     }
 
     public void purge() {
         try {
-            final JMXServiceURL jmxServiceUrl = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
+            final JMXServiceURL jmxServiceUrl = new JMXServiceURL(JMX_SERVICE_URL);
             try (final JMXConnector jmxConnector = JMXConnectorFactory.connect(jmxServiceUrl)) {
                 final MBeanServerConnection mBeanServerConnection = jmxConnector.getMBeanServerConnection();
-                final ObjectName activeMQ = new ObjectName("org.apache.activemq:BrokerName=localhost,Type=Broker");
+                final ObjectName activeMQ = new ObjectName(BROKER_OBJECT_NAME);
                 final BrokerViewMBean brokerViewMBean = MBeanServerInvocationHandler.newProxyInstance(mBeanServerConnection, activeMQ, BrokerViewMBean.class, true);
                 for (final ObjectName queueObjectName : brokerViewMBean.getQueues()) {
                     final QueueViewMBean candidateQueueViewMBean = MBeanServerInvocationHandler.newProxyInstance(mBeanServerConnection, queueObjectName, QueueViewMBean.class, true);
