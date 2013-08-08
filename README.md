@@ -43,7 +43,7 @@ By pointing your application to the primer-server webapp instead of the remote s
 
 After invoking your service, you can then verify that all primed requests were invoked, as follows:
 
-    logPrimer.prime();
+    logPrimer.verify();
     accountPrimer.verify();
 
 
