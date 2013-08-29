@@ -5,7 +5,7 @@
 
     <groupId>uk.co.epsilontechnologies</groupId>
     <artifactId>primer-sample-webapp</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.8</version>
     <packaging>war</packaging>
     <name>Primer Sample Web App</name>
     <description>Sample Web App</description>
@@ -13,7 +13,7 @@
     <parent>
         <groupId>uk.co.epsilontechnologies</groupId>
         <artifactId>primer</artifactId>
-        <version>1.0.8-SNAPSHOT</version>
+        <version>1.0.8</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>uk.co.epsilontechnologies</groupId>
             <artifactId>primer-rest-client</artifactId>
-            <version>1.0.8-SNAPSHOT</version>
+            <version>1.0.8</version>
         </dependency>
 
         <dependency>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>uk.co.epsilontechnologies</groupId>
             <artifactId>primer-rest-server</artifactId>
-            <version>1.0.8-SNAPSHOT</version>
+            <version>1.0.8</version>
             <type>war</type>
         </dependency>
 
