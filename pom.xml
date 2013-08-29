@@ -5,7 +5,7 @@
 
     <groupId>uk.co.epsilontechnologies</groupId>
     <artifactId>primer</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Primer</name>
     <description>ATDD utility for SOA projects, which allows the priming of RESTful resources though a simple java API.</description>
