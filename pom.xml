@@ -7,9 +7,11 @@
 
     <groupId>uk.co.epsilontechnologies</groupId>
     <artifactId>primer</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>Primer</name>
+    <description>ATDD utility for SOA projects, which allows the priming of RESTful resources though a simple java API.</description>
+    <url>http://github.com/shaneagibson/primer</url>
 
     <licenses>
         <license>
@@ -18,6 +20,21 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:shaneagibson/primer.git</connection>
+        <developerConnection>scm:git:git@github.com:shaneagibson/primer.git</developerConnection>
+        <url>git@github.com:shaneagibson/primer.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Shane Gibson</name>
+            <email>sgibson@epsilontechnologies.co.uk</email>
+            <organization>Epsilon Technologies</organization>
+            <organizationUrl>http://www.epsilontechnologies.co.uk</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <spring.version>3.2.2.RELEASE</spring.version>

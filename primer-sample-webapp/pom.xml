@@ -6,8 +6,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.co.epsilontechnologies</groupId>
-    <artifactId>primer-sample-webapp</artifactId>
-    <version>1.0</version>
+    <artifactId>primer-sample</artifactId>
+    <version>1.0.0</version>
     <packaging>war</packaging>
     <name>Primer Sample Web App</name>
     <description>Sample Web App</description>

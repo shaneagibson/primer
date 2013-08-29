@@ -7,7 +7,7 @@
 
     <groupId>uk.co.epsilontechnologies</groupId>
     <artifactId>primer-rest-client</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Primer REST Client</name>
     <description>Client wrapper for Priming REST endpoints.</description>
