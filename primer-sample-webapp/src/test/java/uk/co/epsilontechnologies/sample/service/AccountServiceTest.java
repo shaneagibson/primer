@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import uk.co.epsilontechnologies.sample.gateway.IAccountGateway;
 import uk.co.epsilontechnologies.sample.gateway.IExchangeRateGateway;
-import uk.co.epsilontechnologies.sample.jms.ILogNotifier;
 import uk.co.epsilontechnologies.sample.model.Account;
 
 import java.math.BigDecimal;
@@ -31,13 +30,10 @@ public class AccountServiceTest {
     @Mock
     private IExchangeRateGateway mockExchangeRateGateway;
 
-    @Mock
-    private ILogNotifier mockLogNotifier;
-
     @Before
     public void setUp() {
         initMocks(this);
-        this.underTest = new AccountService(mockAccountGateway, mockExchangeRateGateway, mockLogNotifier);
+        this.underTest = new AccountService(mockAccountGateway, mockExchangeRateGateway);
     }
 
     @Test
@@ -59,8 +55,6 @@ public class AccountServiceTest {
         final Map<String,BigDecimal> result = this.underTest.getBalancesForUser(userId, currency);
 
         // then
-        verify(mockLogNotifier).log("getting balances for user: 123 in currency: USD");
-        verify(mockLogNotifier).log("total balance: 433.00 for user: 123 in currency: USD");
         assertNotNull(result);
         assertTrue(result.containsKey("0001"));
         assertTrue(result.containsKey("0002"));

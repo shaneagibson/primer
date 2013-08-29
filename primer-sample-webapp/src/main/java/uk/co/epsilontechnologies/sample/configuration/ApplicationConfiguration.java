@@ -10,9 +10,7 @@ import org.springframework.web.client.RestTemplate;
         "uk.co.epsilontechnologies.sample.model",
         "uk.co.epsilontechnologies.sample.service",
         "uk.co.epsilontechnologies.sample.threadlocal",
-        "uk.co.epsilontechnologies.sample.jms",
         "uk.co.epsilontechnologies.sample.gateway" })
-@Import(value = { JmsConfiguration.class })
 public class ApplicationConfiguration {
 
     @Bean
