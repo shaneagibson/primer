@@ -7,7 +7,7 @@
 
     <groupId>uk.co.epsilontechnologies</groupId>
     <artifactId>primer</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Primer</name>
     <description>ATDD utility for SOA projects, which allows the priming of RESTful resources though a simple java API.</description>
@@ -47,6 +47,14 @@
         <module>primer-rest-server</module>
     </modules>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-shaneagibson-maven-primer</id>
+            <name>shaneagibson-maven-primer</name>
+            <url>https://api.bintray.com/maven/shaneagibson/maven/primer</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
 
         <dependency>
@@ -72,7 +80,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework</groupId>
