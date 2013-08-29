@@ -15,7 +15,7 @@
     <parent>
         <groupId>uk.co.epsilontechnologies</groupId>
         <artifactId>primer</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
