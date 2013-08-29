@@ -19,10 +19,6 @@
         </license>
     </licenses>
 
-    <scm>
-        <url>http://svn.apache.org/viewcvs.cgi/maven</url>
-    </scm>
-
     <properties>
         <spring.version>3.2.2.RELEASE</spring.version>
         <tomcat.version>7.0.27</tomcat.version>
