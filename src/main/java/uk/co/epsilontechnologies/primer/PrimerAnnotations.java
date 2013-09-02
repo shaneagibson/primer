@@ -8,7 +8,7 @@ public class PrimerAnnotations {
         final Class<?> clazz = testClass.getClass();
         for (final Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Primer.class)) {
-                final Primer primerAnnotation = field.getDeclaredAnnotation(Primer.class);
+                final Primer primerAnnotation = field.getAnnotation(Primer.class);
                 try {
                     field.setAccessible(true);
                     field.set(
