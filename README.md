@@ -2,43 +2,87 @@
 primer
 ======
 
-A test utility for SOA projects, which allows the priming of RESTful resources though a simple java API.
+Inspired by mockito, primer is a test utility for SOA projects, which allows the priming of RESTful resources though a simple java API.
 
-By pointing your application to the primer-server webapp instead of the remote service you intend to mock, you can 'prime' individual requests, as follows:
+Primer allows you to create prime instances one of two ways, both of which will be familiar to users of mockito:
 
-    final RestPrimer accountPrimer = new RestPrimer("localhost", 8080, "/account");
-    final RestPrimer exchangeRatePrimer = new RestPrimer("localhost", 8080, "/exchangerate");
+    @Primer(contextPath = "/account", port = 9011)
+    private Primable accountService;
 
-    accountPrimer.prime(
-            request("Get Accounts for User ID")
-                    .withMethod(HttpMethod.GET)
-                    .withPath("/user/123")
-                    .withHeader("correlation-id", "001")
-                    .build(),
-            response()
-                    .withStatus(HttpStatus.OK)
-                    .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
-                            "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                            "{\"accountNumber\":\"1000003\",\"balance\":20000.00,\"currency\":\"AUD\"}," +
-                            "{\"accountNumber\":\"1000004\",\"balance\":2500.00,\"currency\":\"EUR\"}]")
-                    .withHeader("user-id", "123")
-                    .build());
+    @Primer(contextPath = "/exchangerate", port = 9010)
+    private Primable exchangeRateService;
 
-    exchangeRatePrimer.prime(
-            request("Get Exchange Rate for GBP/USD")
-                    .withMethod(HttpMethod.GET)
-                    .withPath("/")
-                    .withHeader("correlation-id", "001")
-                    .withRequestParameter("from", "GBP")
-                    .withRequestParameter("to", "USD")
-                    .build(),
-            response()
-                    .withStatus(HttpStatus.OK)
-                    .withBody("1.52")
-                    .build());
+    @Before
+    public void setUp() {
+        initPrimers(this);
+    }
+
+Or
+
+    private final Primable accountService = new Primable("/account", 9011);
+    private final Primable exchangeRateService = new Primable("/exchangerate", 9010);
 
 
-After invoking your service, you can then verify that all primed requests were invoked, as follows:
+Using a primable instance in a test is as follows:
 
-    logPrimer.verify();
-    accountPrimer.verify();
+    @Before
+    public void setUp() {
+        this.accountService.start();
+        this.exchangeRateService.start();
+    }
+
+    @After
+    public void tearDown() {
+        this.accountService.stop();
+        this.exchangeRateService.stop();
+    }
+
+    @Test
+    public void test() {
+
+        // ARRANGE
+
+        when(
+            accountService.get(
+                "/user/123",
+                headers(pair("correlation-id", "001"))))
+        .thenReturn(
+            response(
+                200,
+                "application/json",
+                "[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
+                 "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}]",
+                headers(pair("user-id", "123"))));
+
+        when(
+            exchangeRateService.get(
+                "/exchange",
+                parameters(pair("from", "GBP"), pair("to", "USD")),
+                headers(pair("correlation-id", "001"))))
+        .thenReturn(
+            response(
+                200,
+                "application/json",
+                "1.52"));
+        when(
+            exchangeRateService.get(
+                "/exchange",
+                parameters(pair("from", "AUD"), pair("to", "USD")),
+                headers(pair("correlation-id", "001"))))
+        .thenReturn(
+            response(
+                200,
+                "application/json",
+                "1.29"));
+
+        // ACT
+
+        ...
+
+        // ASSERT
+
+        verify(accountService);
+        verify(exchangeRateService);
+
+
+    }

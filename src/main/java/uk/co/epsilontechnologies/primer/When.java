@@ -2,19 +2,19 @@ package uk.co.epsilontechnologies.primer;
 
 public class When {
 
-    private final Primer primer;
+    private final Primable primer;
     private final Request request;
 
-    public When(final Primer primer, final Request request) {
+    public When(final Primable primer, final Request request) {
         this.primer = primer;
         this.request = request;
     }
 
     public void thenReturn(final Response... responses) {
-        this.primer.prime(new Prime(request, responses));
+        this.primer.prime(new PrimedInvocation(request, responses));
     }
 
-    Primer getPrimer() {
+    Primable getPrimer() {
         return primer;
     }
 

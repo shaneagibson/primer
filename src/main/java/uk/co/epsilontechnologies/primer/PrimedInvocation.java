@@ -6,12 +6,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-class Prime {
+class PrimedInvocation {
 
     private final Request request;
     private final List<Response> responses = new LinkedList<>();
 
-    public Prime(final Request request, final Response... responses) {
+    public PrimedInvocation(final Request request, final Response... responses) {
         this.request = request;
         this.responses.addAll(Arrays.asList(responses));
     }

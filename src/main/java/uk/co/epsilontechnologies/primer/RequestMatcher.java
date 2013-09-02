@@ -22,26 +22,26 @@ class RequestMatcher {
         this.mapMatcher = mapMatcher;
     }
 
-    boolean matchRequestMethod(final String requestMethod, final Prime prime) {
-        return stringMatcher.match(requestMethod, prime.getRequest().getMethod());
+    boolean matchRequestMethod(final String requestMethod, final PrimedInvocation primedInvocation) {
+        return stringMatcher.match(requestMethod, primedInvocation.getRequest().getMethod());
     }
 
-    boolean matchRequestUri(final String requestUri, final Prime prime) {
+    boolean matchRequestUri(final String requestUri, final PrimedInvocation primedInvocation) {
         return stringMatcher.match(
                 requestUri.replaceFirst(contextPath, ""),
-                prime.getRequest().getURI());
+                primedInvocation.getRequest().getURI());
     }
 
-    boolean matchRequestBody(final String requestBody, final Prime prime) {
-        return stringMatcher.match(requestBody, prime.getRequest().getBody());
+    boolean matchRequestBody(final String requestBody, final PrimedInvocation primedInvocation) {
+        return stringMatcher.match(requestBody, primedInvocation.getRequest().getBody());
     }
 
-    boolean matchHeaders(final Map<String,String> requestHeaders, final Prime prime) {
-        return mapMatcher.match(requestHeaders, prime.getRequest().getHeaders().get());
+    boolean matchHeaders(final Map<String,String> requestHeaders, final PrimedInvocation primedInvocation) {
+        return mapMatcher.match(requestHeaders, primedInvocation.getRequest().getHeaders().get());
     }
 
-    boolean matchRequestParameters(final Map<String,String> requestParameters, final Prime prime) {
-        return mapMatcher.match(requestParameters, prime.getRequest().getParameters().get());
+    boolean matchRequestParameters(final Map<String,String> requestParameters, final PrimedInvocation primedInvocation) {
+        return mapMatcher.match(requestParameters, primedInvocation.getRequest().getParameters().get());
     }
 
     static class MapMatcher {
