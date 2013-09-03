@@ -46,7 +46,7 @@ public class PrimerStatics {
         return new Response(status);
     }
 
-    public static void verify(final Primable primer) {
+    public static void verify(final Primer primer) {
         primer.verify();
     }
 

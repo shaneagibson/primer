@@ -2,15 +2,15 @@
 primer
 ======
 
-Inspired by mockito, primer is a test utility for SOA projects, which allows the priming of RESTful resources though a simple java API.
+Primer is a test utility for SOA projects, which allows the priming of RESTful resources though a simple java API.
 
 Primer allows you to create prime instances one of two ways, both of which will be familiar to users of mockito:
 
-    @Primer(contextPath = "/account", port = 9011)
-    private Primable accountService;
+    @Primable(contextPath = "/account", port = 9011)
+    private Primer accountService;
 
-    @Primer(contextPath = "/exchangerate", port = 9010)
-    private Primable exchangeRateService;
+    @Primable(contextPath = "/exchangerate", port = 9010)
+    private Primer exchangeRateService;
 
     @Before
     public void setUp() {
@@ -19,8 +19,8 @@ Primer allows you to create prime instances one of two ways, both of which will 
 
 Or
 
-    private final Primable accountService = new Primable("/account", 9011);
-    private final Primable exchangeRateService = new Primable("/exchangerate", 9010);
+    private final Primer accountService = new Primer("/account", 9011);
+    private final Primer exchangeRateService = new Primer("/exchangerate", 9010);
 
 
 Using a primable instance in a test is as follows:
