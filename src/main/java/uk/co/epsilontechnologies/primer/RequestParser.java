@@ -31,7 +31,7 @@ class RequestParser {
     }
 
     Map<String, String> parseHeaders(final HttpServletRequest request) {
-        final Map<String,String> headers = new HashMap<>();
+        final Map<String,String> headers = new HashMap();
         final Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             final String headerName = headerNames.nextElement();
@@ -41,7 +41,7 @@ class RequestParser {
     }
 
     Map<String, String> parseRequestParameters(final HttpServletRequest request) {
-        final Map<String,String> requestParameters = new HashMap<>();
+        final Map<String,String> requestParameters = new HashMap();
         final Enumeration<String> parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()) {
             final String parameterName = parameterNames.nextElement();

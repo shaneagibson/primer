@@ -9,7 +9,7 @@ import java.util.List;
 class PrimedInvocation {
 
     private final Request request;
-    private final List<Response> responses = new LinkedList<>();
+    private final List<Response> responses = new LinkedList();
 
     public PrimedInvocation(final Request request, final Response... responses) {
         this.request = request;

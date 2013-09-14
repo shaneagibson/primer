@@ -15,7 +15,7 @@ public class Primer {
 
     private static final Response INVALID_REQUEST = new Response(404, "application/json", "Request Not Primed");
 
-    private final List<PrimedInvocation> primedInvocations = new ArrayList<>();
+    private final List<PrimedInvocation> primedInvocations = new ArrayList();
 
     private final Server server;
 

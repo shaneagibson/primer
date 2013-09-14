@@ -153,10 +153,10 @@ public class RequestMatcherTest {
         public void shouldMatchMapContainingAllKeys() {
 
             // arrange
-            final Map<String,String> requestMap = new HashMap<>();
+            final Map<String,String> requestMap = new HashMap();
             requestMap.put("key1", "value1");
             requestMap.put("key2", "value2");
-            final Map<String,String> primedMap = new HashMap<>();
+            final Map<String,String> primedMap = new HashMap();
             primedMap.put("key1", "value1");
             primedMap.put("key2", "value2");
             when(mockStringMatcher.match(anyString(), anyString())).thenReturn(true);
@@ -172,10 +172,10 @@ public class RequestMatcherTest {
         public void shouldMatchMapContainingSubsetOfKeys() {
 
             // arrange
-            final Map<String,String> requestMap = new HashMap<>();
+            final Map<String,String> requestMap = new HashMap();
             requestMap.put("key1", "value1");
             requestMap.put("key2", "value2");
-            final Map<String,String> primedMap = new HashMap<>();
+            final Map<String,String> primedMap = new HashMap();
             primedMap.put("key1", "value1");
             when(mockStringMatcher.match(anyString(), anyString())).thenReturn(true);
 
@@ -190,9 +190,9 @@ public class RequestMatcherTest {
         public void shouldNotMatchMapContainingAdditionalKeys() {
 
             // arrange
-            final Map<String,String> requestMap = new HashMap<>();
+            final Map<String,String> requestMap = new HashMap();
             requestMap.put("key1", "value1");
-            final Map<String,String> primedMap = new HashMap<>();
+            final Map<String,String> primedMap = new HashMap();
             primedMap.put("key1", "value1");
             primedMap.put("key2", "value2");
             when(mockStringMatcher.match(anyString(), anyString())).thenReturn(true);

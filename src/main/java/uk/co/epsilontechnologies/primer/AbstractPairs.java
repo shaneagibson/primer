@@ -7,7 +7,7 @@ import java.util.Map;
 
 abstract class AbstractPairs {
 
-    private final Map<String,String> headers = new HashMap<>();
+    private final Map<String,String> headers = new HashMap();
 
     public AbstractPairs(final Pair... pairs) {
         for (final Pair pair : pairs) {
