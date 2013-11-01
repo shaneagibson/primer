@@ -2,7 +2,11 @@ package uk.co.epsilontechnologies.primer;
 
 import java.lang.reflect.Field;
 
-public class PrimerAnnotations {
+public final class PrimerAnnotations {
+
+    private PrimerAnnotations() {
+        super();
+    }
 
     public static void initPrimers(final Object testClass) {
         final Class<?> clazz = testClass.getClass();

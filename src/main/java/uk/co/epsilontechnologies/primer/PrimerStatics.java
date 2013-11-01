@@ -1,6 +1,10 @@
 package uk.co.epsilontechnologies.primer;
 
-public class PrimerStatics {
+public final class PrimerStatics {
+
+    private PrimerStatics() {
+        super();
+    }
 
     public static When when(final Action action) {
         return new When(action.getPrimer(), action.getRequest());
