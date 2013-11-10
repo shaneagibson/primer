@@ -10,8 +10,9 @@ public class When {
         this.request = request;
     }
 
-    public void thenReturn(final Response... responses) {
+    public When thenReturn(final Response... responses) {
         this.primer.prime(new PrimedInvocation(request, responses));
+        return this;
     }
 
     Primer getPrimer() {

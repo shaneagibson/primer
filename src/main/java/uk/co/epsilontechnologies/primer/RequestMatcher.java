@@ -22,26 +22,35 @@ class RequestMatcher {
         this.mapMatcher = mapMatcher;
     }
 
-    boolean matchRequestMethod(final String requestMethod, final PrimedInvocation primedInvocation) {
-        return stringMatcher.match(requestMethod, primedInvocation.getRequest().getMethod());
+    public boolean matches(
+            final Request requestToMatch,
+            final HttpServletRequestWrapper requestWrapper) {
+        return
+                bodyMatches(requestToMatch, requestWrapper) &&
+                        uriMatches(requestToMatch, requestWrapper) &&
+                        methodMatches(requestToMatch, requestWrapper) &&
+                        parametersMatch(requestToMatch, requestWrapper) &&
+                        headersMatch(requestToMatch, requestWrapper);
     }
 
-    boolean matchRequestUri(final String requestUri, final PrimedInvocation primedInvocation) {
-        return stringMatcher.match(
-                requestUri.replaceFirst(contextPath, ""),
-                primedInvocation.getRequest().getURI());
+    private boolean headersMatch(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
+        return mapMatcher.match(requestWrapper.getHeadersAsMap(), requestToMatch.getHeaders().get());
     }
 
-    boolean matchRequestBody(final String requestBody, final PrimedInvocation primedInvocation) {
-        return stringMatcher.match(requestBody, primedInvocation.getRequest().getBody());
+    private boolean parametersMatch(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
+        return mapMatcher.match(requestWrapper.getParametersAsMap(), requestToMatch.getParameters().get());
     }
 
-    boolean matchHeaders(final Map<String,String> requestHeaders, final PrimedInvocation primedInvocation) {
-        return mapMatcher.match(requestHeaders, primedInvocation.getRequest().getHeaders().get());
+    private boolean methodMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
+        return stringMatcher.match(requestWrapper.getMethod(), requestToMatch.getMethod());
     }
 
-    boolean matchRequestParameters(final Map<String,String> requestParameters, final PrimedInvocation primedInvocation) {
-        return mapMatcher.match(requestParameters, primedInvocation.getRequest().getParameters().get());
+    private boolean uriMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
+        return stringMatcher.match(requestWrapper.getRequestURI(), requestToMatch.getURI());
+    }
+
+    private boolean bodyMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
+        return stringMatcher.match(requestWrapper.getBody(), requestToMatch.getBody());
     }
 
     static class MapMatcher {

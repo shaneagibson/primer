@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Primer {
 
@@ -165,27 +164,15 @@ public class Primer {
 
     class PrimedHandler extends AbstractHandler {
 
-        private final String contextPath;
-        private final RequestParser requestParser;
         private final ResponseHandler responseHandler;
         private final RequestMatcher requestMatcher;
 
         public PrimedHandler(final String contextPath) {
-            this(
-                    contextPath,
-                    new ResponseHandler(),
-                    new RequestParser(),
-                    new RequestMatcher(contextPath));
+            this(new ResponseHandler(), new RequestMatcher(contextPath));
         }
 
-        public PrimedHandler(
-                final String contextPath,
-                final ResponseHandler responseHandler,
-                final RequestParser requestParser,
-                final RequestMatcher requestMatcher) {
-            this.contextPath = contextPath;
+        public PrimedHandler(final ResponseHandler responseHandler, final RequestMatcher requestMatcher) {
             this.responseHandler = responseHandler;
-            this.requestParser = requestParser;
             this.requestMatcher = requestMatcher;
         }
 
@@ -196,41 +183,39 @@ public class Primer {
                 final HttpServletRequest httpServletRequest,
                 final HttpServletResponse httpServletResponse) throws IOException, ServletException {
 
-            final String requestMethod = requestParser.parseRequestMethod(httpServletRequest);
-            final String requestUri = requestParser.parseRequestUri(httpServletRequest);
-            final String requestBody = requestParser.parseRequestBody(httpServletRequest);
-            final Map<String,String> requestHeaders = requestParser.parseHeaders(httpServletRequest);
-            final Map<String,String> requestParameters = requestParser.parseRequestParameters(httpServletRequest);
+            final HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest);
 
-            boolean handled = false;
+            final List<PrimedInvocation> primedInvocationsToCheck = new ArrayList<PrimedInvocation>(primedInvocations);
 
-            if (requestUri.startsWith(contextPath)) {
-
-                for (final PrimedInvocation primedInvocation : primedInvocations) {
-
-                    if (requestMatcher.matchRequestMethod(requestMethod, primedInvocation) &&
-                        requestMatcher.matchRequestUri(requestUri, primedInvocation) &&
-                        requestMatcher.matchRequestBody(requestBody, primedInvocation) &&
-                        requestMatcher.matchHeaders(requestHeaders, primedInvocation) &&
-                        requestMatcher.matchRequestParameters(requestParameters, primedInvocation)) {
-
-                        final Response response = primedInvocation.getResponses().remove(0);
-                        if (primedInvocation.getResponses().isEmpty()) {
-                            primedInvocations.remove(primedInvocation);
-                        }
-                        responseHandler.respond(response, httpServletResponse);
-                        handled = true;
-                        break;
-                    }
-
-                }
-
-            }
+            boolean handled = checkPrimedInvocations(primedInvocationsToCheck, requestWrapper, httpServletResponse);
 
             if (!handled) {
                 responseHandler.respond(INVALID_REQUEST, httpServletResponse);
             }
 
+        }
+
+        private boolean checkPrimedInvocations(
+                final List<PrimedInvocation> primedInvocationsToCheck,
+                final HttpServletRequestWrapper requestWrapper,
+                final HttpServletResponse httpServletResponse) {
+
+            final PrimedInvocation primedInvocationToCheck = primedInvocationsToCheck.remove(0);
+
+            if (requestMatcher.matches(primedInvocationToCheck.getRequest(), requestWrapper)) {
+
+                final Response response = primedInvocationToCheck.getResponses().remove(0);
+
+                if (primedInvocationToCheck.getResponses().isEmpty()) {
+                    primedInvocations.remove(primedInvocationToCheck);
+                }
+
+                responseHandler.respond(response, httpServletResponse);
+
+                return true;
+            }
+
+            return checkPrimedInvocations(primedInvocationsToCheck, requestWrapper, httpServletResponse);
         }
 
     }
