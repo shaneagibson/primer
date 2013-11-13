@@ -46,7 +46,7 @@ class RequestMatcher {
     }
 
     private boolean uriMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
-        return stringMatcher.match(requestWrapper.getRequestURI(), requestToMatch.getURI());
+        return stringMatcher.match(requestWrapper.getRequestURI(), contextPath + requestToMatch.getURI());
     }
 
     private boolean bodyMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {

@@ -200,22 +200,28 @@ public class Primer {
                 final HttpServletRequestWrapper requestWrapper,
                 final HttpServletResponse httpServletResponse) {
 
-            final PrimedInvocation primedInvocationToCheck = primedInvocationsToCheck.remove(0);
+            if (!primedInvocationsToCheck.isEmpty()) {
 
-            if (requestMatcher.matches(primedInvocationToCheck.getRequest(), requestWrapper)) {
+                final PrimedInvocation primedInvocationToCheck = primedInvocationsToCheck.remove(0);
 
-                final Response response = primedInvocationToCheck.getResponses().remove(0);
+                if (requestMatcher.matches(primedInvocationToCheck.getRequest(), requestWrapper)) {
 
-                if (primedInvocationToCheck.getResponses().isEmpty()) {
-                    primedInvocations.remove(primedInvocationToCheck);
+                    final Response response = primedInvocationToCheck.getResponses().remove(0);
+
+                    if (primedInvocationToCheck.getResponses().isEmpty()) {
+                        primedInvocations.remove(primedInvocationToCheck);
+                    }
+
+                    responseHandler.respond(response, httpServletResponse);
+
+                    return true;
                 }
 
-                responseHandler.respond(response, httpServletResponse);
+                return checkPrimedInvocations(primedInvocationsToCheck, requestWrapper, httpServletResponse);
 
-                return true;
             }
 
-            return checkPrimedInvocations(primedInvocationsToCheck, requestWrapper, httpServletResponse);
+            return false;
         }
 
     }
