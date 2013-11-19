@@ -22,7 +22,7 @@ import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
 
 public class PrimerTest {
 
-    private final Primer primer = new Primer("/test", 9000);
+    private final Primer primer = new Primer("/test", 8500);
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -43,7 +43,7 @@ public class PrimerTest {
         when(primer.post("/post", "{ \"key\" : \"value\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
-        final String result = restTemplate.execute("http://localhost:9000/test/post?key=value", HttpMethod.POST, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
+        final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
@@ -57,7 +57,7 @@ public class PrimerTest {
         when(primer.put("/put", "{ \"key\" : \"value\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
-        final String result = restTemplate.execute("http://localhost:9000/test/put?key=value", HttpMethod.PUT, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
+        final String result = restTemplate.execute("http://localhost:8500/test/put?key=value", HttpMethod.PUT, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
@@ -71,7 +71,7 @@ public class PrimerTest {
         when(primer.get("/get", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
-        final String result = restTemplate.execute("http://localhost:9000/test/get?key=value", HttpMethod.GET, new TestRequestCallback(), new TestResponseExtractor());
+        final String result = restTemplate.execute("http://localhost:8500/test/get?key=value", HttpMethod.GET, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
@@ -85,7 +85,7 @@ public class PrimerTest {
         when(primer.delete("/delete", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
-        final String result = restTemplate.execute("http://localhost:9000/test/delete?key=value", HttpMethod.DELETE, new TestRequestCallback(), new TestResponseExtractor());
+        final String result = restTemplate.execute("http://localhost:8500/test/delete?key=value", HttpMethod.DELETE, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
@@ -100,7 +100,7 @@ public class PrimerTest {
         when(primer.options("/options", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
-        final String result = restTemplate.execute("http://localhost:9000/test/options?key=value", HttpMethod.OPTIONS, new TestRequestCallback(), new TestResponseExtractor());
+        final String result = restTemplate.execute("http://localhost:8500/test/options?key=value", HttpMethod.OPTIONS, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
@@ -114,7 +114,7 @@ public class PrimerTest {
         when(primer.head("/head", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
-        final String result = restTemplate.execute("http://localhost:9000/test/head?key=value", HttpMethod.HEAD, new TestRequestCallback(), new TestResponseExtractor());
+        final String result = restTemplate.execute("http://localhost:8500/test/head?key=value", HttpMethod.HEAD, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("", result);
@@ -128,7 +128,7 @@ public class PrimerTest {
         when(primer.trace("/trace", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
-        final String result = restTemplate.execute("http://localhost:9000/test/trace?key=value", HttpMethod.TRACE, new TestRequestCallback(), new TestResponseExtractor());
+        final String result = restTemplate.execute("http://localhost:8500/test/trace?key=value", HttpMethod.TRACE, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
@@ -144,7 +144,7 @@ public class PrimerTest {
         try {
 
             // act
-            restTemplate.execute("http://localhost:9000/test/get", HttpMethod.GET, new TestRequestCallback(), new TestResponseExtractor());
+            restTemplate.execute("http://localhost:8500/test/get", HttpMethod.GET, new TestRequestCallback(), new TestResponseExtractor());
 
             fail("Expected HttpClientErrorException was not thrown");
 
@@ -156,6 +156,21 @@ public class PrimerTest {
         }
 
     }
+
+    @Test
+    public void shouldHandlePrimedPostRequestWithRegEx() {
+
+        // arrange
+        when(primer.post("/post", "\\{ \"key\" : \"([a-z]{5})\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+
+        // act
+        final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
+
+        // assert
+        assertEquals("application/json", "{ \"key\" : \"value\" }", result);
+        verify(primer);
+    }
+
 
     static class TestRequestCallback implements RequestCallback {
 
@@ -187,4 +202,5 @@ public class PrimerTest {
         }
 
     }
+
 }
