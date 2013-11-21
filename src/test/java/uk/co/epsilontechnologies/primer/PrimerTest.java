@@ -1,9 +1,7 @@
 package uk.co.epsilontechnologies.primer;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequest;
@@ -22,18 +20,23 @@ import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
 
 public class PrimerTest {
 
-    private final Primer primer = new Primer("/test", 8500);
+    private static final Primer primer = new Primer("/test", 8500);
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private static final RestTemplate restTemplate = new RestTemplate();
 
-    @Before
-    public void setUp() {
-        this.primer.start();
+    @BeforeClass
+    public static void setUpClass() {
+        primer.start();
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        primer.stop();
     }
 
     @After
     public void tearDown() {
-        this.primer.stop();
+        primer.reset();
     }
 
     @Test
@@ -197,7 +200,7 @@ public class PrimerTest {
     static class TestResponseExtractor implements ResponseExtractor<String> {
 
         @Override
-        public String extractData(ClientHttpResponse clientHttpResponse) throws IOException {
+        public String extractData(final ClientHttpResponse clientHttpResponse) throws IOException {
             return IOUtils.toString(clientHttpResponse.getBody());
         }
 

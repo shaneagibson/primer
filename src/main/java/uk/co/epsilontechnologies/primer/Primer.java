@@ -40,6 +40,10 @@ public class Primer {
         }
     }
 
+    public void reset() {
+        primedInvocations.clear();
+    }
+
     public Action get(final String uri, final Parameters parameters, final Headers headers) {
         return new Action(this, new Request("GET", uri, "", parameters, headers));
     }
