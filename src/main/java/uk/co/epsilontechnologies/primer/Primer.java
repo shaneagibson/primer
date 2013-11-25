@@ -12,8 +12,6 @@ import java.util.List;
 
 public class Primer {
 
-    private static final Response INVALID_REQUEST = new Response(404, "application/json", "Request Not Primed");
-
     private final List<PrimedInvocation> primedInvocations = new ArrayList();
 
     private final Server server;
@@ -25,7 +23,7 @@ public class Primer {
 
     public void start() {
         try {
-            server.start();
+            this.server.start();
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
@@ -33,15 +31,15 @@ public class Primer {
 
     public void stop() {
         try {
-            primedInvocations.clear();
-            server.stop();
+            this.primedInvocations.clear();
+            this.server.stop();
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public void reset() {
-        primedInvocations.clear();
+        this.primedInvocations.clear();
     }
 
     public Action get(final String uri, final Parameters parameters, final Headers headers) {
@@ -158,7 +156,8 @@ public class Primer {
 
     void verify() {
         if (!this.primedInvocations.isEmpty()) {
-            throw new IllegalStateException("Primed requests not invoked: " + this.primedInvocations);
+            System.err.println("PRIMER --- Primed Requests Not Invoked: "+this.primedInvocations);
+            throw new IllegalStateException("Primed Requests Not Invoked: " + this.primedInvocations);
         }
     }
 
@@ -189,12 +188,9 @@ public class Primer {
 
             final HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest);
 
-            final List<PrimedInvocation> primedInvocationsToCheck = new ArrayList<PrimedInvocation>(primedInvocations);
-
-            boolean handled = checkPrimedInvocations(primedInvocationsToCheck, requestWrapper, httpServletResponse);
-
-            if (!handled) {
-                responseHandler.respond(INVALID_REQUEST, httpServletResponse);
+            if (!checkPrimedInvocations(new ArrayList<PrimedInvocation>(primedInvocations), requestWrapper, httpServletResponse)) {
+                System.err.println("PRIMER :-- Request Not Primed");
+                this.responseHandler.respond(new Response(404, "application/json", "Request Not Primed"), httpServletResponse);
             }
 
         }
@@ -208,7 +204,7 @@ public class Primer {
 
                 final PrimedInvocation primedInvocationToCheck = primedInvocationsToCheck.remove(0);
 
-                if (requestMatcher.match(primedInvocationToCheck.getRequest(), requestWrapper)) {
+                if (this.requestMatcher.match(primedInvocationToCheck.getRequest(), requestWrapper)) {
 
                     final Response response = primedInvocationToCheck.getResponses().remove(0);
 
@@ -216,7 +212,7 @@ public class Primer {
                         primedInvocations.remove(primedInvocationToCheck);
                     }
 
-                    responseHandler.respond(response, httpServletResponse);
+                    this.responseHandler.respond(response, httpServletResponse);
 
                     return true;
                 }
