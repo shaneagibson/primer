@@ -1,91 +1,56 @@
 package uk.co.epsilontechnologies.primer;
 
-import java.util.Map;
-import java.util.regex.Pattern;
-
-class RequestMatcher {
+class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper> {
 
     private final String contextPath;
     private final StringMatcher stringMatcher;
     private final MapMatcher mapMatcher;
+    private final BodyMatcherLookup bodyMatcherLookup;
 
     public RequestMatcher(final String contextPath) {
-        this(contextPath, new StringMatcher(), new MapMatcher());
+        this(contextPath, new StringMatcher(), new MapMatcher(), new BodyMatcherLookup());
     }
 
     public RequestMatcher(
             final String contextPath,
             final StringMatcher stringMatcher,
-            final MapMatcher mapMatcher) {
+            final MapMatcher mapMatcher,
+            final BodyMatcherLookup bodyMatcherLookup) {
         this.contextPath = contextPath;
         this.stringMatcher = stringMatcher;
         this.mapMatcher = mapMatcher;
+        this.bodyMatcherLookup = bodyMatcherLookup;
     }
 
-    public boolean matches(
-            final Request requestToMatch,
-            final HttpServletRequestWrapper requestWrapper) {
+    @Override
+    public boolean match(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
         return
-                bodyMatches(requestToMatch, requestWrapper) &&
-                        uriMatches(requestToMatch, requestWrapper) &&
-                        methodMatches(requestToMatch, requestWrapper) &&
-                        parametersMatch(requestToMatch, requestWrapper) &&
-                        headersMatch(requestToMatch, requestWrapper);
+                matchBody(primedRequest, requestWrapper) &&
+                matchUri(primedRequest, requestWrapper) &&
+                matchMethod(primedRequest, requestWrapper) &&
+                matchParameters(primedRequest, requestWrapper) &&
+                matchHeaders(primedRequest, requestWrapper);
     }
 
-    private boolean headersMatch(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
-        return mapMatcher.match(requestWrapper.getHeadersAsMap(), requestToMatch.getHeaders().get());
+    private boolean matchHeaders(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
+        return mapMatcher.match(primedRequest.getHeaders().get(), requestWrapper.getHeadersAsMap());
     }
 
-    private boolean parametersMatch(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
-        return mapMatcher.match(requestWrapper.getParametersAsMap(), requestToMatch.getParameters().get());
+    private boolean matchParameters(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
+        return mapMatcher.match(primedRequest.getParameters().get(), requestWrapper.getParametersAsMap());
     }
 
-    private boolean methodMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
-        return stringMatcher.match(requestWrapper.getMethod(), requestToMatch.getMethod());
+    private boolean matchMethod(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
+        return stringMatcher.match(primedRequest.getMethod(), requestWrapper.getMethod());
     }
 
-    private boolean uriMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
-        return stringMatcher.match(requestWrapper.getRequestURI(), contextPath + requestToMatch.getURI());
+    private boolean matchUri(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
+        return stringMatcher.match(contextPath + primedRequest.getURI(), requestWrapper.getRequestURI());
     }
 
-    private boolean bodyMatches(final Request requestToMatch, final HttpServletRequestWrapper requestWrapper) {
-        return stringMatcher.match(requestWrapper.getBody(), requestToMatch.getBody());
-    }
-
-    static class MapMatcher {
-
-        private final StringMatcher stringMatcher;
-
-        MapMatcher() {
-            this(new StringMatcher());
-        }
-
-        MapMatcher(final StringMatcher stringMatcher) {
-            this.stringMatcher = stringMatcher;
-        }
-
-        public boolean match(
-                final Map<String, String> requestMap,
-                final Map<String, String> primedMap) {
-            for (final String primedKey : primedMap.keySet()) {
-                if (!(requestMap.containsKey(primedKey) && stringMatcher.match(primedMap.get(primedKey), requestMap.get(primedKey)))) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-    }
-
-    static class StringMatcher {
-
-        public boolean match(
-                final String requestString,
-                final String primedString) {
-            return (primedString != null && primedString.equals(requestString)) || Pattern.matches(primedString, requestString);
-        }
-
+    private boolean matchBody(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
+        final Matcher<String,String> bodyMatcher = bodyMatcherLookup.getMatcher(requestWrapper.getContentType());
+        return bodyMatcher.match(primedRequest.getBody(), requestWrapper.getBody());
     }
 
 }

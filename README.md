@@ -90,6 +90,5 @@ Using a primable instance in a test is as follows:
 TODO
 ------
 
- - Add Content-Type specific matchers for XML and JSON to allow for content-specific matching (as opposed to strict string matching)
  - Upgrade to use Netty and Java 7
  - Add javadoc

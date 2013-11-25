@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.HttpClientErrorException;
@@ -174,16 +175,94 @@ public class PrimerTest {
         verify(primer);
     }
 
+    @Test
+    public void shouldHandlePrimedPostRequestWithSimilarXml() {
+
+        // arrange
+        when(primer.post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
+
+        // act
+        final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback(MediaType.APPLICATION_XML, "<blah> <two/> <one/> </blah>"), new TestResponseExtractor());
+
+        // assert
+        assertEquals("application/xml", "<success/>", result);
+        verify(primer);
+    }
+
+    @Test
+    public void shouldNotHandlePrimedPostRequestWithDissimilarXml() {
+
+        // arrange
+        when(primer.post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
+
+        try {
+
+            // act
+            restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback(MediaType.APPLICATION_XML, "<blah> <two/> <three/> </blah>"), new TestResponseExtractor());
+
+            fail("Expected HttpClientErrorException was not thrown");
+
+        } catch (final HttpClientErrorException httpClientErrorException) {
+
+            // assert
+            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+        }
+
+    }
+
+    @Test
+    public void shouldHandlePrimedPostRequestWithSimilarJson() {
+
+        // arrange
+        when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
+
+        // act
+        final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback(MediaType.APPLICATION_JSON, "{\"two\":\"b\",\"one\":\"a\"}"), new TestResponseExtractor());
+
+        // assert
+        assertEquals("application/xml", "[ \"success\" ]", result);
+        verify(primer);
+    }
+
+    @Test
+    public void shouldNotHandlePrimedPostRequestWithDissimilarJson() {
+
+        // arrange
+        when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
+
+        try {
+
+            // act
+            restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback(MediaType.APPLICATION_JSON, "{\"three\":\"c\",\"one\":\"a\"}"), new TestResponseExtractor());
+
+            fail("Expected HttpClientErrorException was not thrown");
+
+        } catch (final HttpClientErrorException httpClientErrorException) {
+
+            // assert
+            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+        }
+
+    }
+
 
     static class TestRequestCallback implements RequestCallback {
 
-        private String body;
+        private final String body;
+        private final MediaType contentType;
 
         TestRequestCallback() {
-            this(null);
+            this(null, null);
         }
 
         TestRequestCallback(final String body) {
+            this(null, body);
+        }
+
+        TestRequestCallback(final MediaType contentType, final String body) {
+            this.contentType = contentType;
             this.body = body;
         }
 
@@ -191,6 +270,9 @@ public class PrimerTest {
         public void doWithRequest(final ClientHttpRequest clientHttpRequest) throws IOException {
             if (body != null) {
                 clientHttpRequest.getBody().write(body.getBytes());
+            }
+            if (contentType != null) {
+                clientHttpRequest.getHeaders().setContentType(contentType);
             }
             clientHttpRequest.getHeaders().put("key", Arrays.asList("value"));
         }

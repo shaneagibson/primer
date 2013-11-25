@@ -208,7 +208,7 @@ public class Primer {
 
                 final PrimedInvocation primedInvocationToCheck = primedInvocationsToCheck.remove(0);
 
-                if (requestMatcher.matches(primedInvocationToCheck.getRequest(), requestWrapper)) {
+                if (requestMatcher.match(primedInvocationToCheck.getRequest(), requestWrapper)) {
 
                     final Response response = primedInvocationToCheck.getResponses().remove(0);
 
