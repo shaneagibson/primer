@@ -19,8 +19,4 @@ public class When {
         return primer;
     }
 
-    Request getRequest() {
-        return request;
-    }
-
 }
