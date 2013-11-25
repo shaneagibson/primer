@@ -156,8 +156,8 @@ public class Primer {
 
     void verify() {
         if (!this.primedInvocations.isEmpty()) {
-            System.err.println("PRIMER --- Primed Requests Not Invoked: "+this.primedInvocations);
-            throw new IllegalStateException("Primed Requests Not Invoked: " + this.primedInvocations);
+            System.err.println("PRIMER --- Primed Requests Not Invoked. [PrimedInvocations:"+this.primedInvocations+"]");
+            throw new IllegalStateException("Primed Requests Not Invoked");
         }
     }
 
@@ -189,7 +189,7 @@ public class Primer {
             final HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest);
 
             if (!checkPrimedInvocations(new ArrayList<PrimedInvocation>(primedInvocations), requestWrapper, httpServletResponse)) {
-                System.err.println("PRIMER :-- Request Not Primed");
+                System.err.println("PRIMER :-- Request Not Primed. [PrimedInvocations:"+primedInvocations+"]");
                 this.responseHandler.respond(new Response(404, "application/json", "Request Not Primed"), httpServletResponse);
             }
 
