@@ -162,7 +162,7 @@ public class PrimerTest {
     }
 
     @Test
-    public void shouldHandlePrimedPostRequestWithRegEx() {
+    public void shouldHandlePrimedRequestWithRegExInBody() {
 
         // arrange
         when(primer.post("/post", "\\{ \"key\" : \"([a-z]{5})\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
@@ -176,7 +176,7 @@ public class PrimerTest {
     }
 
     @Test
-    public void shouldHandlePrimedPostRequestWithSimilarXml() {
+    public void shouldHandlePrimedRequestWithSimilarXml() {
 
         // arrange
         when(primer.post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
@@ -190,7 +190,7 @@ public class PrimerTest {
     }
 
     @Test
-    public void shouldNotHandlePrimedPostRequestWithDissimilarXml() {
+    public void shouldNotHandlePrimedRequestWithDissimilarXml() {
 
         // arrange
         when(primer.post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
@@ -212,7 +212,7 @@ public class PrimerTest {
     }
 
     @Test
-    public void shouldHandlePrimedPostRequestWithSimilarJson() {
+    public void shouldHandlePrimedRequestWithSimilarJson() {
 
         // arrange
         when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
@@ -226,7 +226,7 @@ public class PrimerTest {
     }
 
     @Test
-    public void shouldNotHandlePrimedPostRequestWithDissimilarJson() {
+    public void shouldNotHandlePrimedRequestWithDissimilarJson() {
 
         // arrange
         when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
