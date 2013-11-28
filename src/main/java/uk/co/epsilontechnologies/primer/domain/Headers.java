@@ -7,6 +7,10 @@ package uk.co.epsilontechnologies.primer.domain;
  */
 public class Headers extends AbstractPairs {
 
+    /**
+     * Constructs the headers for the given pairs
+     * @param pairs the header key / value pairs
+     */
     public Headers(final Pair... pairs) {
         super(pairs);
     }

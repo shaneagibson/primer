@@ -7,6 +7,10 @@ package uk.co.epsilontechnologies.primer.domain;
  */
 public class Parameters extends AbstractPairs {
 
+    /**
+     * Constructs the parameters for the given pairs
+     * @param pairs the parameter key / value pairs
+     */
     public Parameters(final Pair... pairs) {
         super(pairs);
     }

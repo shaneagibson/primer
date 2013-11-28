@@ -25,7 +25,7 @@ public class PrimerServer {
     public void start() {
         try {
             this.server.start();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -33,7 +33,7 @@ public class PrimerServer {
     public void stop() {
         try {
             this.server.stop();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }

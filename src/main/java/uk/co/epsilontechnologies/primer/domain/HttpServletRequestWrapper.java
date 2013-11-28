@@ -18,8 +18,15 @@ import java.util.Map;
  */
 public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletRequestWrapper {
 
+    /**
+     * The request body as a String
+     */
     private final String body;
 
+    /**
+     * Constructs the HttpServletRequestWrapper for the given HttpServletRequest
+     * @param httpServletRequest the request to wrap
+     */
     public HttpServletRequestWrapper(final HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
         try {
@@ -29,6 +36,11 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
         }
     }
 
+    /**
+     * Gets the request body as an Input Stream
+     * @return the servlet input stream
+     * @throws IOException an exception occurred while trying to parse the input stream
+     */
     @Override
     public ServletInputStream getInputStream() throws IOException {
 
@@ -46,13 +58,21 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
         return servletInputStream;
     }
 
+    /**
+     * Exposes the request content as a string
+     * @return the request content
+     */
     public String getBody() {
         return body;
     }
 
+    /**
+     * Exposes the request parameters as a map of key / value pairs
+     * @return the parameters as a map of key / value pairs
+     */
     public Map<String, String> getParametersAsMap() {
         final Enumeration<String> parameterNames = super.getParameterNames();
-        final Map<String,String> result = new HashMap<String,String>();
+        final Map<String,String> result = new HashMap<>();
         while (parameterNames.hasMoreElements()) {
             final String name = parameterNames.nextElement();
             final String value = getParameter(name);
@@ -62,9 +82,13 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
     }
 
 
+    /**
+     * Exposes the headers as a map of key / value pairs
+     * @return the headers as a map of key / value pairs
+     */
     public Map<String, String> getHeadersAsMap() {
         final Enumeration<String> headerNames = super.getHeaderNames();
-        final Map<String,String> result = new HashMap<String,String>();
+        final Map<String,String> result = new HashMap<>();
         while (headerNames.hasMoreElements()) {
             final String name = headerNames.nextElement();
             final String value = getHeader(name);

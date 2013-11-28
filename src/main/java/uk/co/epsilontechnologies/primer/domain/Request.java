@@ -10,12 +10,39 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class Request {
 
+    /**
+     * The HTTP Method of the request (GET, POST, PUT, DELETE, HEAD, etc)
+     */
     private final String method;
+
+    /**
+     * The URI of the request
+     */
     private final String uri;
+
+    /**
+     * The body of the request
+     */
     private final String body;
+
+    /**
+     * The parameters of the request
+     */
     private final Parameters parameters;
+
+    /**
+     * The headers of the request
+     */
     private final Headers headers;
 
+    /**
+     * Constructs the request for the given details
+     * @param method the HTTP method of the request
+     * @param uri the URI of the request
+     * @param body the body of the request
+     * @param parameters the parameters of the request
+     * @param headers the headers of the request
+     */
     public Request(
             final String method,
             final String uri,
@@ -29,26 +56,51 @@ public class Request {
         this.headers = headers;
     }
 
+    /**
+     * Getter for the HTTP method of the request
+     * @return the HTTP method of the request
+     */
     public String getMethod() {
         return method;
     }
 
+    /**
+     * Getter for the URI of the request
+     * @return the URI of the request
+     */
     public String getURI() {
         return uri;
     }
 
+    /**
+     * Getter for the body of the request
+     * @return the body of the request
+     */
     public String getBody() {
         return body;
     }
 
+    /**
+     * Getter for the headers of the request
+     * @return the headers of the request
+     */
     public Headers getHeaders() {
         return headers;
     }
 
+
+    /**
+     * Getter for the parameters of the request
+     * @return the parameters of the request
+     */
     public Parameters getParameters() {
         return parameters;
     }
 
+    /**
+     * @see Object#toString()
+     * @return the string representation of the request
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

@@ -24,8 +24,4 @@ public class When {
         return this;
     }
 
-    Primer getPrimer() {
-        return primer;
-    }
-
 }
