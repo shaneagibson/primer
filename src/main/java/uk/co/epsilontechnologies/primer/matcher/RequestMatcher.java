@@ -10,9 +10,24 @@ import uk.co.epsilontechnologies.primer.domain.Request;
  */
 public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper> {
 
+    /**
+     * The context path of the request being matched
+     */
     private final String contextPath;
+
+    /**
+     * The matcher to use for string comparisons
+     */
     private final StringMatcher stringMatcher;
+
+    /**
+     * The matcher to use for map comparisons
+     */
     private final MapMatcher mapMatcher;
+
+    /**
+     * The lookup for which matcher to use for body comparisons
+     */
     private final BodyMatcherLookup bodyMatcherLookup;
 
     public RequestMatcher(final String contextPath) {
