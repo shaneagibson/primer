@@ -8,7 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class PrimerServer {
+/**
+ * Wraps of the Jetty HTTP Server.
+ *
+ * @author Shane Gibson
+ */
+class PrimerServer {
 
     private final Server server;
 
