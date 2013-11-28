@@ -6,10 +6,8 @@ import uk.co.epsilontechnologies.primer.server.PrimerServer;
 import uk.co.epsilontechnologies.primer.server.RequestHandler;
 import uk.co.epsilontechnologies.primer.server.ResponseHandler;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;

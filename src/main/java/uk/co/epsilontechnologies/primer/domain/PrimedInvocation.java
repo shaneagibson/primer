@@ -1,8 +1,6 @@
 package uk.co.epsilontechnologies.primer.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import uk.co.epsilontechnologies.primer.domain.Request;
-import uk.co.epsilontechnologies.primer.domain.Response;
 
 import java.util.Arrays;
 import java.util.LinkedList;
