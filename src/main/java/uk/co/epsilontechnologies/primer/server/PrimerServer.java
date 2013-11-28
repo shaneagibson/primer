@@ -9,19 +9,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Wraps of the Jetty HTTP Server.
+ * Wrapper of the Jetty HTTP Server.
  *
  * @author Shane Gibson
  */
 public class PrimerServer {
 
+    /**
+     * The Jetty HTTP Server
+     */
     private final Server server;
 
+    /**
+     * Constructs a server for the given port and request handler
+     * @param port the port on which the server should operate
+     * @param requestHandler the request handler to use
+     */
     public PrimerServer(final int port, final RequestHandler requestHandler) {
         this.server = new Server(port);
         this.server.setHandler(new ServerRequestHandler(requestHandler));
     }
 
+    /**
+     * Start the server
+     */
     public void start() {
         try {
             this.server.start();
@@ -30,6 +41,9 @@ public class PrimerServer {
         }
     }
 
+    /**
+     * Stop the server
+     */
     public void stop() {
         try {
             this.server.stop();
@@ -38,14 +52,36 @@ public class PrimerServer {
         }
     }
 
+    /**
+     * The Jetty request handler that will be invoked on any request
+     */
     class ServerRequestHandler extends AbstractHandler {
 
+        /**
+         * The server-agnostic request handler
+         */
         private final RequestHandler requestHandler;
 
+        /**
+         * Constructs a server request handler for the given server-agnostic request handler
+         * @param requestHandler the request handler to wrap
+         */
         public ServerRequestHandler(final RequestHandler requestHandler) {
             this.requestHandler = requestHandler;
         }
 
+        /**
+         * Handler implementation for any HTTP request
+         *
+         * @see AbstractHandler#handle(String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+         *
+         * @param target the target
+         * @param baseRequest the base request
+         * @param httpServletRequest the HTTP servlet request
+         * @param httpServletResponse the HTTP servlet response
+         * @throws IOException an IO exception occurred
+         * @throws ServletException a Servlet exception occurred
+         */
         @Override
         public void handle(
                 final String target,

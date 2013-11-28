@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface RequestHandler {
 
+    /**
+     * Handles the HTTP Servlet Request and Response
+     * @param httpServletRequest the HTTP servlet request to handle
+     * @param httpServletResponse the HTTP servlet response to issue
+     */
     void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
 
 }
