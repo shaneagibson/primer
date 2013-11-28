@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +23,12 @@ public class Primer {
 
     private final Server server;
 
+    private final PrintStream errorPrintStream;
+
     public Primer(final String contextPath, final int port) {
         this.server = new Server(port);
         this.server.setHandler(new PrimedHandler(contextPath));
+        this.errorPrintStream = System.err;
     }
 
     public void start() {
@@ -162,7 +166,7 @@ public class Primer {
 
     void verify() {
         if (!this.primedInvocations.isEmpty()) {
-            System.err.println("PRIMER --- Primed Requests Not Invoked. [PrimedInvocations:"+this.primedInvocations+"]");
+            errorPrintStream.println("PRIMER --- Primed Requests Not Invoked. [PrimedInvocations:" + this.primedInvocations + "]");
             throw new IllegalStateException("Primed Requests Not Invoked");
         }
     }
@@ -194,8 +198,8 @@ public class Primer {
 
             final HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest);
 
-            if (!checkPrimedInvocations(new ArrayList<PrimedInvocation>(primedInvocations), requestWrapper, httpServletResponse)) {
-                System.err.println("PRIMER :-- Request Not Primed. [PrimedInvocations:"+primedInvocations+"]");
+            if (!checkPrimedInvocations(new ArrayList(primedInvocations), requestWrapper, httpServletResponse)) {
+                errorPrintStream.println("PRIMER :-- Request Not Primed. [PrimedInvocations:" + primedInvocations + "]");
                 this.responseHandler.respond(new Response(404, "application/json", "Request Not Primed"), httpServletResponse);
             }
 
