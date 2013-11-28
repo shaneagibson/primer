@@ -1,8 +1,5 @@
 package uk.co.epsilontechnologies.primer;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.AbstractHandler;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,31 +18,22 @@ public class Primer {
 
     private final List<PrimedInvocation> primedInvocations = new ArrayList();
 
-    private final Server server;
+    private final PrimerServer server;
 
     private final PrintStream errorPrintStream;
 
     public Primer(final String contextPath, final int port) {
-        this.server = new Server(port);
-        this.server.setHandler(new PrimedHandler(contextPath));
+        this.server = new PrimerServer(port, new PrimedHandler(contextPath));
         this.errorPrintStream = System.err;
     }
 
     public void start() {
-        try {
-            this.server.start();
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
+        this.server.start();
     }
 
     public void stop() {
-        try {
-            this.primedInvocations.clear();
-            this.server.stop();
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
+        this.primedInvocations.clear();
+        this.server.stop();
     }
 
     public void reset() {
@@ -175,7 +163,7 @@ public class Primer {
         this.primedInvocations.add(primedInvocation);
     }
 
-    class PrimedHandler extends AbstractHandler {
+    class PrimedHandler implements RequestHandler {
 
         private final ResponseHandler responseHandler;
         private final RequestMatcher requestMatcher;
@@ -190,11 +178,7 @@ public class Primer {
         }
 
         @Override
-        public void handle(
-                final String target,
-                final org.eclipse.jetty.server.Request baseRequest,
-                final HttpServletRequest httpServletRequest,
-                final HttpServletResponse httpServletResponse) throws IOException, ServletException {
+        public void handle(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse) throws IOException, ServletException {
 
             final HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest);
 
