@@ -6,6 +6,12 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
+/**
+ * Matcher for 'application/xml' request Content-Type.
+ * Allows the Primer to match equivalent XML messages, rather than 'exact' string matching.
+ *
+ * @author Shane Gibson
+ */
 public class XmlBodyMatcher implements Matcher<String,String> {
 
     static {

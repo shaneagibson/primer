@@ -1,5 +1,10 @@
 package uk.co.epsilontechnologies.primer;
 
+/**
+ * Representation of a HTTP request against a Primer instance.
+ *
+ * @author Shane Gibson
+ */
 class Action {
 
     private final Primer primer;

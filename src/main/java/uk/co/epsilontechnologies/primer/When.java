@@ -1,5 +1,10 @@
 package uk.co.epsilontechnologies.primer;
 
+/**
+ * Container for programming the 'when' of the test case.
+ *
+ * @author Shane Gibson
+ */
 public class When {
 
     private final Primer primer;

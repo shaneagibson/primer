@@ -19,6 +19,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
 
+/**
+ * Test case for key Primer functionality.
+ *
+ * @author Shane Gibson
+ */
 public class PrimerTest {
 
     private static final Primer primer = new Primer("/test", 8500);

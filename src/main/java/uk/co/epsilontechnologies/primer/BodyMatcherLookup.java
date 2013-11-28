@@ -3,9 +3,15 @@ package uk.co.epsilontechnologies.primer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Resolvers the appropriate 'matcher' for a HTTP request body, based on the Content-Type of the request.
+ *
+ * @author Shane Gibson
+ */
 public class BodyMatcherLookup {
 
     private final Map<String,Matcher<String,String>> bodyMatchers = new HashMap<String,Matcher<String,String>>();
+
     private final StringMatcher defaultBodyMatcher;
 
     BodyMatcherLookup() {

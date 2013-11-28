@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A canned HTTP Server instance that can be programmed to behave in a required fashion - to return the appropriate
+ * response/s when given specific request/s.
+ *
+ * @author Shane Gibson
+ */
 public class Primer {
 
     private final List<PrimedInvocation> primedInvocations = new ArrayList();

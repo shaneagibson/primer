@@ -5,6 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+/**
+ * Matcher for 'application/json' request Content-Type.
+ * Allows the Primer to match equivalent JSON messages, rather than 'exact' string matching.
+ *
+ * @author Shane Gibson
+ */
 public class JsonBodyMatcher implements Matcher<String,String> {
 
     @Override

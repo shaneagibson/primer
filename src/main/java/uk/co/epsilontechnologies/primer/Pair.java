@@ -1,5 +1,10 @@
 package uk.co.epsilontechnologies.primer;
 
+/**
+ * Entity for representing a key / value pair of attributes.
+ *
+ * @author Shane Gibson
+ */
 public class Pair {
 
     private final String name;

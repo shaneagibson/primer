@@ -2,6 +2,12 @@ package uk.co.epsilontechnologies.primer;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * Instance of a HTTP Request that has been programmed.
+ * This will be matched against any issued HTTP Requests at runtime to determine if there is a primed response.
+ *
+ * @author Shane Gibson
+ */
 class Request {
 
     private final String method;

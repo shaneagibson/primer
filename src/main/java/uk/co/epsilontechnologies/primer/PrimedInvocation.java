@@ -6,10 +6,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Representation of a primed HTTP Request and it's corresponding Responses (in sequence).
+ *
+ * @author Shane Gibson
+ */
 class PrimedInvocation {
 
     private final Request request;
-    private final List<Response> responses = new LinkedList();
+    private final List<Response> responses = new LinkedList<>();
 
     public PrimedInvocation(final Request request, final Response... responses) {
         this.request = request;

@@ -4,6 +4,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Issues the given response via the Http Servlet Response.
+ *
+ * @author Shane Gibson
+ */
 class ResponseHandler {
 
     void respond(final Response response, final HttpServletResponse httpServletResponse) {

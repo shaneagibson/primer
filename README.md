@@ -81,14 +81,6 @@ Using a primable instance in a test is as follows:
 
         // ASSERT
 
-        verify(accountService);
-        verify(exchangeRateService);
+        verify(accountService, exchangeRateService);
 
     }
-
-
-TODO
-------
-
- - Upgrade to use Netty and Java 7
- - Add javadoc

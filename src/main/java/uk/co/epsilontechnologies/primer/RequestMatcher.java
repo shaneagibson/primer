@@ -1,5 +1,10 @@
 package uk.co.epsilontechnologies.primer;
 
+/**
+ * Matches the HTTP Servlet Request against the attributes of the given primed Request.
+ *
+ * @author Shane Gibson
+ */
 class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper> {
 
     private final String contextPath;

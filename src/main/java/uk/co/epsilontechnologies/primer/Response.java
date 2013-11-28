@@ -2,6 +2,12 @@ package uk.co.epsilontechnologies.primer;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * Instance of a HTTP Response that has been programmed.
+ * This will be returned if the by the primer if the associated request is matched.
+ *
+ * @author Shane Gibson
+ */
 public class Response {
 
     private final int status;
@@ -28,7 +34,7 @@ public class Response {
     }
 
     public Response(final int status) {
-        this(status, "application/json", "", new Headers());
+        this(status, "text/plain", "", new Headers());
     }
 
     public int getStatus() {
