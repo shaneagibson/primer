@@ -10,11 +10,33 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class Response {
 
+    /**
+     * The HTTP status of the response
+     */
     private final int status;
+
+    /**
+     * The body of the response
+     */
     private final String body;
+
+    /**
+     * The headers of the response
+     */
     private final Headers headers;
+
+    /**
+     * The content type of the response
+     */
     private final String contentType;
 
+    /**
+     * Constructs the response for the given status, content type, body and headers
+     * @param status the HTTP status of the response
+     * @param contentType the content type of the response
+     * @param body the body of the response
+     * @param headers the headers of the response
+     */
     public Response(
             final int status,
             final String contentType,
@@ -26,6 +48,12 @@ public class Response {
         this.contentType = contentType;
     }
 
+    /**
+     * Constructs the response for the given status, content type and body
+     * @param status the HTTP status of the response
+     * @param contentType the content type of the response
+     * @param body the body of the response
+     */
     public Response(
             final int status,
             final String contentType,
@@ -33,26 +61,50 @@ public class Response {
         this(status, contentType, body, new Headers());
     }
 
+    /**
+     * Constructs the response for the given status
+     * @param status the HTTP status of the response
+     */
     public Response(final int status) {
         this(status, "text/plain", "", new Headers());
     }
 
+    /**
+     * Getter for the HTTP status of the response
+     * @return the HTTP status of the response
+     */
     public int getStatus() {
         return status;
     }
 
+    /**
+     * Getter for the body of the response
+     * @return the body of the response
+     */
     public String getBody() {
         return body;
     }
 
+    /**
+     * Getter for the headers of the response
+     * @return the headers of the response
+     */
     public Headers getHeaders() {
         return headers;
     }
 
+    /**
+     * Getter for the Content-Type of the response
+     * @return the Content-Type of the response
+     */
     public String getContentType() {
         return contentType;
     }
 
+    /**
+     * @see Object#toString()
+     * @return the string representation of the response
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
