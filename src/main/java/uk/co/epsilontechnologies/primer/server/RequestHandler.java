@@ -1,9 +1,7 @@
 package uk.co.epsilontechnologies.primer.server;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Handles the given HTTP Servlet Request and issues the appropriate HTTP Servlet Response.
@@ -12,6 +10,6 @@ import java.io.IOException;
  */
 public interface RequestHandler {
 
-    void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException;
+    void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
 
 }

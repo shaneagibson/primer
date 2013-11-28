@@ -11,11 +11,14 @@ import java.lang.reflect.Field;
  */
 public final class PrimerStatics {
 
+    /**
+     * Hidden constructor
+     */
     private PrimerStatics() {
         super();
     }
 
-    public static When when(final Action action) {
+    public static When when(final PrimedRequest action) {
         return new When(action.getPrimer(), action.getRequest());
     }
 

@@ -7,7 +7,7 @@ import uk.co.epsilontechnologies.primer.Primer;
  *
  * @author Shane Gibson
  */
-public class Action {
+public class PrimedRequest {
 
     /**
      * The primer instance that is being actioned
@@ -20,11 +20,11 @@ public class Action {
     private final Request request;
 
     /**
-     * Constructs the action for the given primer and request
+     * Constructs the primed request for the given primer and request
      * @param primer the primer being actioned
      * @param request the request being actioned
      */
-    public Action(final Primer primer, final Request request) {
+    public PrimedRequest(final Primer primer, final Request request) {
         this.primer = primer;
         this.request = request;
     }
