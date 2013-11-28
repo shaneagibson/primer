@@ -13,6 +13,11 @@ import java.util.Map;
  */
 public class ResponseHandler {
 
+    /**
+     * Marshals the given response into the HTTP Servlet Response
+     * @param response the response to issue
+     * @param httpServletResponse the HTTP servlet response to write to
+     */
     public void respond(final Response response, final HttpServletResponse httpServletResponse) {
         try {
             final Map<String,String> headers = response.getHeaders().get();

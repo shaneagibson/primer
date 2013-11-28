@@ -14,8 +14,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Primable {
 
+    /**
+     * The Context Path for the primable instance
+     * @return the context path
+     */
     String contextPath();
 
+    /**
+     * The Port for the primable instance
+     * @return the port
+     */
     int port();
 
 }
