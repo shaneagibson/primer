@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.domain;
 
 /**
  * Entity for representing a key / value pair of attributes.

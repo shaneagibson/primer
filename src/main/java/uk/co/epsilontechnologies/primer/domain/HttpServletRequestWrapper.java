@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.domain;
 
 import org.apache.commons.io.IOUtils;
 

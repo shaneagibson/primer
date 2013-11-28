@@ -1,4 +1,6 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.server;
+
+import uk.co.epsilontechnologies.primer.domain.Response;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -9,9 +11,9 @@ import java.util.Map;
  *
  * @author Shane Gibson
  */
-class ResponseHandler {
+public class ResponseHandler {
 
-    void respond(final Response response, final HttpServletResponse httpServletResponse) {
+    public void respond(final Response response, final HttpServletResponse httpServletResponse) {
         try {
             final Map<String,String> headers = response.getHeaders().get();
             for (final String key : headers.keySet()) {

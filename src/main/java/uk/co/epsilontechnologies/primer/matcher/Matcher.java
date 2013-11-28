@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.matcher;
 
 /**
  * Interface for comparison of a primed value against a request value.

@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.matcher;
 
 import java.util.regex.Pattern;
 

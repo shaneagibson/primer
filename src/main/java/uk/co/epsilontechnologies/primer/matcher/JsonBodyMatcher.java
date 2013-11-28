@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.matcher;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

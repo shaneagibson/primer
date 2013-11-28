@@ -1,11 +1,13 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.domain;
+
+import uk.co.epsilontechnologies.primer.Primer;
 
 /**
  * Representation of a HTTP request against a Primer instance.
  *
  * @author Shane Gibson
  */
-class Action {
+public class Action {
 
     private final Primer primer;
     private final Request request;
@@ -15,11 +17,11 @@ class Action {
         this.request = request;
     }
 
-    Primer getPrimer() {
+    public Primer getPrimer() {
         return primer;
     }
 
-    Request getRequest() {
+    public Request getRequest() {
         return request;
     }
 

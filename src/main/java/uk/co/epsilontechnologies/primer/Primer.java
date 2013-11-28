@@ -1,5 +1,11 @@
 package uk.co.epsilontechnologies.primer;
 
+import uk.co.epsilontechnologies.primer.domain.*;
+import uk.co.epsilontechnologies.primer.matcher.RequestMatcher;
+import uk.co.epsilontechnologies.primer.server.PrimerServer;
+import uk.co.epsilontechnologies.primer.server.RequestHandler;
+import uk.co.epsilontechnologies.primer.server.ResponseHandler;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

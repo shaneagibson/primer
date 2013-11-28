@@ -1,6 +1,8 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import uk.co.epsilontechnologies.primer.domain.Request;
+import uk.co.epsilontechnologies.primer.domain.Response;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -11,7 +13,7 @@ import java.util.List;
  *
  * @author Shane Gibson
  */
-class PrimedInvocation {
+public class PrimedInvocation {
 
     private final Request request;
     private final List<Response> responses = new LinkedList<>();
@@ -21,11 +23,11 @@ class PrimedInvocation {
         this.responses.addAll(Arrays.asList(responses));
     }
 
-    Request getRequest() {
+    public Request getRequest() {
         return request;
     }
 
-    List<Response> getResponses() {
+    public List<Response> getResponses() {
         return responses;
     }
 

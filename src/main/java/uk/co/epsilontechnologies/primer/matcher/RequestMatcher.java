@@ -1,11 +1,14 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.matcher;
+
+import uk.co.epsilontechnologies.primer.domain.HttpServletRequestWrapper;
+import uk.co.epsilontechnologies.primer.domain.Request;
 
 /**
  * Matches the HTTP Servlet Request against the attributes of the given primed Request.
  *
  * @author Shane Gibson
  */
-class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper> {
+public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper> {
 
     private final String contextPath;
     private final StringMatcher stringMatcher;

@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.server;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

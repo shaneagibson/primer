@@ -1,5 +1,7 @@
 package uk.co.epsilontechnologies.primer;
 
+import uk.co.epsilontechnologies.primer.domain.*;
+
 import java.lang.reflect.Field;
 
 /**

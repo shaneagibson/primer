@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.server;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -13,7 +13,7 @@ import java.io.IOException;
  *
  * @author Shane Gibson
  */
-class PrimerServer {
+public class PrimerServer {
 
     private final Server server;
 

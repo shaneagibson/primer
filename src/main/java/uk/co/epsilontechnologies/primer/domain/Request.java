@@ -1,4 +1,4 @@
-package uk.co.epsilontechnologies.primer;
+package uk.co.epsilontechnologies.primer.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @author Shane Gibson
  */
-class Request {
+public class Request {
 
     private final String method;
     private final String uri;
@@ -16,7 +16,7 @@ class Request {
     private final Parameters parameters;
     private final Headers headers;
 
-    Request(
+    public Request(
             final String method,
             final String uri,
             final String body,
