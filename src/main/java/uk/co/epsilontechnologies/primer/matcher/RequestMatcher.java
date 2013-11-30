@@ -1,5 +1,7 @@
 package uk.co.epsilontechnologies.primer.matcher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.epsilontechnologies.primer.domain.HttpServletRequestWrapper;
 import uk.co.epsilontechnologies.primer.domain.Request;
 
@@ -9,6 +11,11 @@ import uk.co.epsilontechnologies.primer.domain.Request;
  * @author Shane Gibson
  */
 public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper> {
+
+    /**
+     * Logger to use for error / warn / debug logging
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestMatcher.class);
 
     /**
      * The context path of the request being matched
@@ -79,7 +86,11 @@ public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper
      * @return false if the request headers match, false otherwise
      */
     private boolean matchHeaders(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        return mapMatcher.match(primedRequest.getHeaders().get(), requestWrapper.getHeadersAsMap());
+        final boolean result = mapMatcher.match(primedRequest.getHeaders().get(), requestWrapper.getHeadersAsMap());
+        if (!result) {
+            LOGGER.debug("PRIMER :-- headers do not match: primed '" + primedRequest.getHeaders() + "' but was '" + requestWrapper.getHeadersAsMap() + "'");
+        }
+        return result;
     }
 
     /**
@@ -89,7 +100,11 @@ public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper
      * @return false if the request parameters match, false otherwise
      */
     private boolean matchParameters(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        return mapMatcher.match(primedRequest.getParameters().get(), requestWrapper.getParametersAsMap());
+        final boolean result = mapMatcher.match(primedRequest.getParameters().get(), requestWrapper.getParametersAsMap());
+        if (!result) {
+            LOGGER.debug("PRIMER :-- parameters do not match: primed '" + primedRequest.getParameters() + "' but was '" + requestWrapper.getParametersAsMap() + "'");
+        }
+        return result;
     }
 
     /**
@@ -99,7 +114,11 @@ public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper
      * @return false if the request method matches, false otherwise
      */
     private boolean matchMethod(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        return stringMatcher.match(primedRequest.getMethod(), requestWrapper.getMethod());
+        final boolean result = stringMatcher.match(primedRequest.getMethod(), requestWrapper.getMethod());
+        if (!result) {
+            LOGGER.debug("PRIMER :-- method does not match: primed '" + primedRequest.getMethod() + "' but was '" + requestWrapper.getMethod() + "'");
+        }
+        return result;
     }
 
     /**
@@ -109,7 +128,11 @@ public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper
      * @return false if the request URI matches, false otherwise
      */
     private boolean matchUri(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        return stringMatcher.match(contextPath + primedRequest.getURI(), requestWrapper.getRequestURI());
+        final boolean result = stringMatcher.match(contextPath + primedRequest.getURI(), requestWrapper.getRequestURI());
+        if (!result) {
+            LOGGER.debug("PRIMER :-- uri does not match: primed '" + contextPath + primedRequest.getURI() + "' but was '" + requestWrapper.getRequestURI() + "'");
+        }
+        return result;
     }
 
     /**
@@ -120,7 +143,11 @@ public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper
      */
     private boolean matchBody(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
         final Matcher<String,String> bodyMatcher = bodyMatcherLookup.getMatcher(requestWrapper.getContentType());
-        return bodyMatcher.match(primedRequest.getBody(), requestWrapper.getBody());
+        final boolean result = bodyMatcher.match(primedRequest.getBody(), requestWrapper.getBody());
+        if (!result) {
+            LOGGER.debug("PRIMER :-- body does not match: primed '" + primedRequest.getBody() + "' but was '" + requestWrapper.getBody() + "'");
+        }
+        return result;
     }
 
 }

@@ -1,5 +1,7 @@
 package uk.co.epsilontechnologies.primer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.epsilontechnologies.primer.domain.*;
 import uk.co.epsilontechnologies.primer.matcher.RequestMatcher;
 import uk.co.epsilontechnologies.primer.server.PrimerServer;
@@ -8,7 +10,6 @@ import uk.co.epsilontechnologies.primer.server.ResponseHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,11 @@ import java.util.List;
 public class Primer {
 
     /**
+     * Logger to use for error / warn / debug logging
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Primer.class);
+
+    /**
      * The primed requests and corresponding responses
      */
     private final List<PrimedInvocation> primedInvocations = new ArrayList();
@@ -31,18 +37,12 @@ public class Primer {
     private final PrimerServer server;
 
     /**
-     * The print stream that will be used for error reporting
-     */
-    private final PrintStream errorPrintStream;
-
-    /**
      * Constructs a Primer instance for the given port and context path
      * @param contextPath the context path of the web application being primed
      * @param port the port of the web application being primed
      */
     public Primer(final String contextPath, final int port) {
         this.server = new PrimerServer(port, new PrimedHandler(contextPath));
-        this.errorPrintStream = System.err;
     }
 
     /**
@@ -353,7 +353,7 @@ public class Primer {
      */
     void verify() {
         if (!this.primedInvocations.isEmpty()) {
-            errorPrintStream.println("PRIMER --- Primed Requests Not Invoked. [PrimedInvocations:" + this.primedInvocations + "]");
+            LOGGER.error("PRIMER --- Primed Requests Not Invoked. [PrimedInvocations:" + this.primedInvocations + "]");
             throw new IllegalStateException("Primed Requests Not Invoked");
         }
     }
@@ -394,7 +394,7 @@ public class Primer {
          * @param responseHandler the response handler to use
          * @param requestMatcher the request matcher to use
          */
-        public PrimedHandler(final ResponseHandler responseHandler, final RequestMatcher requestMatcher) {
+        private PrimedHandler(final ResponseHandler responseHandler, final RequestMatcher requestMatcher) {
             this.responseHandler = responseHandler;
             this.requestMatcher = requestMatcher;
         }
@@ -412,7 +412,7 @@ public class Primer {
             final HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest);
 
             if (!checkPrimedInvocations(new ArrayList(primedInvocations), requestWrapper, httpServletResponse)) {
-                errorPrintStream.println("PRIMER :-- Request Not Primed. [PrimedInvocations:" + primedInvocations + "]");
+                LOGGER.error("PRIMER :-- Request Not Primed. [PrimedInvocations:" + primedInvocations + "]");
                 this.responseHandler.respond(new Response(404, "application/json", "Request Not Primed"), httpServletResponse);
             }
 
