@@ -2,6 +2,7 @@ package uk.co.epsilontechnologies.primer.domain;
 
 import org.apache.commons.io.IOUtils;
 
+import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -53,6 +54,20 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
                 return inputStream.read();
             }
 
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+
+            @Override
+            public boolean isReady() {
+                return true;
+            }
+
+            @Override
+            public void setReadListener(final ReadListener readListener) {
+
+            }
         };
 
         return servletInputStream;

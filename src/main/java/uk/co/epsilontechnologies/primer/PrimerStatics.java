@@ -133,11 +133,7 @@ public final class PrimerStatics {
                 final Primable primableAnnotation = field.getAnnotation(Primable.class);
                 try {
                     field.setAccessible(true);
-                    field.set(
-                            testClass,
-                            new Primer(
-                                    primableAnnotation.contextPath(),
-                                    primableAnnotation.port()));
+                    field.set(testClass, new Primer(primableAnnotation.contextPath(), primableAnnotation.port()));
                 } catch (final IllegalAccessException e) {
                     throw new RuntimeException("Unable to initialize annotated primers", e);
                 }
