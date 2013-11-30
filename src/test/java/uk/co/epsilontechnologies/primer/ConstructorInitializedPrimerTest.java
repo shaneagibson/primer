@@ -1,7 +1,10 @@
 package uk.co.epsilontechnologies.primer;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,16 +29,20 @@ import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
  */
 public class ConstructorInitializedPrimerTest extends AbstractPrimerTest {
 
-    private final Primer primer = new Primer("/test", 8500);
+    private static final Primer primer = new Primer("/test", 8500);
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpClass() {
         primer.start();
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        primer.stop();
     }
 
     @After
     public void tearDown() {
-        primer.stop();
         primer.reset();
     }
 
