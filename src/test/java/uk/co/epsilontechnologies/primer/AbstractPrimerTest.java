@@ -1,9 +1,6 @@
 package uk.co.epsilontechnologies.primer;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -27,81 +24,64 @@ import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
  *
  * @author Shane Gibson
  */
-public class PrimerTest {
-
-    private static final Primer primer = new Primer("/test", 8500);
+public abstract class AbstractPrimerTest {
 
     private static final RestTemplate restTemplate = new RestTemplate();
-
-    @BeforeClass
-    public static void setUpClass() {
-        primer.start();
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-        primer.stop();
-    }
-
-    @After
-    public void tearDown() {
-        primer.reset();
-    }
 
     @Test
     public void shouldHandlePrimedPostRequest() {
 
         // arrange
-        when(primer.post("/post", "{ \"key\" : \"value\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().post("/post", "{ \"key\" : \"value\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldHandlePrimedPutRequest() {
 
         // arrange
-        when(primer.put("/put", "{ \"key\" : \"value\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().put("/put", "{ \"key\" : \"value\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/put?key=value", HttpMethod.PUT, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldHandlePrimedGetRequest() {
 
         // arrange
-        when(primer.get("/get", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().get("/get", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/get?key=value", HttpMethod.GET, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldHandlePrimedDeleteRequest() {
 
         // arrange
-        when(primer.delete("/delete", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().delete("/delete", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/delete?key=value", HttpMethod.DELETE, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
-        verify(primer);
+        verify(primer());
     }
 
 
@@ -109,49 +89,49 @@ public class PrimerTest {
     public void shouldHandlePrimedOptionsRequest() {
 
         // arrange
-        when(primer.options("/options", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().options("/options", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/options?key=value", HttpMethod.OPTIONS, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldHandlePrimedHeadRequest() {
 
         // arrange
-        when(primer.head("/head", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().head("/head", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/head?key=value", HttpMethod.HEAD, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldHandlePrimedTraceRequest() {
 
         // arrange
-        when(primer.trace("/trace", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().trace("/trace", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/trace?key=value", HttpMethod.TRACE, new TestRequestCallback(), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldFailToHandleNonPrimedRequest() {
 
         // arrange
-        when(primer.get("/blah")).thenReturn(response(200));
+        when(primer().get("/blah")).thenReturn(response(200));
 
         try {
 
@@ -173,35 +153,35 @@ public class PrimerTest {
     public void shouldHandlePrimedRequestWithRegExInBody() {
 
         // arrange
-        when(primer.post("/post", "\\{ \"key\" : \"([a-z]{5})\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
+        when(primer().post("/post", "\\{ \"key\" : \"([a-z]{5})\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "{ \"key\" : \"value\" }"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback("{ \"key\" : \"value\" }"), new TestResponseExtractor());
 
         // assert
         assertEquals("application/json", "{ \"key\" : \"value\" }", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldHandlePrimedRequestWithSimilarXml() {
 
         // arrange
-        when(primer.post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
+        when(primer().post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback(MediaType.APPLICATION_XML, "<blah> <two/> <one/> </blah>"), new TestResponseExtractor());
 
         // assert
         assertEquals("application/xml", "<success/>", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldNotHandlePrimedRequestWithDissimilarXml() {
 
         // arrange
-        when(primer.post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
+        when(primer().post("/post", "<blah><one/><two/></blah>", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/xml", "<success/>"));
 
         try {
 
@@ -223,21 +203,21 @@ public class PrimerTest {
     public void shouldHandlePrimedRequestWithSimilarJson() {
 
         // arrange
-        when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
+        when(primer().post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
 
         // act
         final String result = restTemplate.execute("http://localhost:8500/test/post?key=value", HttpMethod.POST, new TestRequestCallback(MediaType.APPLICATION_JSON, "{\"two\":\"b\",\"one\":\"a\"}"), new TestResponseExtractor());
 
         // assert
         assertEquals("application/xml", "[ \"success\" ]", result);
-        verify(primer);
+        verify(primer());
     }
 
     @Test
     public void shouldNotHandlePrimedRequestWithDissimilarJson() {
 
         // arrange
-        when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
+        when(primer().post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }", parameters(pair("key", "value")), headers(pair("key", "value")))).thenReturn(response(200, "application/json", "[ \"success\" ]"));
 
         try {
 
@@ -296,4 +276,6 @@ public class PrimerTest {
 
     }
 
+    protected abstract Primer primer();
+    
 }

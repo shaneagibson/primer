@@ -73,7 +73,6 @@ public final class PrimerStatics {
         return new Request(method, path, body, parameters, headers);
     }
 
-
     /**
      * Builds a response for the given status, content type, body and headers
      * @param status the HTTP status for the response
