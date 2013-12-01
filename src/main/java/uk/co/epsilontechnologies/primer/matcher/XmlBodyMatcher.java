@@ -32,9 +32,7 @@ public class XmlBodyMatcher implements Matcher<String,String> {
         try {
             final Diff xmlDiff = new Diff(primedRequestBody, requestBody);
             return xmlDiff.similar();
-        } catch (SAXException e) {
-            return false;
-        } catch (IOException e) {
+        } catch (final SAXException | IOException e) {
             return false;
         }
     }

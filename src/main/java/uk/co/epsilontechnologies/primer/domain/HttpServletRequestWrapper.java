@@ -2,11 +2,8 @@ package uk.co.epsilontechnologies.primer.domain;
 
 import org.apache.commons.io.IOUtils;
 
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,42 +32,6 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Gets the request body as an Input Stream
-     * @return the servlet input stream
-     * @throws IOException an exception occurred while trying to parse the input stream
-     */
-    @Override
-    public ServletInputStream getInputStream() throws IOException {
-
-        final InputStream inputStream = IOUtils.toInputStream(body);
-
-        final ServletInputStream servletInputStream = new ServletInputStream() {
-
-            @Override
-            public int read() throws IOException {
-                return inputStream.read();
-            }
-
-            @Override
-            public boolean isFinished() {
-                return true;
-            }
-
-            @Override
-            public boolean isReady() {
-                return true;
-            }
-
-            @Override
-            public void setReadListener(final ReadListener readListener) {
-
-            }
-        };
-
-        return servletInputStream;
     }
 
     /**
