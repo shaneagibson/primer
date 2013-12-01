@@ -1,6 +1,5 @@
 package uk.co.epsilontechnologies.primer;
 
-import uk.co.epsilontechnologies.primer.domain.PrimedInvocation;
 import uk.co.epsilontechnologies.primer.domain.Request;
 import uk.co.epsilontechnologies.primer.domain.Response;
 
