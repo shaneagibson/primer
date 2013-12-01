@@ -37,7 +37,7 @@ public class When {
      * @return The instance of the 'when' that is being programmed
      */
     public When thenReturn(final Response... responses) {
-        this.primer.prime(new PrimedInvocation(request, responses));
+        this.primer.prime(request, responses);
         return this;
     }
 

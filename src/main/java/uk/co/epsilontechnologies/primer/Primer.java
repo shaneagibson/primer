@@ -359,11 +359,21 @@ public class Primer {
     }
 
     /**
-     * Primes this instance with the given invocation
-     * @param primedInvocation the primed invocation to prime
+     * Primes this instance with the given request and responses
+     * @param request the request to prime
+     * @param responses the responses to prime
+     * @responses the responses to prime
      */
-    void prime(final PrimedInvocation primedInvocation) {
-        this.primedInvocations.add(primedInvocation);
+    void prime(final Request request, final Response... responses) {
+        for (final PrimedInvocation primedInvocation : primedInvocations) {
+            if (primedInvocation.getRequest().equals(request)) {
+                for (final Response response : responses) {
+                    primedInvocation.getResponses().add(response);
+                }
+                return;
+            }
+        }
+        primedInvocations.add(new PrimedInvocation(request, responses));
     }
 
     /**

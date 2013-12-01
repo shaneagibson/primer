@@ -372,6 +372,56 @@ public class PrimerTest {
     }
 
     @Test
+    public void shouldAllowMultiplePrimedResponsesForSameRequestAndDifferentThenReturns() {
+
+        // arrange
+        when(primer.get("/get")).thenReturn(response(200));
+        when(primer.get("/get")).thenReturn(response(201));
+        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
+
+        // act
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+
+        // assert
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        verify(primer);
+    }
+
+    @Test
+    public void shouldAllowMultiplePrimedResponsesForSameRequestAndSameThenReturns() {
+
+        // arrange
+        when(primer.get("/get")).thenReturn(response(200), response(201));
+        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
+
+        // act
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+
+        // assert
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        verify(primer);
+    }
+
+    @Test
+    public void shouldAllowMultiplePrimedResponsesForDifferentRequests() {
+
+        // arrange
+        when(primer.get("/getA")).thenReturn(response(200));
+        when(primer.get("/getB")).thenReturn(response(201));
+        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/getA", HttpMethod.GET, newRequestEntity(), String.class);
+        assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
+
+        // act
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/getB", HttpMethod.GET, newRequestEntity(), String.class);
+
+        // assert
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        verify(primer);
+    }
+
+    @Test
     public void shouldInitializePrimerViaAnnotation() {
 
         // arrange

@@ -1,5 +1,7 @@
 package uk.co.epsilontechnologies.primer.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -108,6 +110,24 @@ public class Response {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    /**
+     * @see Object#equals(Object)
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(final Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    /**
+     * @see Object#hashCode()
+     * @return the hash code for this instance
+     */
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
 }
