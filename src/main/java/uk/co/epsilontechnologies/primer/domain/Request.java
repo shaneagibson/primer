@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Map;
+
 /**
  * Instance of a HTTP Request that has been programmed.
  * This will be matched against any issued HTTP Requests at runtime to determine if there is a primed response.
@@ -20,22 +22,27 @@ public class Request {
     /**
      * The URI of the request
      */
-    private final String uri;
+    private final Matchable uri;
 
     /**
      * The body of the request
      */
-    private final String body;
+    private final Matchable body;
 
     /**
      * The parameters of the request
      */
-    private final Parameters parameters;
+    private final Map<String,Matchable> parameters;
 
     /**
      * The headers of the request
      */
-    private final Headers headers;
+    private final Map<String,Matchable> headers;
+
+    /**
+     * The cookies of the request
+     */
+    private final Map<String,Matchable> cookies;
 
     /**
      * Constructs the request for the given details
@@ -44,18 +51,21 @@ public class Request {
      * @param body the body of the request
      * @param parameters the parameters of the request
      * @param headers the headers of the request
+     * @param cookies the cookies of the request
      */
     public Request(
             final String method,
-            final String uri,
-            final String body,
-            final Parameters parameters,
-            final Headers headers) {
+            final Matchable uri,
+            final Matchable body,
+            final Map<String,Matchable> parameters,
+            final Map<String,Matchable> headers,
+            final Map<String,Matchable> cookies) {
         this.method = method;
         this.uri = uri;
         this.body = body;
         this.parameters = parameters;
         this.headers = headers;
+        this.cookies = cookies;
     }
 
     /**
@@ -70,7 +80,7 @@ public class Request {
      * Getter for the URI of the request
      * @return the URI of the request
      */
-    public String getURI() {
+    public Matchable getURI() {
         return uri;
     }
 
@@ -78,7 +88,7 @@ public class Request {
      * Getter for the body of the request
      * @return the body of the request
      */
-    public String getBody() {
+    public Matchable getBody() {
         return body;
     }
 
@@ -86,17 +96,24 @@ public class Request {
      * Getter for the headers of the request
      * @return the headers of the request
      */
-    public Headers getHeaders() {
+    public Map<String,Matchable> getHeaders() {
         return headers;
     }
-
 
     /**
      * Getter for the parameters of the request
      * @return the parameters of the request
      */
-    public Parameters getParameters() {
+    public Map<String,Matchable> getParameters() {
         return parameters;
+    }
+
+    /**
+     * Getter for the cookies of the request
+     * @return the cookies of the request
+     */
+    public Map<String,Matchable> getCookies() {
+        return cookies;
     }
 
     /**

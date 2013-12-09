@@ -1,0 +1,24 @@
+package uk.co.epsilontechnologies.primer.domain;
+
+public class StringMatchable extends Matchable {
+
+    public static Matchable eq(final String string) {
+        return new StringMatchable(string);
+    }
+
+    public static Matchable empty() {
+        return new StringMatchable("");
+    }
+
+    private final String primedString;
+
+    StringMatchable(String primedString) {
+        this.primedString = primedString;
+    }
+
+    @Override
+    public boolean match(final String requestString) {
+        return primedString != null && primedString.equals(requestString);
+    }
+
+}

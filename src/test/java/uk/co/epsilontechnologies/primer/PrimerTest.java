@@ -13,6 +13,12 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
+import static uk.co.epsilontechnologies.primer.domain.JsonMatchable.json;
+import static uk.co.epsilontechnologies.primer.domain.RegExMatchable.regex;
+import static uk.co.epsilontechnologies.primer.domain.RequestBuilder.*;
+import static uk.co.epsilontechnologies.primer.domain.ResponseBuilder.response;
+import static uk.co.epsilontechnologies.primer.domain.StringMatchable.eq;
+import static uk.co.epsilontechnologies.primer.domain.XmlMatchable.xml;
 
 /**
  * Test case for key Primer functionality.
@@ -47,7 +53,18 @@ public class PrimerTest {
     public void shouldHandlePrimedRequestWithParametersAndHeaders() {
 
         // arrange
-        when(primer.post("/post", "{ \"key\" : \"value\" }", parameters(pair("parameter-key", "parameter-value")), headers(pair("request-header-key", "request-header-value")))).thenReturn(response(200, "application/json", "[ \"success\" ]", headers(pair("response-header-key", "response-header-value"))));
+        when(primer
+                .receives(
+                        post()
+                                .withUri("/post")
+                                .withBody(json("{ \"key\" : \"value\" }"))
+                                .withParameter("parameter-key", eq("parameter-value"))
+                                .withHeader("request-header-key", eq("request-header-value"))))
+                .thenReturn(
+                        response(200)
+                                .withContentType("application/json")
+                                .withBody("[ \"success\" ]")
+                                .withHeader("response-header-key", "response-header-value"));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post?parameter-key=parameter-value", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
@@ -63,7 +80,7 @@ public class PrimerTest {
     public void shouldHandlePrimedPostRequest() {
 
         // arrange
-        when(primer.post("/post", "{ \"key\" : \"value\" }")).thenReturn(response(200));
+        when(primer.receives(post().withUri("/post").withBody(json("{ \"key\" : \"value\" }")))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
@@ -77,7 +94,7 @@ public class PrimerTest {
     public void shouldHandlePrimedPutRequest() {
 
         // arrange
-        when(primer.put("/put", "{ \"key\" : \"value\" }")).thenReturn(response(200));
+        when(primer.receives(put().withUri("/put").withBody(json("{ \"key\" : \"value\" }")))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/put", HttpMethod.PUT, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
@@ -91,7 +108,7 @@ public class PrimerTest {
     public void shouldHandlePrimedGetRequest() {
 
         // arrange
-        when(primer.get("/get")).thenReturn(response(200));
+        when(primer.receives(get().withUri("/get"))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
@@ -105,7 +122,7 @@ public class PrimerTest {
     public void shouldHandlePrimedDeleteRequest() {
 
         // arrange
-        when(primer.delete("/delete")).thenReturn(response(200));
+        when(primer.receives(delete().withUri("/delete"))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/delete", HttpMethod.DELETE, newRequestEntity(), String.class);
@@ -120,7 +137,7 @@ public class PrimerTest {
     public void shouldHandlePrimedOptionsRequest() {
 
         // arrange
-        when(primer.options("/options")).thenReturn(response(200));
+        when(primer.receives(options().withUri("/options"))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/options", HttpMethod.OPTIONS, newRequestEntity(), String.class);
@@ -134,7 +151,7 @@ public class PrimerTest {
     public void shouldHandlePrimedHeadRequest() {
 
         // arrange
-        when(primer.head("/head")).thenReturn(response(200));
+        when(primer.receives(head().withUri("/head"))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/head", HttpMethod.HEAD, newRequestEntity(), String.class);
@@ -148,10 +165,10 @@ public class PrimerTest {
     public void shouldHandlePrimedTraceRequest() {
 
         // arrange
-        when(primer.trace("/trace", parameters(pair("parameter-key", "parameter-value")), headers(pair("request-header-key", "request-header-value")))).thenReturn(response(200, "application/json", "[ \"success\" ]", headers(pair("response-header-key", "response-header-value"))));
+        when(primer.receives(trace().withUri("/trace"))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/trace?parameter-key=parameter-value", HttpMethod.TRACE, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/trace", HttpMethod.TRACE, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -181,7 +198,7 @@ public class PrimerTest {
     public void shouldFailToHandleNonPrimedRequestByIncorrectUri() {
 
         // arrange
-        when(primer.get("/geet")).thenReturn(response(200));
+        when(primer.receives(get().withUri("/geet"))).thenReturn(response(200));
 
         try {
 
@@ -203,7 +220,7 @@ public class PrimerTest {
     public void shouldFailToHandleNonPrimedRequestByIncorrectMethod() {
 
         // arrange
-        when(primer.get("/get")).thenReturn(response(200));
+        when(primer.receives(get().withUri("/get"))).thenReturn(response(200));
 
         try {
 
@@ -225,7 +242,7 @@ public class PrimerTest {
     public void shouldFailToHandleNonPrimedRequestByIncorrectHeader() {
 
         // arrange
-        when(primer.get("/get", headers(pair("request-header-key", "request-header-value-x")))).thenReturn(response(200));
+        when(primer.receives(get().withUri("/get").withHeader("request-header-key", "request-header-value-x"))).thenReturn(response(200));
 
         try {
 
@@ -247,7 +264,7 @@ public class PrimerTest {
     public void shouldFailToHandleNonPrimedRequestByIncorrectParameter() {
 
         // arrange
-        when(primer.get("/get", parameters(pair("request-parameter-key", "request-parameter-value-x")))).thenReturn(response(200));
+        when(primer.receives(get().withUri("/get").withParameter("request-parameter-key", "request-parameter-value-x"))).thenReturn(response(200));
 
         try {
 
@@ -269,7 +286,7 @@ public class PrimerTest {
     public void shouldHandlePrimedRequestWithRegExInBody() {
 
         // arrange
-        when(primer.post("/post", "blah \"([a-z]{5})\"")).thenReturn(response(200));
+        when(primer.receives(post().withUri("/post").withBody(regex("blah \"([a-z]{5})\"")))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.TEXT_PLAIN, "blah \"value\""), String.class);
@@ -283,7 +300,7 @@ public class PrimerTest {
     public void shouldHandlePrimedRequestWithSimilarXml() {
 
         // arrange
-        when(primer.post("/post", "<blah><one/><two/></blah>")).thenReturn(response(200));
+        when(primer.receives(post().withUri("/post").withBody(xml("<blah><one/><two/></blah>")))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_XML, "<blah> <two/> <one/> </blah>"), String.class);
@@ -297,7 +314,7 @@ public class PrimerTest {
     public void shouldNotHandlePrimedRequestWithDissimilarXml() {
 
         // arrange
-        when(primer.post("/post", "<blah><one/><two/></blah>")).thenReturn(response(200));
+        when(primer.receives(post().withUri("/post").withBody(xml("<blah><one/><two/></blah>")))).thenReturn(response(200));
 
         try {
 
@@ -319,7 +336,7 @@ public class PrimerTest {
     public void shouldHandlePrimedRequestWithSimilarJson() {
 
         // arrange
-        when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }")).thenReturn(response(200));
+        when(primer.receives(post().withUri("/post").withBody(json("{ \"one\" : \"a\", \"two\" : \"b\" }")))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{\"two\":\"b\",\"one\":\"a\"}"), String.class);
@@ -333,7 +350,7 @@ public class PrimerTest {
     public void shouldNotHandlePrimedRequestWithDissimilarJson() {
 
         // arrange
-        when(primer.post("/post", "{ \"one\" : \"a\", \"two\" : \"b\" }")).thenReturn(response(200));
+        when(primer.receives(post().withUri("/post").withBody(json("{ \"one\" : \"a\", \"two\" : \"b\" }")))).thenReturn(response(200));
 
         try {
 
@@ -355,7 +372,7 @@ public class PrimerTest {
     public void shouldFailToVerifyWhenPrimedRequestNotInvoked() {
 
         // arrange
-        when(primer.get("/get")).thenReturn(response(200));
+        when(primer.receives(post().withUri("/get"))).thenReturn(response(200));
 
         try {
 
@@ -375,8 +392,8 @@ public class PrimerTest {
     public void shouldAllowMultiplePrimedResponsesForSameRequestAndDifferentThenReturns() {
 
         // arrange
-        when(primer.get("/get")).thenReturn(response(200));
-        when(primer.get("/get")).thenReturn(response(201));
+        when(primer.receives(get().withUri("/get"))).thenReturn(response(200));
+        when(primer.receives(get().withUri("/get"))).thenReturn(response(201));
         final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
         assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
 
@@ -392,7 +409,7 @@ public class PrimerTest {
     public void shouldAllowMultiplePrimedResponsesForSameRequestAndSameThenReturns() {
 
         // arrange
-        when(primer.get("/get")).thenReturn(response(200), response(201));
+        when(primer.receives(get().withUri("/get"))).thenReturn(response(200), response(201));
         final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
         assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
 
@@ -408,8 +425,8 @@ public class PrimerTest {
     public void shouldAllowMultiplePrimedResponsesForDifferentRequests() {
 
         // arrange
-        when(primer.get("/getA")).thenReturn(response(200));
-        when(primer.get("/getB")).thenReturn(response(201));
+        when(primer.receives(get().withUri("/getA"))).thenReturn(response(200));
+        when(primer.receives(get().withUri("/getB"))).thenReturn(response(201));
         final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/getA", HttpMethod.GET, newRequestEntity(), String.class);
         assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
 
@@ -427,7 +444,7 @@ public class PrimerTest {
         // arrange
         initPrimers(this);
         primable.start();
-        when(primable.get("/get")).thenReturn(response(200));
+        when(primable.receives(get().withUri("/get"))).thenReturn(response(200));
 
         // act
         final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8081/test/get", HttpMethod.GET, newRequestEntity(), String.class);

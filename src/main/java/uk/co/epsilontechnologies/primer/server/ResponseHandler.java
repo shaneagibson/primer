@@ -4,7 +4,6 @@ import uk.co.epsilontechnologies.primer.domain.Response;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Issues the given response via the Http Servlet Response.
@@ -20,9 +19,8 @@ public class ResponseHandler {
      */
     public void respond(final Response response, final HttpServletResponse httpServletResponse) {
         try {
-            final Map<String,String> headers = response.getHeaders().get();
-            for (final String key : headers.keySet()) {
-                httpServletResponse.addHeader(key, headers.get(key));
+            for (final String key : response.getHeaders().keySet()) {
+                httpServletResponse.addHeader(key, response.getHeaders().get(key));
             }
             httpServletResponse.setStatus(response.getStatus());
             httpServletResponse.setContentType(response.getContentType());

@@ -1,7 +1,7 @@
 package uk.co.epsilontechnologies.primer;
 
 import uk.co.epsilontechnologies.primer.domain.Request;
-import uk.co.epsilontechnologies.primer.domain.Response;
+import uk.co.epsilontechnologies.primer.domain.ResponseBuilder;
 
 /**
  * Container for programming the 'when' of the test case.
@@ -32,11 +32,13 @@ public class When {
 
     /**
      * Configures the primer to return the given responses (in sequence) for the primer and request
-     * @param responses the responses to configure
+     * @param responseBuilders the responses to configure
      * @return The instance of the 'when' that is being programmed
      */
-    public When thenReturn(final Response... responses) {
-        this.primer.prime(request, responses);
+    public When thenReturn(final ResponseBuilder... responseBuilders) {
+        for (final ResponseBuilder responseBuilder : responseBuilders) {
+            this.primer.prime(request, responseBuilder.build());
+        }
         return this;
     }
 

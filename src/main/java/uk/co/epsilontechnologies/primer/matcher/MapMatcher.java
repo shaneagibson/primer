@@ -1,5 +1,7 @@
 package uk.co.epsilontechnologies.primer.matcher;
 
+import uk.co.epsilontechnologies.primer.domain.Matchable;
+
 import java.util.Map;
 
 /**
@@ -8,27 +10,7 @@ import java.util.Map;
  *
  * @author Shane Gibson
  */
-public class MapMatcher implements Matcher<Map<String,String>,Map<String,String>> {
-
-    /**
-     * The string matcher to use when comparing values of the map
-     */
-    private final StringMatcher stringMatcher;
-
-    /**
-     * Constructs the map matcher using a String Matcher for comparison of values
-     */
-    MapMatcher() {
-        this(new StringMatcher());
-    }
-
-    /**
-     * Constructs the map matcher using the given String Matcher for comparison of values
-     * @param stringMatcher
-     */
-    MapMatcher(final StringMatcher stringMatcher) {
-        this.stringMatcher = stringMatcher;
-    }
+public class MapMatcher implements Matcher<Map<String,Matchable>,Map<String,String>> {
 
     /**
      * Matches the primed map against the request map
@@ -36,10 +18,9 @@ public class MapMatcher implements Matcher<Map<String,String>,Map<String,String>
      * @param requestMap the request map to match
      * @return true if the request map contains all of the primed map keys and the corresponding values are equivalent, false otherwise
      */
-    @Override
-    public boolean match(final Map<String, String> primedMap, final Map<String, String> requestMap) {
+    public boolean match(final Map<String,Matchable> primedMap, final Map<String,String> requestMap) {
         for (final String primedKey : primedMap.keySet()) {
-            if (!(requestMap.containsKey(primedKey) && stringMatcher.match(primedMap.get(primedKey), requestMap.get(primedKey)))) {
+            if (!(requestMap.containsKey(primedKey) && primedMap.get(primedKey).match(requestMap.get(primedKey)))) {
                 return false;
             }
         }

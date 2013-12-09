@@ -2,6 +2,7 @@ package uk.co.epsilontechnologies.primer.domain;
 
 import org.apache.commons.io.IOUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -57,7 +58,6 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
         return result;
     }
 
-
     /**
      * Exposes the headers as a map of key / value pairs
      * @return the headers as a map of key / value pairs
@@ -69,6 +69,18 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
             final String name = headerNames.nextElement();
             final String value = getHeader(name);
             result.put(name, value);
+        }
+        return result;
+    }
+
+    /**
+     * Exposes the cookies as a map of key / value pairs
+     * @return the cookies as a map of key / value pairs
+     */
+    public Map<String, String> getCookiesAsMap() {
+        final Map<String,String> result = new HashMap<>();
+        for (final Cookie cookie : super.getCookies()) {
+            result.put(cookie.getName(), cookie.getValue());
         }
         return result;
     }

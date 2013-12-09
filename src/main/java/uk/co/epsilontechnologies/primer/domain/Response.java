@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Map;
+
 /**
  * Instance of a HTTP Response that has been programmed.
  * This will be returned if the by the primer if the associated request is matched.
@@ -25,7 +27,7 @@ public class Response {
     /**
      * The headers of the response
      */
-    private final Headers headers;
+    private final Map<String,String> headers;
 
     /**
      * The content type of the response
@@ -33,42 +35,29 @@ public class Response {
     private final String contentType;
 
     /**
+     * The cookies of the response
+     */
+    private final Map<String,String> cookies;
+
+    /**
      * Constructs the response for the given status, content type, body and headers
      * @param status the HTTP status of the response
      * @param contentType the content type of the response
      * @param body the body of the response
      * @param headers the headers of the response
+     * @param cookies the cookies of the response
      */
     public Response(
             final int status,
             final String contentType,
             final String body,
-            final Headers headers) {
+            final Map<String,String> headers,
+            final Map<String,String> cookies) {
         this.status = status;
         this.body = body;
         this.headers = headers;
         this.contentType = contentType;
-    }
-
-    /**
-     * Constructs the response for the given status, content type and body
-     * @param status the HTTP status of the response
-     * @param contentType the content type of the response
-     * @param body the body of the response
-     */
-    public Response(
-            final int status,
-            final String contentType,
-            final String body) {
-        this(status, contentType, body, new Headers());
-    }
-
-    /**
-     * Constructs the response for the given status
-     * @param status the HTTP status of the response
-     */
-    public Response(final int status) {
-        this(status, "text/plain", "", new Headers());
+        this.cookies = cookies;
     }
 
     /**
@@ -91,9 +80,18 @@ public class Response {
      * Getter for the headers of the response
      * @return the headers of the response
      */
-    public Headers getHeaders() {
+    public Map<String,String> getHeaders() {
         return headers;
     }
+
+    /**
+     * Getter for the cookies of the response
+     * @return the cookies of the response
+     */
+    public Map<String,String> getCookies() {
+        return cookies;
+    }
+
 
     /**
      * Getter for the Content-Type of the response
