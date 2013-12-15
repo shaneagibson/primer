@@ -43,37 +43,40 @@ Using a primable instance in a test is as follows:
         // ARRANGE
 
         when(
-            accountService.get(
-                "/user/123",
-                headers(pair("correlation-id", "001"))))
+            accountService.receives(
+                get()
+                    .withUri("/user/123")
+                    .withHeader("correlation-id", "001")))
         .thenReturn(
-            response(
-                200,
-                "application/json",
-                "[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
-                 "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}]",
-                headers(pair("user-id", "123"))));
+            response(200)
+                .withContentType("application/json")
+                .withBody("[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"}," +
+                           "{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}]")
+                .withHeader("user-id", "123"));
 
         when(
-            exchangeRateService.get(
-                "/exchange",
-                parameters(pair("from", "GBP"), pair("to", "USD")),
-                headers(pair("correlation-id", "001"))))
+            exchangeRateService.receives(
+                get()
+                    .withUri("/exchange")
+                    .withParameter("from", "GBP")
+                    .withParameter("to", "USD")
+                    .withHeader("correlation-id", "001")))
         .thenReturn(
-            response(
-                200,
-                "application/json",
-                "1.52"));
+            response(200)
+                .withContentType("application/json")
+                .withBody("1.52"));
+
         when(
-            exchangeRateService.get(
-                "/exchange",
-                parameters(pair("from", "AUD"), pair("to", "USD")),
-                headers(pair("correlation-id", "001"))))
+            exchangeRateService.receives(
+                get()
+                    .withUri("/exchange")
+                    .withParameter("from", "AUD")
+                    .withParameter("to", "USD")
+                    .withHeader("correlation-id", "001")))
         .thenReturn(
-            response(
-                200,
-                "application/json",
-                "1.29"));
+            response(200)
+                .withContentType("application/json")
+                .withBody("1.29"));
 
         // ACT
 
@@ -84,3 +87,45 @@ Using a primable instance in a test is as follows:
         verify(accountService, exchangeRateService);
 
     }
+
+In addition to providing string-based matching, the primer can use JSON, XML or RegEx matchable values, as follows:
+
+JSON:
+
+        when(
+            exchangeRateService.receives(
+                post()
+                    .withUri("/exchange")
+                    .withBody(json("{ \"from\" : \"AUD\", \"to\" : \"USD\" }"))
+                    .withHeader("correlation-id", "001")))
+        .thenReturn(
+            response(200)
+                .withContentType("application/json")
+                .withBody("1.29"));
+
+XML:
+
+        when(
+            exchangeRateService.receives(
+                post()
+                    .withUri("/exchange")
+                    .withBody(xml("<currencyPair><from>AUD</from><to>USD</to></currencyPair>"))
+                    .withHeader("correlation-id", "001")))
+        .thenReturn(
+            response(200)
+                .withContentType("application/json")
+                .withBody("1.29"));
+
+RegEx:
+
+        when(
+            exchangeRateService.receives(
+                get()
+                    .withUri("/exchange")
+                    .withParameter("from", "AUD")
+                    .withParameter("to", regex("([A-Z]{3})"))
+                    .withHeader("correlation-id", "001")))
+        .thenReturn(
+            response(200)
+                .withContentType("application/json")
+                .withBody("1.29"));

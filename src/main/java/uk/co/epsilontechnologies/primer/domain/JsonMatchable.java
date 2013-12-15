@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Matchable implementation for JSON content. Determines if the request JSON matches the primed JSON structure.
  */
-public class JsonMatchable extends Matchable {
+public class JsonMatchable implements Matchable {
 
     /**
      * Statically constructs a JSON Matcher for the given primed JSON structure.

@@ -79,8 +79,10 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
      */
     public Map<String, String> getCookiesAsMap() {
         final Map<String,String> result = new HashMap<>();
-        for (final Cookie cookie : super.getCookies()) {
-            result.put(cookie.getName(), cookie.getValue());
+        if (super.getCookies() != null) {
+            for (final Cookie cookie : super.getCookies()) {
+                result.put(cookie.getName(), cookie.getValue());
+            }
         }
         return result;
     }

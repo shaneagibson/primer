@@ -6,12 +6,25 @@ import java.util.Map;
 import static uk.co.epsilontechnologies.primer.domain.StringMatchable.empty;
 import static uk.co.epsilontechnologies.primer.domain.StringMatchable.eq;
 
+/**
+ * Builder implementation for a Request
+ *
+ * @author Shane Gibson
+ */
 public class RequestBuilder {
 
+    /**
+     * Convenience method for constructing a RequestBuilder based on a POST method
+     * @return the request builder for the POST method
+     */
     public static RequestBuilder post() {
         return new RequestBuilder("POST");
     }
 
+    /**
+     * Convenience method for constructing a RequestBuilder based on a GET method
+     * @return the request builder for the GET method
+     */
     public static RequestBuilder get() {
         return new RequestBuilder("GET");
     }

@@ -1,7 +1,5 @@
 package uk.co.epsilontechnologies.primer.matcher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.co.epsilontechnologies.primer.domain.HttpServletRequestWrapper;
 import uk.co.epsilontechnologies.primer.domain.Request;
 
@@ -13,34 +11,71 @@ import uk.co.epsilontechnologies.primer.domain.Request;
 public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper> {
 
     /**
-     * Logger to use for error / warn / debug logging
+     * The matcher to use for comparing request body
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RequestMatcher.class);
+    private final BodyMatcher bodyMatcher;
 
     /**
-     * The context path of the request being matched
+     * The matcher to use for comparing request parameters
      */
-    private final String contextPath;
+    private final ParametersMatcher parametersMatcher;
 
-    private final StringMatcher stringMatcher;
+    /**
+     * The matcher to use for comparing request headers
+     */
+    private final HeadersMatcher headersMatcher;
 
-    private final MapMatcher mapMatcher;
+    /**
+     * The matcher to use for comparing request cookies
+     */
+    private final CookiesMatcher cookiesMatcher;
+
+    /**
+     * The matcher to use for comparing request method
+     */
+    private final MethodMatcher methodMatcher;
+
+    /**
+     * The matcher to use for comparing request uri
+     */
+    private final UriMatcher uriMatcher;
 
     /**
      * Constructs the request matcher for the given context, using the regular expression string matcher, map matcher and body matcher lookup
      * @param contextPath the context path for the primed request
      */
     public RequestMatcher(final String contextPath) {
-        this(contextPath, new StringMatcher(), new MapMatcher());
+        this(
+                new BodyMatcher(),
+                new UriMatcher(contextPath),
+                new ParametersMatcher(new MapMatcher()),
+                new HeadersMatcher(new MapMatcher()),
+                new CookiesMatcher(new MapMatcher()),
+                new MethodMatcher(new StringMatcher()));
     }
 
+    /**
+     * Constructs the request matcher for the given matcher implementations
+     * @param bodyMatcher the body matcher to use for comparing the actual request against the primed request
+     * @param uriMatcher the uri matcher to use for comparing the actual request against the primed request
+     * @param parametersMatcher the parameters matcher to use for comparing the actual request against the primed request
+     * @param headersMatcher the headers matcher to use for comparing the actual request against the primed request
+     * @param cookiesMatcher the cookies matcher to use for comparing the actual request against the primed request
+     * @param methodMatcher the method matcher to use for comparing the actual request against the primed request
+     */
     public RequestMatcher(
-            final String contextPath,
-            final StringMatcher stringMatcher,
-            final MapMatcher mapMatcher) {
-        this.contextPath = contextPath;
-        this.stringMatcher = stringMatcher;
-        this.mapMatcher = mapMatcher;
+            final BodyMatcher bodyMatcher,
+            final UriMatcher uriMatcher,
+            final ParametersMatcher parametersMatcher,
+            final HeadersMatcher headersMatcher,
+            final CookiesMatcher cookiesMatcher,
+            final MethodMatcher methodMatcher) {
+        this.bodyMatcher = bodyMatcher;
+        this.uriMatcher = uriMatcher;
+        this.parametersMatcher = parametersMatcher;
+        this.headersMatcher = headersMatcher;
+        this.cookiesMatcher = cookiesMatcher;
+        this.methodMatcher = methodMatcher;
     }
 
     /**
@@ -52,95 +87,12 @@ public class RequestMatcher implements Matcher<Request,HttpServletRequestWrapper
     @Override
     public boolean match(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
         return
-                matchBody(primedRequest, requestWrapper) &&
-                matchUri(primedRequest, requestWrapper) &&
-                matchMethod(primedRequest, requestWrapper) &&
-                matchParameters(primedRequest, requestWrapper) &&
-                matchHeaders(primedRequest, requestWrapper);
-    }
-
-    /**
-     * Matches the headers of the request against the primed request headers
-     * @param primedRequest the primed request
-     * @param requestWrapper the actual request
-     * @return false if the request headers match, false otherwise
-     */
-    private boolean matchHeaders(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        final boolean result = mapMatcher.match(primedRequest.getHeaders(), requestWrapper.getHeadersAsMap());
-        if (!result) {
-            LOGGER.debug("PRIMER :-- headers do not match: primed '" + primedRequest.getHeaders() + "' but was '" + requestWrapper.getHeadersAsMap() + "'");
-        }
-        return result;
-    }
-
-    /**
-     * Matches the cookies of the request against the primed request cookies
-     * @param primedRequest the primed request
-     * @param requestWrapper the actual request
-     * @return false if the request cookies match, false otherwise
-     */
-    private boolean matchCookies(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        final boolean result = mapMatcher.match(primedRequest.getCookies(), requestWrapper.getCookiesAsMap());
-        if (!result) {
-            LOGGER.debug("PRIMER :-- cookies do not match: primed '" + primedRequest.getCookies() + "' but was '" + requestWrapper.getCookiesAsMap() + "'");
-        }
-        return result;
-    }
-
-    /**
-     * Matches the parameters of the request against the primed request parameters
-     * @param primedRequest the primed request
-     * @param requestWrapper the actual request
-     * @return false if the request parameters match, false otherwise
-     */
-    private boolean matchParameters(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        final boolean result = mapMatcher.match(primedRequest.getParameters(), requestWrapper.getParametersAsMap());
-        if (!result) {
-            LOGGER.debug("PRIMER :-- parameters do not match: primed '" + primedRequest.getParameters() + "' but was '" + requestWrapper.getParametersAsMap() + "'");
-        }
-        return result;
-    }
-
-    /**
-     * Matches the method of the request against the primed request method
-     * @param primedRequest the primed request
-     * @param requestWrapper the actual request
-     * @return false if the request method matches, false otherwise
-     */
-    private boolean matchMethod(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        final boolean result = stringMatcher.match(primedRequest.getMethod(), requestWrapper.getMethod());
-        if (!result) {
-            LOGGER.debug("PRIMER :-- method does not match: primed '" + primedRequest.getMethod() + "' but was '" + requestWrapper.getMethod() + "'");
-        }
-        return result;
-    }
-
-    /**
-     * Matches the URI of the request against the primed request URI
-     * @param primedRequest the primed request
-     * @param requestWrapper the actual request
-     * @return false if the request URI matches, false otherwise
-     */
-    private boolean matchUri(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        final boolean result = primedRequest.getURI().match(requestWrapper.getRequestURI().replaceFirst(contextPath, ""));
-        if (!result) {
-            LOGGER.debug("PRIMER :-- uri does not match: primed '" + contextPath + primedRequest.getURI() + "' but was '" + requestWrapper.getRequestURI() + "'");
-        }
-        return result;
-    }
-
-    /**
-     * Matches the body of the request against the primed request body
-     * @param primedRequest the primed request
-     * @param requestWrapper the actual request
-     * @return false if the request body matches, false otherwise
-     */
-    private boolean matchBody(final Request primedRequest, final HttpServletRequestWrapper requestWrapper) {
-        final boolean result = primedRequest.getBody().match(requestWrapper.getBody());
-        if (!result) {
-            LOGGER.debug("PRIMER :-- body does not match: primed '" + primedRequest.getBody() + "' but was '" + requestWrapper.getBody() + "'");
-        }
-        return result;
+                bodyMatcher.match(primedRequest, requestWrapper) &&
+                uriMatcher.match(primedRequest, requestWrapper) &&
+                methodMatcher.match(primedRequest, requestWrapper) &&
+                parametersMatcher.match(primedRequest, requestWrapper) &&
+                headersMatcher.match(primedRequest, requestWrapper) &&
+                cookiesMatcher.match(primedRequest, requestWrapper);
     }
 
 }

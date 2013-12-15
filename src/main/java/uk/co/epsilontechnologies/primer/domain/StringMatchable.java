@@ -1,6 +1,6 @@
 package uk.co.epsilontechnologies.primer.domain;
 
-public class StringMatchable extends Matchable {
+public class StringMatchable implements Matchable {
 
     public static Matchable eq(final String string) {
         return new StringMatchable(string);

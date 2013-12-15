@@ -6,7 +6,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 
-public class XmlMatchable extends Matchable {
+public class XmlMatchable implements Matchable {
 
     public static Matchable xml(final String xml) {
         return new XmlMatchable(xml);
