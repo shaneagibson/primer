@@ -1,8 +1,12 @@
 package uk.co.epsilontechnologies.primer;
 
+import uk.co.epsilontechnologies.primer.domain.Matchable;
+import uk.co.epsilontechnologies.primer.domain.Pair;
 import uk.co.epsilontechnologies.primer.domain.PrimedRequest;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Useful static helpers that expose a familiar domain-specific syntax for constructing and programming a Primer instance.
@@ -54,6 +58,26 @@ public final class PrimerStatics {
                 }
             }
         }
+    }
+
+    public static Pair<String> pair(final String key, final String value) {
+        return new Pair(key, value);
+    }
+
+    public static Pair<Matchable> pair(final String key, final Matchable value) {
+        return new Pair(key, value);
+    }
+
+    public static <T> List<Pair<T>> headers(final Pair<T>... headers) {
+        return Arrays.asList(headers);
+    }
+
+    public static <T> List<Pair<T>> cookies(final Pair<T>... cookies) {
+        return Arrays.asList(cookies);
+    }
+
+    public static <T> List<Pair<T>> parameters(final Pair<T>... parameters) {
+        return Arrays.asList(parameters);
     }
 
 }

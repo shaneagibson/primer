@@ -1,6 +1,7 @@
 package uk.co.epsilontechnologies.primer.domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +14,18 @@ public class ResponseBuilder {
 
     public static ResponseBuilder response(final int status) {
         return new ResponseBuilder(status);
+    }
+
+    public static ResponseBuilder response(final int status, final String contentType, final String body) {
+        return new ResponseBuilder(status).withContentType(contentType).withBody(body);
+    }
+
+    public static ResponseBuilder response(final int status, final String contentType, final String body, final List<Pair<String>> headers) {
+        return new ResponseBuilder(status).withContentType(contentType).withBody(body).withHeaders(headers);
+    }
+
+    public static ResponseBuilder response(final int status, final String contentType, final String body, final List<Pair<String>> headers, final List<Pair<String>> cookies) {
+        return new ResponseBuilder(status).withContentType(contentType).withBody(body).withHeaders(headers).withCookies(cookies);
     }
 
     /**
@@ -64,7 +77,22 @@ public class ResponseBuilder {
         return this;
     }
 
+    public ResponseBuilder withHeaders(final List<Pair<String>> headers) {
+        for (final Pair<String> pair : headers) {
+            this.headers.put(pair.getKey(), pair.getValue());
+        }
+        return this;
+    }
+
+    public ResponseBuilder withCookies(final List<Pair<String>> cookies) {
+        for (final Pair<String> pair : cookies) {
+            this.cookies.put(pair.getKey(), pair.getValue());
+        }
+        return this;
+    }
+
     public Response build() {
         return new Response(status, contentType, body, headers, cookies);
     }
+
 }

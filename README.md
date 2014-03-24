@@ -129,3 +129,15 @@ RegEx:
             response(200)
                 .withContentType("application/json")
                 .withBody("1.29"));
+
+
+Back by popular demand, the HTTP request and response can be primed using simpler, overloaded methods (rather than the slightly more verbose builder pattern):
+
+        when(
+            accountService.get("/user/123", headers(pair("correlation-id", "001")))
+        .thenReturn(
+            response(
+                200,
+                "application/json",
+                "[{\"accountNumber\":\"1000001\",\"balance\":10000.00,\"currency\":\"GBP\"},{\"accountNumber\":\"1000002\",\"balance\":20000.00,\"currency\":\"AUD\"}]",
+                headers(pair("user-id", "123"))));

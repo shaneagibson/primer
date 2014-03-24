@@ -1,6 +1,9 @@
 package uk.co.epsilontechnologies.primer.domain;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static uk.co.epsilontechnologies.primer.domain.StringMatchable.empty;
@@ -13,18 +16,10 @@ import static uk.co.epsilontechnologies.primer.domain.StringMatchable.eq;
  */
 public class RequestBuilder {
 
-    /**
-     * Convenience method for constructing a RequestBuilder based on a POST method
-     * @return the request builder for the POST method
-     */
     public static RequestBuilder post() {
         return new RequestBuilder("POST");
     }
 
-    /**
-     * Convenience method for constructing a RequestBuilder based on a GET method
-     * @return the request builder for the GET method
-     */
     public static RequestBuilder get() {
         return new RequestBuilder("GET");
     }
@@ -47,6 +42,14 @@ public class RequestBuilder {
 
     public static RequestBuilder head() {
         return new RequestBuilder("HEAD");
+    }
+
+    public static RequestBuilder patch() {
+        return new RequestBuilder("PATCH");
+    }
+
+    public static RequestBuilder connect() {
+        return new RequestBuilder("CONNECT");
     }
 
     RequestBuilder(final String method) {
@@ -127,6 +130,27 @@ public class RequestBuilder {
 
     public RequestBuilder withCookie(final String name, final String value) {
         this.cookies.put(name, eq(value));
+        return this;
+    }
+
+    public RequestBuilder withParameters(final List<Pair<Matchable>> parameters) {
+        for (final Pair<Matchable> pair : parameters) {
+            this.parameters.put(pair.getKey(), pair.getValue());
+        }
+        return this;
+    }
+
+    public RequestBuilder withHeaders(final List<Pair<Matchable>> headers) {
+        for (final Pair<Matchable> pair : headers) {
+            this.headers.put(pair.getKey(), pair.getValue());
+        }
+        return this;
+    }
+
+    public RequestBuilder withCookies(final List<Pair<Matchable>> cookies) {
+        for (final Pair<Matchable> pair : cookies) {
+            this.cookies.put(pair.getKey(), pair.getValue());
+        }
         return this;
     }
 

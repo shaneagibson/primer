@@ -83,6 +83,158 @@ public class Primer {
         return new PrimedRequest(this, requestBuilder.build());
     }
 
+    public PrimedRequest get(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.get().withUri(uri).build());
+    }
+
+    public PrimedRequest get(final String uri, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.get().withUri(uri).withParameters(parameters).build());
+    }
+
+    public PrimedRequest get(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.get().withUri(uri).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest get(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.get().withUri(uri).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
+    public PrimedRequest delete(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.delete().withUri(uri).build());
+    }
+
+    public PrimedRequest delete(final String uri, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.delete().withUri(uri).withParameters(parameters).build());
+    }
+
+    public PrimedRequest delete(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.delete().withUri(uri).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest delete(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.delete().withUri(uri).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
+    public PrimedRequest put(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.put().withUri(uri).build());
+    }
+
+    public PrimedRequest put(final String uri, final Matchable body) {
+        return new PrimedRequest(this, RequestBuilder.put().withUri(uri).withBody(body).build());
+    }
+
+    public PrimedRequest put(final String uri, final Matchable body, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.put().withUri(uri).withBody(body).withParameters(parameters).build());
+    }
+
+    public PrimedRequest put(final String uri, final Matchable body, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.put().withUri(uri).withBody(body).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest put(final String uri, final Matchable body, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.put().withUri(uri).withBody(body).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
+    public PrimedRequest post(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.post().withUri(uri).build());
+    }
+
+    public PrimedRequest post(final String uri, final Matchable body) {
+        return new PrimedRequest(this, RequestBuilder.post().withUri(uri).withBody(body).build());
+    }
+
+    public PrimedRequest post(final String uri, final Matchable body, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.post().withUri(uri).withBody(body).withParameters(parameters).build());
+    }
+
+    public PrimedRequest post(final String uri, final Matchable body, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.post().withUri(uri).withBody(body).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest post(final String uri, final Matchable body, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.post().withUri(uri).withBody(body).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
+    public PrimedRequest head(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.head().withUri(uri).build());
+    }
+
+    public PrimedRequest head(final String uri, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.head().withUri(uri).withParameters(parameters).build());
+    }
+
+    public PrimedRequest head(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.head().withUri(uri).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest head(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.head().withUri(uri).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
+    public PrimedRequest options(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.options().withUri(uri).build());
+    }
+
+    public PrimedRequest options(final String uri, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.options().withUri(uri).withParameters(parameters).build());
+    }
+
+    public PrimedRequest options(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.options().withUri(uri).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest options(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.options().withUri(uri).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
+    public PrimedRequest trace(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.trace().withUri(uri).build());
+    }
+
+    public PrimedRequest trace(final String uri, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.trace().withUri(uri).withParameters(parameters).build());
+    }
+
+    public PrimedRequest trace(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.trace().withUri(uri).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest trace(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.trace().withUri(uri).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
+    public PrimedRequest connect(final String uri) {
+        return new PrimedRequest(this, RequestBuilder.connect().withUri(uri).build());
+    }
+
+    public PrimedRequest connect(final String uri, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.connect().withUri(uri).withParameters(parameters).build());
+    }
+
+    public PrimedRequest connect(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.connect().withUri(uri).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest connect(final String uri, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.connect().withUri(uri).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+    
+    public PrimedRequest patch(final String uri, final Matchable body) {
+        return new PrimedRequest(this, RequestBuilder.patch().withUri(uri).withBody(body).build());
+    }
+
+    public PrimedRequest patch(final String uri, final Matchable body, final List<Pair<Matchable>> parameters) {
+        return new PrimedRequest(this, RequestBuilder.patch().withUri(uri).withBody(body).withParameters(parameters).build());
+    }
+
+    public PrimedRequest patch(final String uri, final Matchable body, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers) {
+        return new PrimedRequest(this, RequestBuilder.patch().withUri(uri).withBody(body).withParameters(parameters).withHeaders(headers).build());
+    }
+
+    public PrimedRequest patch(final String uri, final Matchable body, final List<Pair<Matchable>> parameters, final List<Pair<Matchable>> headers, final List<Pair<Matchable>> cookies) {
+        return new PrimedRequest(this, RequestBuilder.patch().withUri(uri).withBody(body).withParameters(parameters).withHeaders(headers).withCookies(cookies).build());
+    }
+
     /**
      * Verifies that all of the primed invocations were actually invoked.
      * @throws IllegalStateException at least one primed request was not invoked

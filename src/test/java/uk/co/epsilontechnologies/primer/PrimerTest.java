@@ -86,8 +86,4 @@ public class PrimerTest {
         // no exception was thrown
     }
 
-    // receives
-
-    // prime
-
 }
