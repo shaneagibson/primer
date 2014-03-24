@@ -1,7 +1,5 @@
 package uk.co.epsilontechnologies.primer.domain;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,5 @@
 package uk.co.epsilontechnologies.primer.matcher;
 
-import java.util.regex.Pattern;
-
 /**
  * Matches the String values, using a Regular Expression pattern matcher for comparisons.
  *
