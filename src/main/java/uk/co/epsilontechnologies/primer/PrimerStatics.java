@@ -3,6 +3,7 @@ package uk.co.epsilontechnologies.primer;
 import uk.co.epsilontechnologies.primer.domain.Matchable;
 import uk.co.epsilontechnologies.primer.domain.Pair;
 import uk.co.epsilontechnologies.primer.domain.PrimedRequest;
+import uk.co.epsilontechnologies.primer.domain.Producer;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -61,6 +62,10 @@ public final class PrimerStatics {
     }
 
     public static Pair<String> pair(final String key, final String value) {
+        return new Pair(key, value);
+    }
+
+    public static Pair<String> pair(final String key, final Producer<String> value) {
         return new Pair(key, value);
     }
 
