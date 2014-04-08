@@ -65,7 +65,7 @@ public final class PrimerStatics {
         return new Pair(key, value);
     }
 
-    public static Pair<String> pair(final String key, final Producer<String> value) {
+    public static Pair<Producer<String>> pair(final String key, final Producer<String> value) {
         return new Pair(key, value);
     }
 
