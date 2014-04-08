@@ -1,19 +1,17 @@
 package uk.co.epsilontechnologies.primer;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.co.epsilontechnologies.primer.domain.Producer;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
 import static uk.co.epsilontechnologies.primer.domain.JsonMatchable.json;
 import static uk.co.epsilontechnologies.primer.domain.RegExMatchable.regex;
