@@ -66,7 +66,7 @@ public class ResponseBuilder {
      */
     private final Map<String,Producer<String>> cookies = new HashMap<>();
 
-    ResponseBuilder(final int status) {
+    public ResponseBuilder(final int status) {
         this.status = status;
     }
 

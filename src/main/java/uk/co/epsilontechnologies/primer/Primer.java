@@ -29,6 +29,14 @@ public class Primer {
     private final List<PrimedInvocation> primedInvocations;
 
     /**
+     * Constructs a Primer instance for the given port, without a context path.
+     * @param port the port of the web application being primed
+     */
+    public Primer(final int port) {
+        this("", port, new ArrayList<PrimedInvocation>());
+    }
+
+    /**
      * Constructs a Primer instance for the given port and context path
      * @param contextPath the context path of the web application being primed
      * @param port the port of the web application being primed
@@ -38,13 +46,7 @@ public class Primer {
     }
 
     Primer(final String contextPath, final int port, final List<PrimedInvocation> primedInvocations) {
-        this(
-                new PrimerServer(
-                        port,
-                        new PrimerRequestHandler(
-                                contextPath,
-                                primedInvocations)),
-                primedInvocations);
+        this(new PrimerServer(port, new PrimerRequestHandler(contextPath, primedInvocations)), primedInvocations);
     }
 
     Primer(final PrimerServer primerServer, final List<PrimedInvocation> primedInvocations) {
@@ -65,6 +67,10 @@ public class Primer {
     public void stop() {
         this.primedInvocations.clear();
         this.primerServer.stop();
+    }
+
+    public void join() {
+        this.primerServer.join();
     }
 
     /**

@@ -52,6 +52,14 @@ public class PrimerServer {
         }
     }
 
+    public void join() {
+        try {
+            this.server.join();
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * The Jetty request handler that will be invoked on any request
      */
