@@ -12,7 +12,7 @@ public class StringMatchable implements Matchable {
 
     private final String primedString;
 
-    StringMatchable(String primedString) {
+    StringMatchable(final String primedString) {
         this.primedString = primedString;
     }
 

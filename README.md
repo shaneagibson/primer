@@ -131,7 +131,7 @@ RegEx:
                 .withBody("1.29"));
 
 
-Back by popular demand, the HTTP request and response can be primed using simpler, overloaded methods (rather than the slightly more verbose builder pattern):
+In addition, the HTTP request and response can be primed using simpler, overloaded methods (rather than the slightly more verbose builder pattern):
 
         when(
             accountService.get("/user/123", headers(pair("correlation-id", "001")))

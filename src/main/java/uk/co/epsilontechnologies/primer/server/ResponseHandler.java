@@ -21,15 +21,15 @@ public class ResponseHandler {
     public void respond(final Response response, final HttpServletResponse httpServletResponse) {
         try {
             for (final String key : response.getHeaders().keySet()) {
-                httpServletResponse.addHeader(key, response.getHeaders().get(key).produce());
+                httpServletResponse.addHeader(key, response.getHeaders().get(key));
             }
             for (final String key : response.getCookies().keySet()) {
-                httpServletResponse.addCookie(new Cookie(key, response.getCookies().get(key).produce()));
+                httpServletResponse.addCookie(new Cookie(key, response.getCookies().get(key)));
             }
             httpServletResponse.setStatus(response.getStatus());
             httpServletResponse.setContentType(response.getContentType());
             if (response.getBody() != null) {
-                httpServletResponse.getWriter().write(response.getBody().produce());
+                httpServletResponse.getWriter().write(response.getBody());
             }
             httpServletResponse.flushBuffer();
         } catch (final IOException e) {

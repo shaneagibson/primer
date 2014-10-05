@@ -22,12 +22,12 @@ public class Response {
     /**
      * The body of the response
      */
-    private final Producer<String> bodyProducer;
+    private final String body;
 
     /**
      * The headers of the response
      */
-    private final Map<String,Producer<String>> headers;
+    private final Map<String,String> headers;
 
     /**
      * The content type of the response
@@ -37,24 +37,24 @@ public class Response {
     /**
      * The cookies of the response
      */
-    private final Map<String,Producer<String>> cookies;
+    private final Map<String,String> cookies;
 
     /**
      * Constructs the response for the given status, content type, body and headers
      * @param status the HTTP status of the response
      * @param contentType the content type of the response
-     * @param bodyProducer the body producer of the response
+     * @param body the body of the response
      * @param headers the headers of the response
      * @param cookies the cookies of the response
      */
     public Response(
             final int status,
             final String contentType,
-            final Producer<String> bodyProducer,
-            final Map<String,Producer<String>> headers,
-            final Map<String,Producer<String>> cookies) {
+            final String body,
+            final Map<String,String> headers,
+            final Map<String,String> cookies) {
         this.status = status;
-        this.bodyProducer = bodyProducer;
+        this.body = body;
         this.headers = headers;
         this.contentType = contentType;
         this.cookies = cookies;
@@ -72,15 +72,15 @@ public class Response {
      * Getter for the body of the response
      * @return the body of the response
      */
-    public Producer<String> getBody() {
-        return bodyProducer;
+    public String getBody() {
+        return body;
     }
 
     /**
      * Getter for the headers of the response
      * @return the headers of the response
      */
-    public Map<String,Producer<String>> getHeaders() {
+    public Map<String,String> getHeaders() {
         return headers;
     }
 
@@ -88,7 +88,7 @@ public class Response {
      * Getter for the cookies of the response
      * @return the cookies of the response
      */
-    public Map<String,Producer<String>> getCookies() {
+    public Map<String,String> getCookies() {
         return cookies;
     }
 

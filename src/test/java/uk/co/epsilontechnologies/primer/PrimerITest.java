@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import uk.co.epsilontechnologies.primer.domain.Producer;
 
 import java.util.Arrays;
 
@@ -453,29 +452,6 @@ public class PrimerITest {
         assertEquals(HttpStatus.OK, result.getStatusCode());
         primable.stop();
         verify(primable);
-    }
-
-    @Test
-    public void shouldHandlePrimedRequestWhereResponseContainsRuntimeProducer() {
-
-        // arrange
-        final Producer<String> responseBodyProducer = new Producer<String>() {
-            @Override
-            public String produce() {
-                return "{ time : " + System.currentTimeMillis() + " }";
-            }
-        };
-        when(primer
-                .receives(get().withUri("/get")))
-                .thenReturn(response(200).withBody(responseBodyProducer));
-
-        // act
-        final ResponseEntity<String> result = restTemplate.getForEntity("http://localhost:8082/test/get", String.class);
-
-        // assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertTrue(result.getBody().matches(("\\{ time : [0-9]{13} \\}")));
-        verify(primer);
     }
 
     static HttpEntity<String> newRequestEntity() {
