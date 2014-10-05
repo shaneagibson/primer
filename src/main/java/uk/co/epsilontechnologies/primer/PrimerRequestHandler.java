@@ -1,5 +1,6 @@
 package uk.co.epsilontechnologies.primer;
 
+import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.epsilontechnologies.primer.domain.HttpServletRequestWrapper;
@@ -11,10 +12,9 @@ import uk.co.epsilontechnologies.primer.server.ResponseHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static uk.co.epsilontechnologies.primer.domain.ResponseBuilder.response;
 
 /**
  * Handler implementation for each HTTP request
@@ -79,7 +79,7 @@ class PrimerRequestHandler implements RequestHandler {
 
         if (!checkPrimedInvocations(new ArrayList(primedInvocations), requestWrapper, httpServletResponse)) {
             LOGGER.error("PRIMER :-- Request Not Primed. [PrimedInvocations:" + primedInvocations + "]");
-            this.responseHandler.respond(response(404).withContentType("text/plain").withBody("Request Not Primed").build(), httpServletResponse);
+            this.responseHandler.respond(new NotPrimedResponse(), httpServletResponse);
         }
 
     }
@@ -119,6 +119,17 @@ class PrimerRequestHandler implements RequestHandler {
         }
 
         return false;
+    }
+
+    private class NotPrimedResponse implements Response {
+
+        @Override
+        public void populate(HttpServletResponse httpServletResponse) throws IOException {
+            httpServletResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
+            httpServletResponse.getWriter().write("Request Not Primed");
+            httpServletResponse.flushBuffer();
+        }
+
     }
 
 }

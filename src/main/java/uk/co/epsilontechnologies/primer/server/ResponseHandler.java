@@ -2,7 +2,6 @@ package uk.co.epsilontechnologies.primer.server;
 
 import uk.co.epsilontechnologies.primer.domain.Response;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -20,18 +19,7 @@ public class ResponseHandler {
      */
     public void respond(final Response response, final HttpServletResponse httpServletResponse) {
         try {
-            for (final String key : response.getHeaders().keySet()) {
-                httpServletResponse.addHeader(key, response.getHeaders().get(key));
-            }
-            for (final String key : response.getCookies().keySet()) {
-                httpServletResponse.addCookie(new Cookie(key, response.getCookies().get(key)));
-            }
-            httpServletResponse.setStatus(response.getStatus());
-            httpServletResponse.setContentType(response.getContentType());
-            if (response.getBody() != null) {
-                httpServletResponse.getWriter().write(response.getBody());
-            }
-            httpServletResponse.flushBuffer();
+            response.populate(httpServletResponse);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }

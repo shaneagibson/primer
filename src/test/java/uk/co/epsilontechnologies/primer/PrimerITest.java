@@ -5,7 +5,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.http.*;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -15,7 +16,7 @@ import static uk.co.epsilontechnologies.primer.PrimerStatics.*;
 import static uk.co.epsilontechnologies.primer.domain.JsonMatchable.json;
 import static uk.co.epsilontechnologies.primer.domain.RegExMatchable.regex;
 import static uk.co.epsilontechnologies.primer.domain.RequestBuilder.*;
-import static uk.co.epsilontechnologies.primer.domain.ResponseBuilder.response;
+import static uk.co.epsilontechnologies.primer.domain.SimpleResponseBuilder.response;
 import static uk.co.epsilontechnologies.primer.domain.StringMatchable.eq;
 import static uk.co.epsilontechnologies.primer.domain.XmlMatchable.xml;
 
@@ -182,13 +183,13 @@ public class PrimerITest {
             // act
             restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
-            fail("Expected HttpClientErrorException was not thrown");
+            fail("Expected HttpServerErrorException was not thrown");
 
-        } catch (final HttpClientErrorException httpClientErrorException) {
+        } catch (final HttpServerErrorException httpServerErrorException) {
 
             // assert
-            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
-            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+            assertEquals("Request Not Primed", httpServerErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, httpServerErrorException.getStatusCode());
         }
 
     }
@@ -204,13 +205,13 @@ public class PrimerITest {
             // act
             restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
-            fail("Expected HttpClientErrorException was not thrown");
+            fail("Expected HttpServerErrorException was not thrown");
 
-        } catch (final HttpClientErrorException httpClientErrorException) {
+        } catch (final HttpServerErrorException httpServerErrorException) {
 
             // assert
-            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
-            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+            assertEquals("Request Not Primed", httpServerErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, httpServerErrorException.getStatusCode());
         }
 
     }
@@ -226,13 +227,13 @@ public class PrimerITest {
             // act
             restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.DELETE, newRequestEntity(), String.class);
 
-            fail("Expected HttpClientErrorException was not thrown");
+            fail("Expected HttpServerErrorException was not thrown");
 
-        } catch (final HttpClientErrorException httpClientErrorException) {
+        } catch (final HttpServerErrorException httpServerErrorException) {
 
             // assert
-            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
-            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+            assertEquals("Request Not Primed", httpServerErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, httpServerErrorException.getStatusCode());
         }
 
     }
@@ -248,13 +249,13 @@ public class PrimerITest {
             // act
             restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
-            fail("Expected HttpClientErrorException was not thrown");
+            fail("Expected HttpServerErrorException was not thrown");
 
-        } catch (final HttpClientErrorException httpClientErrorException) {
+        } catch (final HttpServerErrorException httpServerErrorException) {
 
             // assert
-            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
-            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+            assertEquals("Request Not Primed", httpServerErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, httpServerErrorException.getStatusCode());
         }
 
     }
@@ -270,13 +271,13 @@ public class PrimerITest {
             // act
             restTemplate.exchange("http://localhost:8082/test/get?request-parameter-key=request-parameter-value", HttpMethod.GET, newRequestEntity(), String.class);
 
-            fail("Expected HttpClientErrorException was not thrown");
+            fail("Expected HttpServerErrorException was not thrown");
 
-        } catch (final HttpClientErrorException httpClientErrorException) {
+        } catch (final HttpServerErrorException httpServerErrorException) {
 
             // assert
-            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
-            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+            assertEquals("Request Not Primed", httpServerErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, httpServerErrorException.getStatusCode());
         }
 
     }
@@ -320,13 +321,13 @@ public class PrimerITest {
             // act
             restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_XML, "<blah> <two/> <three/> </blah>"), String.class);
 
-            fail("Expected HttpClientErrorException was not thrown");
+            fail("Expected HttpServerErrorException was not thrown");
 
-        } catch (final HttpClientErrorException httpClientErrorException) {
+        } catch (final HttpServerErrorException httpServerErrorException) {
 
             // assert
-            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
-            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+            assertEquals("Request Not Primed", httpServerErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, httpServerErrorException.getStatusCode());
         }
 
     }
@@ -356,13 +357,13 @@ public class PrimerITest {
             // act
             restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{\"three\":\"c\",\"one\":\"a\"}"), String.class);
 
-            fail("Expected HttpClientErrorException was not thrown");
+            fail("Expected HttpServerErrorException was not thrown");
 
-        } catch (final HttpClientErrorException httpClientErrorException) {
+        } catch (final HttpServerErrorException httpServerErrorException) {
 
             // assert
-            assertEquals("Request Not Primed", httpClientErrorException.getResponseBodyAsString());
-            assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
+            assertEquals("Request Not Primed", httpServerErrorException.getResponseBodyAsString());
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, httpServerErrorException.getStatusCode());
         }
 
     }
