@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static uk.co.epsilontechnologies.primer.domain.StringMatchable.any;
 import static uk.co.epsilontechnologies.primer.domain.StringMatchable.empty;
 import static uk.co.epsilontechnologies.primer.domain.StringMatchable.eq;
 
@@ -59,12 +60,12 @@ public class RequestBuilder {
     /**
      * The URI of the request
      */
-    private Matchable uri = empty();
+    private Matchable uri = any();
 
     /**
      * The body of the request
      */
-    private Matchable body = empty();
+    private Matchable body = any();
 
     /**
      * The parameters of the request

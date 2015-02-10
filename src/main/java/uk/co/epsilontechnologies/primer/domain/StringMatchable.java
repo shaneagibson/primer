@@ -6,6 +6,10 @@ public class StringMatchable implements Matchable {
         return new StringMatchable(string);
     }
 
+    public static Matchable any() {
+        return new StringMatchable(null);
+    }
+
     public static Matchable empty() {
         return new StringMatchable("");
     }
@@ -18,7 +22,7 @@ public class StringMatchable implements Matchable {
 
     @Override
     public boolean match(final String requestString) {
-        return primedString != null && primedString.equals(requestString);
+        return primedString == null || primedString.equals(requestString);
     }
 
 }
