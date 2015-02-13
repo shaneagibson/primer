@@ -29,10 +29,10 @@ public class PrimerITest {
 
     private static final RestTemplate restTemplate = new RestTemplate();
 
-    @Primable(contextPath = "/test", port = 8081)
+    @Primable(contextPath = "/test", port = 8085)
     private Primer primable;
 
-    private static final Primer primer = new Primer("/test", 8082);
+    private static final Primer primer = new Primer("/test", 8084);
 
     @BeforeClass
     public static void setUpClass() {
