@@ -100,7 +100,7 @@ JSON:
                     .withHeader("correlation-id", "001")))
         .thenReturn(
             response(200)
-                .withContentType("application/json")
+                .withContentType("text/plain")
                 .withBody("1.29"));
 
 XML:
@@ -113,7 +113,7 @@ XML:
                     .withHeader("correlation-id", "001")))
         .thenReturn(
             response(200)
-                .withContentType("application/json")
+                .withContentType("text/plain")
                 .withBody("1.29"));
 
 RegEx:
@@ -127,7 +127,7 @@ RegEx:
                     .withHeader("correlation-id", "001")))
         .thenReturn(
             response(200)
-                .withContentType("application/json")
+                .withContentType("text/plain")
                 .withBody("1.29"));
 
 

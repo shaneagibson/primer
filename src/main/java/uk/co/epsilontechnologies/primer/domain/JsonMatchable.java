@@ -49,4 +49,9 @@ public class JsonMatchable implements Matchable {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.primedString;
+    }
+
 }

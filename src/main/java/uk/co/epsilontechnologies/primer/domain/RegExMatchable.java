@@ -41,4 +41,9 @@ public class RegExMatchable implements Matchable {
         return primedString != null && Pattern.matches(primedString, requestString);
     }
 
+    @Override
+    public String toString() {
+        return this.primedString;
+    }
+
 }

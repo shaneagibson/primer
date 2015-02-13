@@ -35,4 +35,10 @@ public class XmlMatchable implements Matchable {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.primedString;
+    }
+
+
 }

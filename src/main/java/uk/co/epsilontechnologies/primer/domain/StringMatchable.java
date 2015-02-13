@@ -25,4 +25,9 @@ public class StringMatchable implements Matchable {
         return primedString == null || primedString.equals(requestString);
     }
 
+    @Override
+    public String toString() {
+        return this.primedString;
+    }
+
 }
