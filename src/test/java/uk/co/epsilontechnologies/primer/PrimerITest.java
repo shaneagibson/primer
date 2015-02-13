@@ -67,7 +67,7 @@ public class PrimerITest {
                                 .withHeader("response-header-key", "response-header-value"));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post?parameter-key=parameter-value", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/post?parameter-key=parameter-value", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
 
         // assert
         assertEquals("[ \"success\" ]", result.getBody());
@@ -83,7 +83,7 @@ public class PrimerITest {
         when(primer.receives(post().withUri("/post").withBody(json("{ \"key\" : \"value\" }")))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -97,7 +97,7 @@ public class PrimerITest {
         when(primer.receives(put().withUri("/put").withBody(json("{ \"key\" : \"value\" }")))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/put", HttpMethod.PUT, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/put", HttpMethod.PUT, newRequestEntity(MediaType.APPLICATION_JSON, "{ \"key\" : \"value\" }"), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -111,7 +111,7 @@ public class PrimerITest {
         when(primer.receives(get().withUri("/get"))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -125,7 +125,7 @@ public class PrimerITest {
         when(primer.receives(delete().withUri("/delete"))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/delete", HttpMethod.DELETE, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/delete", HttpMethod.DELETE, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -140,7 +140,7 @@ public class PrimerITest {
         when(primer.receives(options().withUri("/options"))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/options", HttpMethod.OPTIONS, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/options", HttpMethod.OPTIONS, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -154,7 +154,7 @@ public class PrimerITest {
         when(primer.receives(head().withUri("/head"))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/head", HttpMethod.HEAD, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/head", HttpMethod.HEAD, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -168,7 +168,7 @@ public class PrimerITest {
         when(primer.receives(trace().withUri("/trace"))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/trace", HttpMethod.TRACE, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/trace", HttpMethod.TRACE, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -181,7 +181,7 @@ public class PrimerITest {
         try {
 
             // act
-            restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+            restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
             fail("Expected HttpServerErrorException was not thrown");
 
@@ -203,7 +203,7 @@ public class PrimerITest {
         try {
 
             // act
-            restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+            restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
             fail("Expected HttpServerErrorException was not thrown");
 
@@ -225,7 +225,7 @@ public class PrimerITest {
         try {
 
             // act
-            restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.DELETE, newRequestEntity(), String.class);
+            restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.DELETE, newRequestEntity(), String.class);
 
             fail("Expected HttpServerErrorException was not thrown");
 
@@ -247,7 +247,7 @@ public class PrimerITest {
         try {
 
             // act
-            restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+            restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
             fail("Expected HttpServerErrorException was not thrown");
 
@@ -269,7 +269,7 @@ public class PrimerITest {
         try {
 
             // act
-            restTemplate.exchange("http://localhost:8082/test/get?request-parameter-key=request-parameter-value", HttpMethod.GET, newRequestEntity(), String.class);
+            restTemplate.exchange("http://localhost:8084/test/get?request-parameter-key=request-parameter-value", HttpMethod.GET, newRequestEntity(), String.class);
 
             fail("Expected HttpServerErrorException was not thrown");
 
@@ -289,7 +289,7 @@ public class PrimerITest {
         when(primer.receives(post().withUri("/post").withBody(regex("blah \"([a-z]{5})\"")))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.TEXT_PLAIN, "blah \"value\""), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/post", HttpMethod.POST, newRequestEntity(MediaType.TEXT_PLAIN, "blah \"value\""), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -303,7 +303,7 @@ public class PrimerITest {
         when(primer.receives(post().withUri("/post").withBody(xml("<blah><one/><two/></blah>")))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_XML, "<blah> <two/> <one/> </blah>"), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_XML, "<blah> <two/> <one/> </blah>"), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -319,7 +319,7 @@ public class PrimerITest {
         try {
 
             // act
-            restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_XML, "<blah> <two/> <three/> </blah>"), String.class);
+            restTemplate.exchange("http://localhost:8084/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_XML, "<blah> <two/> <three/> </blah>"), String.class);
 
             fail("Expected HttpServerErrorException was not thrown");
 
@@ -339,7 +339,7 @@ public class PrimerITest {
         when(primer.receives(post().withUri("/post").withBody(json("{ \"one\" : \"a\", \"two\" : \"b\" }")))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{\"two\":\"b\",\"one\":\"a\"}"), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{\"two\":\"b\",\"one\":\"a\"}"), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -355,7 +355,7 @@ public class PrimerITest {
         try {
 
             // act
-            restTemplate.exchange("http://localhost:8082/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{\"three\":\"c\",\"one\":\"a\"}"), String.class);
+            restTemplate.exchange("http://localhost:8084/test/post", HttpMethod.POST, newRequestEntity(MediaType.APPLICATION_JSON, "{\"three\":\"c\",\"one\":\"a\"}"), String.class);
 
             fail("Expected HttpServerErrorException was not thrown");
 
@@ -394,11 +394,11 @@ public class PrimerITest {
         // arrange
         when(primer.receives(get().withUri("/get"))).thenReturn(response(200));
         when(primer.receives(get().withUri("/get"))).thenReturn(response(201));
-        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
         assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -410,11 +410,11 @@ public class PrimerITest {
 
         // arrange
         when(primer.receives(get().withUri("/get"))).thenReturn(response(200), response(201));
-        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
         assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -427,11 +427,11 @@ public class PrimerITest {
         // arrange
         when(primer.receives(get().withUri("/getA"))).thenReturn(response(200));
         when(primer.receives(get().withUri("/getB"))).thenReturn(response(201));
-        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8082/test/getA", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> okResponseEntity = restTemplate.exchange("http://localhost:8084/test/getA", HttpMethod.GET, newRequestEntity(), String.class);
         assertEquals(HttpStatus.OK, okResponseEntity.getStatusCode());
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8082/test/getB", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8084/test/getB", HttpMethod.GET, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -447,7 +447,7 @@ public class PrimerITest {
         when(primable.receives(get().withUri("/get"))).thenReturn(response(200));
 
         // act
-        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8081/test/get", HttpMethod.GET, newRequestEntity(), String.class);
+        final ResponseEntity<String> result = restTemplate.exchange("http://localhost:8085/test/get", HttpMethod.GET, newRequestEntity(), String.class);
 
         // assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
