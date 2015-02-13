@@ -5,7 +5,7 @@
 
     <groupId>uk.co.epsilontechnologies</groupId>
     <artifactId>primer</artifactId>
-    <version>3.0.12-SNAPSHOT</version>
+    <version>3.0.12</version>
     <packaging>jar</packaging>
     <name>Primer</name>
     <description>A test utility for SOA projects, which allows the priming of RESTful resources though a simple java API.</description>
@@ -23,7 +23,7 @@
         <connection>scm:git:git@github.com:shaneagibson/primer.git</connection>
         <developerConnection>scm:git:git@github.com:shaneagibson/primer.git</developerConnection>
         <url>git@github.com:shaneagibson/primer.git</url>
-      <tag>HEAD</tag>
+      <tag>primer-3.0.12</tag>
   </scm>
 
     <developers>
